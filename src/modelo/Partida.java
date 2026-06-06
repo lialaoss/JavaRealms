@@ -73,6 +73,13 @@ public class Partida {
     public Jugador getJugador() { 
         return jugador; 
     }
+    
+    /**
+     * Post: devuelve la instancia del mapa 3D para que la vista pueda renderizarlo.
+     */
+    public Mapa3D getMapa() {
+        return this.mapa;
+    }
 
     public int getX() { 
         return x; 
