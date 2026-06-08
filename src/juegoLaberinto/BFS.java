@@ -17,6 +17,8 @@ public class BFS {
 
         cola.add(inicio);
         visitados.add(key(inicio));
+        
+        Nodo encontrado = null;
 
         while (!cola.isEmpty()) {
 
@@ -27,6 +29,7 @@ public class BFS {
 
             if (actual.getFila() == fin.getFila() &&
                 actual.getColumna() == fin.getColumna()) {
+            	encontrado = actual;
                 break;
             }
 
@@ -44,6 +47,18 @@ public class BFS {
 
             // frame despues de expandir
             frames.add(crearSnapshot(lab, visitados, actual));
+        }
+        if (encontrado != null) {
+
+            List<Nodo> camino =
+                    reconstruirCamino(encontrado, padre);
+            
+            System.out.println("Longitud del camino: " + camino.size());
+
+            frames.add(
+                    crearSnapshotCamino(lab,
+                                        visitados,
+                                        camino));
         }
 
         return frames;
@@ -88,6 +103,63 @@ public class BFS {
         }
 
         return copia;
+    }
+    
+    
+    private List<Nodo> reconstruirCamino(
+            Nodo fin,
+            Map<String, Nodo> padre) {
+
+        List<Nodo> camino = new ArrayList<>();
+
+        Nodo actual = fin;
+
+        while (actual != null) {
+
+            camino.add(actual);
+
+            actual = padre.get(key(actual));
+        }
+
+        Collections.reverse(camino);
+
+        return camino;
+    }
+    
+    
+    private Snapshot crearSnapshotCamino(
+            Laberinto lab,
+            Set<String> visitados,
+            List<Nodo> camino) {
+
+        char[][] copia = copiar(lab);
+
+        for (String v : visitados) {
+
+            String[] p = v.split(",");
+
+            int f = Integer.parseInt(p[0]);
+            int c = Integer.parseInt(p[1]);
+
+            if (copia[f][c] == '.') {
+                copia[f][c] = '*';
+            }
+        }
+
+        for (Nodo n : camino) {
+
+            char actual =
+                    copia[n.getFila()][n.getColumna()];
+
+            if (actual == '.' || actual == '*') {
+                copia[n.getFila()][n.getColumna()] = 'P';
+            }
+        }
+
+        Snapshot s = new Snapshot();
+        s.estado = copia;
+
+        return s;
     }
     
     

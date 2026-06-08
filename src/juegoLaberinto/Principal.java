@@ -8,7 +8,6 @@ import java.util.Scanner;
 public class Principal {
 
     public static void main(String[] args) throws IOException, InterruptedException {
-
         // limpia frames anteriores
         File dir = new File("frames/");
         if (dir.exists()) {
@@ -20,7 +19,7 @@ public class Principal {
         }
 
         // carga laberinto
-        Laberinto lab = new Laberinto("laberintos/lab1.txt");
+        Laberinto lab = new Laberinto("laberintos/lab2.txt");
 
         lab.mostrarMapa();
 

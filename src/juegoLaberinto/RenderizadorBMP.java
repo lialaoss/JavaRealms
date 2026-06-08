@@ -55,6 +55,13 @@ public class RenderizadorBMP {
 	        case 'F': return new byte[]{0, 0, (byte)255}; // rojo
 	        case '*': return new byte[]{(byte)0, (byte)255, (byte)255}; // celeste
 	        case 'A': return new byte[]{(byte)255, 0, (byte)255}; // magenta
+	        
+	        case 'P':
+	            return new byte[]{
+	                0,
+	                (byte)165,
+	                (byte)255
+	            };
 
 	        default:  return new byte[]{(byte)200,(byte)200,(byte)200};
 	    }
