@@ -15,7 +15,8 @@ public class Principal {
             for (File f : dir.listFiles()) {
                 f.delete();
             }
-        } else {
+        } 
+        else {
             dir.mkdirs();
         }
 
@@ -43,31 +44,22 @@ public class Principal {
         long inicioTiempo = System.nanoTime();
 
         if (metodo == 1) {
-
             BFS bfs = new BFS();
             frames = bfs.buscar(lab);
-
-        } else if (metodo == 2) {
-
+        } 
+        else if (metodo == 2) {
             DFS dfs = new DFS();
             frames = dfs.buscar(lab);
-
-        } else {
-
+        } 
+        else {
             System.out.println("Opción inválida.");
             sc.close();
             return;
         }
-
         long finTiempo = System.nanoTime();
-
         double tiempoMs =
                 (finTiempo - inicioTiempo) / 1_000_000.0;
-
-        System.out.printf(
-                "Tiempo de ejecución: %.3f ms%n",
-                tiempoMs
-        );
+        System.out.printf("Tiempo de ejecución: %.3f ms%n",tiempoMs);
 
         System.out.println("Frames generados: " + frames.size());
 
@@ -84,37 +76,21 @@ public class Principal {
 
         // animación de frames
         for (int i = 0; i < frames.size(); i++) {
-
-            RenderizadorBMP.escribirBMP(
-                    frames.get(i).estado,
-                    "current.bmp"
-            );
-
+            RenderizadorBMP.escribirBMP(frames.get(i).estado,"current.bmp");
             if (op == 1) {
-
                 Thread.sleep(100);
-
-            } else {
-
-                System.out.println(
-                        "Enter = siguiente | q = salir"
-                );
-
+            } 
+            else {
+                System.out.println("Enter = siguiente | q = salir");
                 String input = sc.nextLine();
 
                 if (input.equalsIgnoreCase("q")) {
-
-                    System.out.println(
-                            "Volviendo al menú..."
-                    );
-
+                    System.out.println("Volviendo al menú...");
                     break;
                 }
             }
         }
-
         System.out.println("Listo.");
-
         sc.close();
     }
 }

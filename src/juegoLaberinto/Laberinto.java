@@ -35,7 +35,6 @@ public class Laberinto {
         }
 
         validarLongitudFilas(lineas);
-
         int filas = lineas.size();
         int columnas = lineas.get(0).length();
 
@@ -45,17 +44,14 @@ public class Laberinto {
         int cantidadFin = 0;
 
         for (int fila = 0; fila < filas; fila++) {
-
             String lineaActual = lineas.get(fila);
 
             for (int columna = 0; columna < columnas; columna++) {
-
                 char celda = lineaActual.charAt(columna);
 
                 this.mapa[fila][columna] = celda;
 
                 switch (celda) {
-
                     case '#':
                     case '.':
                         break;
@@ -77,10 +73,9 @@ public class Laberinto {
                 }
             }
         }
-
         validarInicioYFin(cantidadInicio, cantidadFin);
     }
-    
+
 //METODOS -----------------------------------------------------------------------------------------------------------------------------------------------------------------
     /**
      * Muestra el laberinto por consola.
@@ -159,22 +154,18 @@ public class Laberinto {
 
         int fila = n.getFila();
         int col = n.getColumna();
-
         // arriba
         if (esTransitable(fila - 1, col)) {
             vecinos.add(new Nodo(fila - 1, col));
         }
-
         // abajo
         if (esTransitable(fila + 1, col)) {
             vecinos.add(new Nodo(fila + 1, col));
         }
-
         // izquierda
         if (esTransitable(fila, col - 1)) {
             vecinos.add(new Nodo(fila, col - 1));
         }
-
         // derecha
         if (esTransitable(fila, col + 1)) {
             vecinos.add(new Nodo(fila, col + 1));

@@ -21,7 +21,6 @@ public class DFS {
         visitados.add(key(inicio));
 
         while (!pila.isEmpty()) {
-
             Nodo actual = pila.pop();
 
             frames.add(crearSnapshot(lab, visitados, actual));
@@ -34,7 +33,6 @@ public class DFS {
             }
 
             for (Nodo vecino : lab.obtenerVecinos(actual)) {
-
                 String k = key(vecino);
 
                 if (!visitados.contains(k)) {
@@ -52,7 +50,6 @@ public class DFS {
 
         // Reconstrucción del camino
         if (encontrado != null) {
-
             List<Nodo> camino =
                 reconstruirCamino(encontrado, padre);
 
@@ -68,10 +65,10 @@ public class DFS {
                 )
             );
         }
-
         return frames;
     }
 
+    
     private List<Nodo> reconstruirCamino(
             Nodo fin,
             Map<String, Nodo> padre) {
@@ -81,21 +78,20 @@ public class DFS {
         Nodo actual = fin;
 
         while (actual != null) {
-
             camino.add(actual);
 
             actual = padre.get(key(actual));
         }
-
         Collections.reverse(camino);
-
         return camino;
     }
+
 
     private String key(Nodo n) {
         return n.getFila() + "," + n.getColumna();
     }
 
+    
     private Snapshot crearSnapshot(Laberinto lab,
                                    Set<String> visitados,
                                    Nodo actual) {
@@ -122,6 +118,7 @@ public class DFS {
         return s;
     }
 
+    
     private Snapshot crearSnapshotCamino(
             Laberinto lab,
             Set<String> visitados,
@@ -157,6 +154,7 @@ public class DFS {
         return s;
     }
 
+    
     private char[][] copiar(Laberinto lab) {
 
         char[][] original = lab.getMapa();

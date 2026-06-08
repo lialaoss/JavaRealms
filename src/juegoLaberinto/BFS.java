@@ -21,7 +21,6 @@ public class BFS {
         Nodo encontrado = null;
 
         while (!cola.isEmpty()) {
-
             Nodo actual = cola.poll();
 
             // frame antes de expandir
@@ -44,12 +43,10 @@ public class BFS {
                     cola.add(vecino);
                 }
             }
-
             // frame despues de expandir
             frames.add(crearSnapshot(lab, visitados, actual));
         }
         if (encontrado != null) {
-
             List<Nodo> camino =
                     reconstruirCamino(encontrado, padre);
             
@@ -64,7 +61,7 @@ public class BFS {
         return frames;
     }
     
-    
+
     private String key(Nodo n) {
         return n.getFila() + "," + n.getColumna();
     }
