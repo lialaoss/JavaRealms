@@ -53,7 +53,7 @@ public class BFS {
             List<Nodo> camino =
                     reconstruirCamino(encontrado, padre);
             
-            System.out.println("Longitud del camino: " + camino.size());
+            System.out.println("Movimientos BFS: " + (camino.size() - 1));
 
             frames.add(
                     crearSnapshotCamino(lab,
