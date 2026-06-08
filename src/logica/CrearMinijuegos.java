@@ -1,8 +1,11 @@
 package logica;
 
 import ciudades.Ciudad;
+
+import ciudades.Ciudad1Minijuego;
 import ciudades.Minijuego;
 import entidad.Jugador;
+import ciudades.PlaceholderMinijuego;
 
 public class CrearMinijuegos {
 	
@@ -12,11 +15,23 @@ public class CrearMinijuegos {
 	 * @param jugador
 	 * @return
 	 */
+	
 	public static Minijuego crear(Ciudad ciudad, Jugador jugador) {
-		int id = ciudad.getId();
-        switch (id) {
+        switch (ciudad.getId()) {
+            case 1:
+                return new Ciudad1Minijuego(ciudad, jugador);
+            case 2:
+            case 3:
+            case 4:
+            case 5:
+            case 6:
+            case 7:
+            case 8:
+            case 9:
+            case 10:
+                return new PlaceholderMinijuego(ciudad, jugador);
             default:
-            	throw new IllegalArgumentException("Ciudad no existe (aunnn)");
+                return null;
         }
     }
 }

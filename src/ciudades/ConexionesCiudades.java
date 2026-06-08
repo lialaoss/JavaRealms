@@ -79,13 +79,19 @@ public class ConexionesCiudades {
 	 * ciudad hasta la ciudad que se indica.
 	 */
 	public List<Ciudad> buscarCamino(Ciudad valorFin) {
-		Ciudad valorInicio = ciudades.get(this.ciudadInicial);
-		
-		List<Ciudad> camino = grafoCiudades.caminoMinimoBFS(
-				valorInicio,
-				valorFin,
-				ciudad -> ciudad.getEstado() != EstadoCiudad.BLOQUEADA); // filtro default c -> true
-		return camino;
+	    Ciudad valorInicio = ciudades.get(this.ciudadInicial);
+	    
+	    if(valorInicio.equals(valorFin)) {
+	        List<Ciudad> camino = new java.util.ArrayList<>();
+	        camino.add(valorFin);
+	        return camino;
+	    }
+	    
+	    List<Ciudad> camino = grafoCiudades.caminoMinimoBFS(
+	            valorInicio,
+	            valorFin,
+	            ciudad -> ciudad.getEstado() != EstadoCiudad.BLOQUEADA);
+	    return camino;
 	}
 	
 	// =========================== DESBLOQUEAR VECINOS =============================== ?

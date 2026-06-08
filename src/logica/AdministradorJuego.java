@@ -19,6 +19,7 @@ public class AdministradorJuego {
 	private Ciudad ciudadActual;
 	private Jugador jugador;
 	private Minijuego juegoActual;
+	private Ventana ventana;
 	
 	// CONSTRUCTOR
 	public AdministradorJuego() {
@@ -36,7 +37,7 @@ public class AdministradorJuego {
 	 */
 	public void iniciarJuego() {
 		ciudades.get(1).setEstado(EstadoCiudad.DESBLOQUEADA);
-		new Ventana(this);
+		this.ventana = new Ventana(this);
 	}
 	
 	/**
@@ -46,20 +47,15 @@ public class AdministradorJuego {
 	 * accesible antes de entrar.
 	 */
 	public void update() {
-		if(estado != EstadoJuego.EN_PROGRESO) {
-			return;
-		}
-		
-		if(!puedeEntrar()) {
-			setEstado(EstadoJuego.MAPA_GENERAL);
-			return;
-		}
-		
-	    juegoActual = CrearMinijuegos.crear(ciudadActual,jugador);
-	    juegoActual.iniciar();
-	    
-		setEstado(EstadoJuego.MAPA_GENERAL);
-		return;
+	    if(estado != EstadoJuego.EN_PROGRESO) { return; }
+	    if(!puedeEntrar()) { setEstado(EstadoJuego.MAPA_GENERAL); return; }
+
+	    if(juegoActual == null) {
+	        juegoActual = CrearMinijuegos.crear(ciudadActual, jugador);
+	        if(juegoActual != null) {
+	            juegoActual.iniciar();
+	        }
+	    }
 	}
 
 	/**
@@ -69,14 +65,21 @@ public class AdministradorJuego {
 	 * @return : Devuelve true si es posible acceder dentro de la ciudad
 	 */
 	private boolean puedeEntrar() {
-//		System.out.println("puntos jugador: " + jugador.getPuntosExperiencia());
-		if(ciudadActual.getEstado() == EstadoCiudad.COMPLETADA) {
-			return false;
-		}
-		boolean desbloqueada = adminCiudades.
-									getGrafo().
-									verificarCamino(ciudadActual, jugador.getPuntosExperiencia());
-		return desbloqueada;
+	    if(ciudadActual.getEstado() == EstadoCiudad.COMPLETADA) {
+	        return false;
+	    }
+	    if(ciudadActual.getEstado() == EstadoCiudad.BLOQUEADA) {
+	        return false;
+	    }
+	    return adminCiudades.getGrafo().verificarCamino(ciudadActual, jugador.getPuntosExperiencia());
+	}
+
+	public Minijuego getJuegoActual() {
+	    return juegoActual;
+	}
+
+	public void limpiarJuegoActual() {
+	    this.juegoActual = null;
 	}
 	
 	/**
@@ -104,6 +107,11 @@ public class AdministradorJuego {
 	public Jugador getJugador() {
 		return jugador;
 	}
+	
+	public Ventana getVentana() {
+        return this.ventana;
+    }
+	
 	
 	// SETTERS
 	public void setEstado(EstadoJuego estado) {

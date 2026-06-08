@@ -20,12 +20,17 @@ public class GestorRecursos {
 		cargarFondos();
 	}
 	
+	
 	public void cargarSpritesMenu() {
 		try {
 			
 			botonMenu1 = ImageIO.read(getClass().getResourceAsStream("/sprites/menu/boton1.png"));
 			botonMenu2 = ImageIO.read(getClass().getResourceAsStream("/sprites/menu/boton2.png"));
 			botonMenu3 = ImageIO.read(getClass().getResourceAsStream("/sprites/menu/boton3.png"));
+			
+			System.out.println("boton1: " + botonMenu1);
+	        System.out.println("boton2: " + botonMenu2);
+	        System.out.println("boton3: " + botonMenu3);
 
 		} catch (IOException e) {
 			e.printStackTrace();

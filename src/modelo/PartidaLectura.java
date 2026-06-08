@@ -1,5 +1,6 @@
 package modelo;
 
+import entidad.Jugador;
 import java.util.List;
 
 public interface PartidaLectura {

@@ -1,6 +1,7 @@
 package ui;
 
 import java.awt.Color;
+
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -11,6 +12,9 @@ import logica.AdministradorJuego;
 import logica.EstadoJuego;
 import logica.KeyHandler;
 import logica.MouseHandler;
+
+import ciudades.Ciudad1Minijuego;
+import ciudades.Minijuego;
 
 public class Panel extends JPanel implements Runnable {
 	
@@ -118,15 +122,20 @@ public class Panel extends JPanel implements Runnable {
 	    super.paintComponent(g);
 	    Graphics2D g2 = (Graphics2D) g;
 
+	    g2.setColor(Color.RED);
+	    g2.drawString("RENDERING: " + admin.getEstado(), 50, 50);
+
 	    EstadoJuego estado = admin.getEstado();
 
 	    if (estado == EstadoJuego.EN_PROGRESO) {
-	    	// render de los juegos (ciudad1, ciudad2, etc)
+	        Minijuego juego = admin.getJuegoActual();
+	        if (juego != null) {
+	            juego.render(g2);
+	        }
 	    } else {
-	    	// render menus pantalla game over etc
-	    	renderUI.renderizarPorEstado(estado, g2);
+	        // ESTO FALTABA
+	        renderUI.renderizarPorEstado(estado, g2);
 	    }
-	     
 	}
 	
 	/**
@@ -145,6 +154,8 @@ public class Panel extends JPanel implements Runnable {
 					keyH.QPressed = false;
 			}
 		}
+		
+		
 		if(admin.getEstado() == EstadoJuego.EN_PROGRESO) {
 			if(keyH.QPressed == true) {
 					
@@ -152,7 +163,17 @@ public class Panel extends JPanel implements Runnable {
 				keyH.QPressed = false;
 			}
 		}
-	}
+		
+	    Minijuego juego = admin.getJuegoActual();
+	        if(juego instanceof Ciudad1Minijuego) {
+	            Ciudad1Minijuego c1 = (Ciudad1Minijuego) juego;
+	            if(keyH.upPressed)    { c1.mover(0, -1, 0); keyH.upPressed = false; }
+	            if(keyH.downPressed)  { c1.mover(0,  1, 0); keyH.downPressed = false; }
+	            if(keyH.leftPressed)  { c1.mover(-1, 0, 0); keyH.leftPressed = false; }
+	            if(keyH.rightPressed) { c1.mover( 1, 0, 0); keyH.rightPressed = false; }
+	        }
+	    }
+	
 
 	//SETTERS
 	private void setAdmin(AdministradorJuego admin) {

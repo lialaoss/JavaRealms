@@ -42,6 +42,7 @@ public class RenderizadorUI {
 	public void renderizarPorEstado(EstadoJuego estado, Graphics2D g2) {
 		switch (estado) {
 			case MENU_PRINCIPAL:
+				System.out.println("CASE MENU_PRINCIPAL");
 				this.renderMenus.renderizarMenuPrincipal(g2);
 				break;
 			case MENU_INSTRUCCIONES:

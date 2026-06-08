@@ -1,5 +1,6 @@
 package modelo;
 
+import entidad.Jugador; 
 import java.util.ArrayList;
 import java.util.List;
 import utiles.ValidacionesUtiles;
