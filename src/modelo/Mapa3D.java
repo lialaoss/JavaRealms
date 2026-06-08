@@ -6,7 +6,7 @@ import utiles.ValidacionesUtiles;
  * Representa el entorno tridimensional de la Ciudad 1.
  * Post: gestiona la ubicación de los elementos y la visibilidad de las celdas.
  */
-public class Mapa3D {
+public class Mapa3D implements MapaLectura {
 	
 	private Elemento[][][] celdas;
 	private boolean[][][] revelado;
@@ -96,6 +96,40 @@ public class Mapa3D {
 		 if (!esCoordenadaValida(x, y, z)) {
 			 throw new RuntimeException("Coordenadas fuera de los límites del Mapa3D");
 		 }
+	 }
+	 
+	 /**
+	  * Pre: z debe ser un nivel valido.
+	  * Post: marca como reveladas todas las celdas del plano Z especificado.
+	  */
+	 public void revelarNivelCompleto(int z) {
+		 validarCoordenadas(0, 0, z);
+		 for (int x = 0; x < ancho; x++) {
+			 for (int y = 0; y < alto; y++) {
+				 this.revelado[x][y][z] = true;
+			 }
+		 }
+	 }
+	 
+	 
+	 public int[] buscarElementoMasCercano(int px, int py, int pz) {
+		 int[] coordenadas = null;
+		 double minimaDistancia = Double.MAX_VALUE;
+
+		 for (int x = 0; x < ancho; x++) {
+			 for (int y = 0; y < alto; y++) {
+				 for (int z = 0; z < niveles; z++) {
+					 if (this.celdas[x][y][z] != null) {
+						 double distancia = Math.pow(px - x, 2) + Math.pow(py - y, 2) + Math.pow(pz - z, 2);
+						 if (distancia < minimaDistancia) {
+							 minimaDistancia = distancia;
+							 coordenadas = new int[]{x, y, z};
+						 }
+					 }
+				 }
+			 }
+		 }
+		 return coordenadas;
 	 }
 	 
 	 // Getters de dimensiones para la interfaz gráfica

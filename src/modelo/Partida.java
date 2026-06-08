@@ -8,7 +8,7 @@ import utiles.ValidacionesUtiles;
  * Coordina el estado y la logica de juego de la Ciudad 1.
  * Post: centraliza la posicion, recoleccion y visibilidad, delegando la estructura espacial al mapa.
  */
-public class Partida {
+public class Partida implements PartidaLectura {
     
     private Jugador jugador;
     private Mapa3D mapa;
@@ -75,9 +75,9 @@ public class Partida {
     }
     
     /**
-     * Post: devuelve la instancia del mapa 3D para que la vista pueda renderizarlo.
+     * Post: devuelve una interfaz de solo lectura del mapa para que la vista lo renderice de forma segura.
      */
-    public Mapa3D getMapa() {
+    public MapaLectura getMapa() {
         return this.mapa;
     }
 
@@ -100,6 +100,23 @@ public class Partida {
     public void setRadioVision(int nuevoRadio) { 
         ValidacionesUtiles.validarRango(nuevoRadio, 0, 10, "Radio de Vision");
         this.radioVision = nuevoRadio; 
+    }
+    
+    /**
+     * Post: despeja la niebla de guerra en el nivel actual del jugador.
+     */
+    public void despejarNieblaActual() {
+        this.mapa.revelarNivelCompleto(this.z);
+    }
+    
+    
+    public void escanearEntorno() {
+        int[] pos = this.mapa.buscarElementoMasCercano(this.x, this.y, this.z);
+        if (pos != null) {
+            this.observador.mostrarMensajeRadar("Senal detectada en X: " + pos[0] + " Y: " + pos[1] + " Z: " + pos[2]);
+        } else {
+            this.observador.mostrarMensajeRadar("No se detectaron mas elementos en la ciudad");
+        }
     }
     
     public List<Elemento> getMochila() { 

@@ -12,7 +12,8 @@ public interface ObservadorRecoleccion {
      * ha cambiado para que se redibuje el mapa y la niebla.
      * @param partida El estado actual de la partida en la Ciudad 1.
      */
-    void actualizarVista(Partida partida);
+	void actualizarVista(PartidaLectura partida);
+    void mostrarMensajeRadar(String mensaje);
 
     /**
      * Pre: el elemento no es nulo.
