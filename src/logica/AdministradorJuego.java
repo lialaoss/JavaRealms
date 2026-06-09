@@ -5,8 +5,9 @@ import java.util.Map;
 import ciudades.AdministradorCiudades;
 import ciudades.Ciudad;
 import ciudades.EstadoCiudad;
-import ciudades.Minijuego;
 import entidad.Jugador;
+import minijuego.CrearMinijuegos;
+import minijuego.Minijuego;
 import ui.Ventana;
 import utiles.Validaciones;
 

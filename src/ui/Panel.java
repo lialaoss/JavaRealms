@@ -12,9 +12,8 @@ import logica.AdministradorJuego;
 import logica.EstadoJuego;
 import logica.KeyHandler;
 import logica.MouseHandler;
-
-import ciudades.Ciudad1Minijuego;
-import ciudades.Minijuego;
+import minijuego.Ciudad1Minijuego;
+import minijuego.Minijuego;
 
 public class Panel extends JPanel implements Runnable {
 	

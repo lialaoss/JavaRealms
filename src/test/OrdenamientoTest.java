@@ -4,6 +4,9 @@ import static org.junit.jupiter.api.Assertions.*;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import modelo.*;
+import modelo.ciudad4.BubbleSort;
+import modelo.ciudad4.ObservadorOrdenamiento;
+import modelo.ciudad4.QuickSort;
 
 /**
  * Suite de pruebas unitarias para los algoritmos de ordenamiento de Ciudad 4.

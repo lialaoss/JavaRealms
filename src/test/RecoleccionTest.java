@@ -1,6 +1,10 @@
 package test;
 import static org.junit.jupiter.api.Assertions.*;
-import modelo.PartidaLectura;
+
+import modelo.ciudad1.Elemento;
+import modelo.ciudad1.ObservadorRecoleccion;
+import modelo.ciudad1.Partida;
+import modelo.ciudad1.PartidaLectura;
 import entidad.Jugador;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
