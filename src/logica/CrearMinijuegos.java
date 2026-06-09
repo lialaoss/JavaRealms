@@ -4,6 +4,7 @@ import ciudades.Ciudad;
 
 import ciudades.Ciudad1Minijuego;
 import ciudades.Ciudad3Minijuego;
+import ciudades.Ciudad4Minijuego;
 import ciudades.Minijuego;
 import entidad.Jugador;
 import ciudades.PlaceholderMinijuego;
@@ -25,6 +26,7 @@ public class CrearMinijuegos {
             case 3:
             	return new Ciudad3Minijuego(ciudad, jugador);
             case 4:
+            	return new Ciudad4Minijuego(ciudad, jugador);
             case 5:
             case 6:
             case 7:

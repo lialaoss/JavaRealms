@@ -38,6 +38,7 @@ public class AdministradorJuego {
 	public void iniciarJuego() {
 		ciudades.get(1).setEstado(EstadoCiudad.DESBLOQUEADA);
 		ciudades.get(3).setEstado(EstadoCiudad.DESBLOQUEADA); // temporal
+		ciudades.get(4).setEstado(EstadoCiudad.DESBLOQUEADA);
 		jugador.setPuntosExperiencia(100);
 		this.ventana = new Ventana(this);
 	}
