@@ -37,11 +37,11 @@ public class AdministradorJuego {
 	 * Inicia el juego y desbloquea por default la ciudad 1 (mas no se encuentra completa)
 	 */
 	public void iniciarJuego() {
-		ciudades.get(1).setEstado(EstadoCiudad.DESBLOQUEADA);
-		ciudades.get(3).setEstado(EstadoCiudad.DESBLOQUEADA); // temporal
-		ciudades.get(4).setEstado(EstadoCiudad.DESBLOQUEADA);
-		jugador.setPuntosExperiencia(100);
-		this.ventana = new Ventana(this);
+	    for(Ciudad c : ciudades.values()) {
+	        c.setEstado(EstadoCiudad.DESBLOQUEADA);
+	    }
+	    jugador.setPuntosExperiencia(1000);
+	    this.ventana = new Ventana(this);
 	}
 	
 	/**

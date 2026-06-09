@@ -1,6 +1,9 @@
 package modelo.ciudad6;
 
 import javax.swing.*;
+
+import minijuego.Ciudad6Minijuego;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -17,6 +20,7 @@ public class VentanaCiudad6 extends JFrame {
     private JTextField campoClave;
     private JTextField campoValor;
     private JLabel[] etiquetasCeldas;
+    private Ciudad6Minijuego minijuego;
 
     // --- VARIABLES DEL JUEGO ---
     private int colisionesLogradas = 0;
@@ -29,10 +33,10 @@ public class VentanaCiudad6 extends JFrame {
     private JButton botonInsertar;
     private JButton botonBuscar;
 
-    public VentanaCiudad6() {
+    public VentanaCiudad6(Ciudad6Minijuego minijuego) {
+        this.minijuego = minijuego;
         this.tablaHash = new TablaHash();
-        this.etiquetasCeldas = new JLabel[11]; 
-        
+        this.etiquetasCeldas = new JLabel[11];
         configurarVentana();
         inicializarComponentes();
     }
@@ -40,7 +44,7 @@ public class VentanaCiudad6 extends JFrame {
     private void configurarVentana() {
         setTitle("JavaRealms - ¡Desafío de la Ciudad 6: El Oráculo Hash!");
         setSize(950, 650);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE); 
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
     }
@@ -225,6 +229,9 @@ public class VentanaCiudad6 extends JFrame {
         // Si se cumplen ambas condiciones: ¡Victoria!
         if (this.colisionesLogradas >= COLISIONES_REQUERIDAS && this.busquedaColisionadaExitosa) {
             this.ciudadGanada = true;
+            if (this.minijuego != null) {
+                this.minijuego.resultadoPartida();
+            }
             this.etiquetaMision.setText("<html><font color='#2ECC71'><b>¡CIUDAD 6 GANADA! +100 PUNTOS</b><br>"
                     + "Has dominado el algoritmo de Hashing y Linear Probing de forma perfecta. El camino está libre.</font></html>");
             
