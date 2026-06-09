@@ -37,6 +37,8 @@ public class AdministradorJuego {
 	 */
 	public void iniciarJuego() {
 		ciudades.get(1).setEstado(EstadoCiudad.DESBLOQUEADA);
+		ciudades.get(3).setEstado(EstadoCiudad.DESBLOQUEADA); // temporal
+		jugador.setPuntosExperiencia(100);
 		this.ventana = new Ventana(this);
 	}
 	
@@ -65,6 +67,7 @@ public class AdministradorJuego {
 	 * @return : Devuelve true si es posible acceder dentro de la ciudad
 	 */
 	private boolean puedeEntrar() {
+		System.out.println("puedeEntrar: estado=" + ciudadActual.getEstado());
 	    if(ciudadActual.getEstado() == EstadoCiudad.COMPLETADA) {
 	        return false;
 	    }

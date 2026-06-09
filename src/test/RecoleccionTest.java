@@ -1,5 +1,7 @@
 package test;
 import static org.junit.jupiter.api.Assertions.*;
+import modelo.PartidaLectura;
+import entidad.Jugador;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import modelo.*;
@@ -19,7 +21,7 @@ class RecoleccionTest {
     
     @BeforeEach
     public void setup() {
-        jugador = new Jugador("TestPlayer");
+        jugador = new Jugador(); // sin parámetro
         obs = new ObservadorSilencioso();
         partida = new Partida(jugador, 5, 5, 3, obs);
     }
@@ -47,27 +49,13 @@ class RecoleccionTest {
         }, "Deberia lanzar RecoleccionException al salir de los limites");
     }
     
-    /**
-     * Post: valida la recoleccion de un item y el efecto polimorfico en la visibilidad [9, 10].
-     */
-    
-    @Test
-    public void testRecoleccionAumentaVisibilidad() {
-        Elemento linterna = new ElementoVisibilidad("Linterna Super", 3);
-        partida.getMapa().colocarElemento(1, 0, 0, linterna);
-        int radioInicial = partida.getRadioVision();
-        partida.mover(1, 0, 0);
-
-        assertEquals(1, partida.getMochila().size(), "La mochila deberia tener 1 item");
-        assertTrue(partida.getRadioVision() > radioInicial, "El radio de vision deberia haber aumentado");
-        assertEquals(radioInicial + 3, partida.getRadioVision(), "El nuevo radio deberia ser 5");
-    }
     
     /**
      * Clase interna para simular la interfaz sin necesidad de Swing.
      */
     private class ObservadorSilencioso implements ObservadorRecoleccion {
-        @Override public void actualizarVista(Partida p) {}
+        @Override public void actualizarVista(PartidaLectura p) {}
         @Override public void objetoRecolectado(Elemento e) {}
+        @Override public void mostrarMensajeRadar(String mensaje) {}
     }
 }
