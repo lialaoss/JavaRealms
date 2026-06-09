@@ -4,8 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Lógica de la Tabla Hash con direccionamiento abierto (Linear Probing).
- * Muestra el desglose matemático de las operaciones para el usuario.
+ * Lógica de la Tabla Hash optimizada para jugabilidad.
+ * Utiliza una función hash basada en la posición de los caracteres y suma ASCII,
+ * facilitando el cálculo mental para el jugador.
  */
 public class TablaHash {
     private static final int TAMANIO_INICIAL = 11; 
@@ -18,35 +19,30 @@ public class TablaHash {
     }
 
     /**
-     * Calcula el hash e inyecta en la lista de pasos el desglose matemático detallado.
-     * @pre pasos No debe ser nulo. La clave no debe ser nula.
+     * Función Hash diseñada para el juego: Sumatoria de (ASCII * Posición).
+     * @pre pasos No debe ser nulo. La clave no debe ser nula ni vacía.
      * @post Devuelve el índice base entre 0 y 10.
      */
     private int calcularYExplicarHash(String clave, List<String> pasos) {
         pasos.add("Clave recibida: '" + clave + "'");
-        pasos.add("1. PROCESANDO CARACTERES (Multiplicador Primo 31):");
+        pasos.add("1. FÓRMULA DEL TEMPLO: Sumatoria de (Código ASCII × Posición)");
         
-        int hash = 0;
+        int sumaTotal = 0;
         for (int i = 0; i < clave.length(); i++) {
             char caracter = clave.charAt(i);
             int ascii = (int) caracter;
-            int hashAnterior = hash;
+            int posicionLetra = i + 1; // Posición humana: 1, 2, 3...
+            int subtotal = ascii * posicionLetra;
             
-            hash = (hash * 31) + ascii;
+            sumaTotal += subtotal;
             
-            if (i == 0) {
-                pasos.add("  • '" + caracter + "' (ASCII " + ascii + ") -> Hash inicial = " + hash);
-            } else {
-                pasos.add("  • '" + caracter + "' (ASCII " + ascii + ") -> (" + hashAnterior + " * 31) + " + ascii + " = " + hash);
-            }
+            pasos.add("  • '" + caracter + "' (ASCII " + ascii + ") × Posic. " + posicionLetra + " = " + subtotal + " [Acumulado: " + sumaTotal + "]");
         }
         
-        int hashAbsoluto = Math.abs(hash);
-        int indiceBase = hashAbsoluto % TAMANIO_INICIAL;
+        int indiceBase = sumaTotal % TAMANIO_INICIAL;
         
-        pasos.add("2. MÉTODO DE LA DIVISIÓN (Tamaño de Tabla = 11):");
-        pasos.add("  • Valor absoluto del Hash: " + hashAbsoluto);
-        pasos.add("  • Operación Módulo: " + hashAbsoluto + " % 11 = " + indiceBase);
+        pasos.add("\n2. MÉTODO DE LA DIVISIÓN (Tamaño del Vector = 11):");
+        pasos.add("  • Operación Módulo: " + sumaTotal + " % 11 = " + indiceBase);
         pasos.add("=> ¡Posición Base de Destino: " + indiceBase + "!");
         pasos.add("----------------------------------------------------------------------");
         
@@ -54,12 +50,11 @@ public class TablaHash {
     }
 
     /**
-     * Inserta un elemento desglosando las operaciones y las colisiones detectadas.
+     * Inserta un elemento en la tabla resolviendo colisiones por Linear Probing.
      */
     public List<String> insertar(String clave, int valor) {
         List<String> pasos = new ArrayList<>();
         
-        // Obtenemos el índice base y dejamos guardado el cálculo en la bitácora
         int indiceBase = calcularYExplicarHash(clave, pasos);
         int indiceActual = indiceBase;
         int intento = 0;
@@ -71,11 +66,11 @@ public class TablaHash {
                 return pasos;
             }
             
-            pasos.add("[COLISIÓN DETECTADA] La posición " + indiceActual + " ya contiene a '" + this.tabla[indiceActual].getClave() + "'.");
+            pasos.add("[COLISIÓN DETECTADA] La posición " + indiceActual + " ya está ocupada por '" + this.tabla[indiceActual].getClave() + "'.");
             intento++;
             
             if (intento >= TAMANIO_INICIAL) {
-                pasos.add("[ERROR] Tabla colapsada. No queda espacio libre en el vector.");
+                pasos.add("[ERROR] El Oráculo está colapsado. No queda espacio libre.");
                 throw new IllegalStateException("La tabla hash está completamente llena.");
             }
             
@@ -85,13 +80,13 @@ public class TablaHash {
 
         this.tabla[indiceActual] = new CeldaHash(clave, valor);
         this.cantidadElementos++;
-        pasos.add("\n[ÉXITO] Casillero libre encontrado. Guardado en posición: " + indiceActual);
+        pasos.add("\n[ÉXITO] Casillero libre encontrado. Guardado en la posición: " + indiceActual);
         
         return pasos;
     }
 
     /**
-     * Busca una clave explicando al usuario el recorrido de celdas y Linear Probing en caso de colisión.
+     * Busca una clave detallando el recorrido realizado.
      */
     public ResultadoBusqueda buscar(String clave) {
         List<String> pasos = new ArrayList<>();
@@ -109,7 +104,7 @@ public class TablaHash {
                 return new ResultadoBusqueda(this.tabla[indiceActual].getValor(), pasos);
             }
             
-            pasos.add("    Contiene la clave '" + this.tabla[indiceActual].getClave() + "'. No es lo que buscamos. Avanzando...");
+            pasos.add("    Contiene la clave '" + this.tabla[indiceActual].getClave() + "'. Avanzando...");
             intento++;
             
             if (intento >= TAMANIO_INICIAL) {
@@ -120,7 +115,7 @@ public class TablaHash {
             pasos.add("  • Aplicando Linear Probing: Evaluando posición " + indiceActual);
         }
 
-        pasos.add("\n[FIN] Se llegó a una celda vacía o se barrió la tabla. La clave '" + clave + "' no habita en este oráculo.");
+        pasos.add("\n[FIN] La clave '" + clave + "' no habita en este oráculo.");
         return new ResultadoBusqueda(-1, pasos); 
     }
 
