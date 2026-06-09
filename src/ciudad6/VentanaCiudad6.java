@@ -7,8 +7,8 @@ import java.awt.event.ActionListener;
 import java.util.List;
 
 /**
- * Interfaz Gráfica de usuario desarrollada en Swing para representar la Ciudad 6.
- * Controla la interacción del usuario y renderiza en tiempo real el estado de la estructura.
+ * Interfaz Gráfica de la Ciudad 6 transformada en un Desafío de Juego (Al-Quest).
+ * El jugador debe cumplir ciertos objetivos algorítmicos para ganar la ciudad.
  */
 public class VentanaCiudad6 extends JFrame {
     private TablaHash tablaHash;
@@ -18,11 +18,17 @@ public class VentanaCiudad6 extends JFrame {
     private JTextField campoValor;
     private JLabel[] etiquetasCeldas;
 
-    /**
-     * Constructor de la ventana gráfica.
-     * * @pre Ninguna.
-     * @post Crea e inicializa el Frame de la ventana junto con todos sus paneles y listeners.
-     */
+    // --- VARIABLES DEL JUEGO ---
+    private int colisionesLogradas = 0;
+    private final int COLISIONES_REQUERIDAS = 3;
+    private boolean busquedaColisionadaExitosa = false;
+    private boolean ciudadGanada = false;
+
+    // Componentes de la interfaz del juego
+    private JLabel etiquetaMision;
+    private JButton botonInsertar;
+    private JButton botonBuscar;
+
     public VentanaCiudad6() {
         this.tablaHash = new TablaHash();
         this.etiquetasCeldas = new JLabel[11]; 
@@ -31,30 +37,46 @@ public class VentanaCiudad6 extends JFrame {
         inicializarComponentes();
     }
 
-    /**
-     * Define los parámetros globales de la ventana de Swing.
-     * * @pre Ninguna.
-     * @post La ventana queda configurada con tamaño, título y posicionamiento relativo centrado.
-     */
     private void configurarVentana() {
-        setTitle("JavaRealms - Ciudad 6: Tabla Hash");
-        setSize(950, 600);
+        setTitle("JavaRealms - ¡Desafío de la Ciudad 6: El Oráculo Hash!");
+        setSize(950, 650);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); 
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
     }
 
-    /**
-     * Instancia y acopla los componentes visuales (Paneles, Botones, TextAreas).
-     * * @pre El array de etiquetasCeldas debe estar instanciado con tamaño 11.
-     * @post La interfaz queda completamente armada con sus respectivos Listeners asignados.
-     */
     private void inicializarComponentes() {
+        // --- PANEL DE CONSIGNAS (SUPERIOR) ---
+        JPanel panelMision = new JPanel(new BorderLayout());
+        panelMision.setBackground(new Color(44, 62, 80));
+        panelMision.setBorder(BorderFactory.createEmptyBorder(12, 15, 12, 15));
+        
+        // Texto fijo con las consignas originales que pidieron mantener arriba
+        String textoConsignas = "<html><font color='#F1C40F'><b>⚔️ DESAFÍO - CIUDAD 6: EL ORÁCULO HASH ⚔️</b></font><br>"
+                + "<font color='white'>El guardián ha bloqueado el camino. Para descifrar la clave de salida y avanzar debes:<br>"
+                + "1. Provocar al menos <b>3 colisiones</b> de memoria usando Linear Probing.<br>"
+                + "2. Buscar y <b>encontrar con éxito</b> una clave que haya sido desplazada por una colisión.<br>"
+                + "<i>Consejo: ¡Prueba ingresando claves con caracteres similares para forzar el mismo índice!</i></font><hr></html>";
+        
+        JLabel etiquetaFija = new JLabel(textoConsignas);
+        etiquetaFija.setFont(new Font("SansSerif", Font.PLAIN, 13));
+        panelMision.add(etiquetaFija, BorderLayout.NORTH);
+
+        // Esta es la etiqueta que SÓLO va a manejar las variables y el estado dinámico
+        this.etiquetaMision = new JLabel();
+        this.etiquetaMision.setFont(new Font("SansSerif", Font.BOLD, 13));
+        panelMision.add(this.etiquetaMision, BorderLayout.CENTER);
+        
+        // Llamada inicial para que pinte el estado 0/3 apenas abre el juego
+        actualizarTextoEstado();
+        
+        add(panelMision, BorderLayout.NORTH);
+
         // --- PANEL IZQUIERDO: Estructura Visual del Vector ---
         this.panelTabla = new JPanel();
         this.panelTabla.setLayout(new GridLayout(11, 1, 5, 5));
         this.panelTabla.setBorder(BorderFactory.createTitledBorder("Estado de la Tabla Hash"));
-        this.panelTabla.setPreferredSize(new Dimension(380, 500));
+        this.panelTabla.setPreferredSize(new Dimension(380, 450));
 
         for (int i = 0; i < this.etiquetasCeldas.length; i++) {
             this.etiquetasCeldas[i] = new JLabel(" [ " + i + " ] -> Vacío", SwingConstants.CENTER);
@@ -69,7 +91,7 @@ public class VentanaCiudad6 extends JFrame {
         JPanel panelDerecho = new JPanel(new BorderLayout(5, 5));
         
         JPanel panelControles = new JPanel(new FlowLayout());
-        panelControles.setBorder(BorderFactory.createTitledBorder("Operaciones del Jugador"));
+        panelControles.setBorder(BorderFactory.createTitledBorder("Panel de Control del Héroe"));
 
         panelControles.add(new JLabel("Clave:"));
         this.campoClave = new JTextField(8);
@@ -79,46 +101,46 @@ public class VentanaCiudad6 extends JFrame {
         this.campoValor = new JTextField(5);
         panelControles.add(this.campoValor);
 
-        JButton botonInsertar = new JButton("Insertar Elemento");
-        JButton botonBuscar = new JButton("Buscar Clave");
-        panelControles.add(botonInsertar);
-        panelControles.add(botonBuscar);
+        this.botonInsertar = new JButton("Insertar Elemento");
+        this.botonBuscar = new JButton("Buscar Clave");
+        panelControles.add(this.botonInsertar);
+        panelControles.add(this.botonBuscar);
 
         panelDerecho.add(panelControles, BorderLayout.NORTH);
 
-        // Consola de Texto para el paso a paso
         this.areaPasos = new JTextArea();
         this.areaPasos.setEditable(false);
         this.areaPasos.setFont(new Font("Monospaced", Font.PLAIN, 13));
         this.areaPasos.setBackground(new Color(245, 245, 245));
         JScrollPane scrollPasos = new JScrollPane(this.areaPasos);
-        scrollPasos.setBorder(BorderFactory.createTitledBorder("Explicación del Algoritmo"));
+        scrollPasos.setBorder(BorderFactory.createTitledBorder("Bitácora del Oráculo (Explicación Algorítmica)"));
         
         panelDerecho.add(scrollPasos, BorderLayout.CENTER);
         add(panelDerecho, BorderLayout.CENTER);
 
-        // Vincular acciones de los botones
-        botonInsertar.addActionListener(new ActionListener() {
+        this.botonInsertar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ejecutarInsercion();
             }
         });
 
-        botonBuscar.addActionListener(new ActionListener() {
+        this.botonBuscar.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 ejecutarBusqueda();
             }
         });
     }
+    
+    private void actualizarTextoEstado() {
+        String estadoMision = "<html><font color='#E67E22'><b>ESTADO DE LA MISIÓN ACTUAL:</b></font><br>"
+                + "<font color='white'>• Colisiones provocadas: <b>" + this.colisionesLogradas + "/" + COLISIONES_REQUERIDAS + "</b><br>"
+                + "• ¿Encontraste un elemento colisionado?: <b>" + (this.busquedaColisionadaExitosa ? "SÍ" : "NO") + "</b></font></html>";
+        this.etiquetaMision.setText(estadoMision);
+    }
 
-    /**
-     * Recoge los datos del formulario de inserción, valida tipos y los envía a la estructura.
-     * Ataja desbordes de memoria mediante bloques try-catch.
-     * * @pre Ninguna.
-     * @post Si los datos son válidos, inserta la celda, refresca el panel gráfico e imprime los pasos.
-     */
+    
     private void ejecutarInsercion() {
         String clave = this.campoClave.getText().trim();
         String valorStr = this.campoValor.getText().trim();
@@ -132,23 +154,26 @@ public class VentanaCiudad6 extends JFrame {
             int valor = Integer.parseInt(valorStr);
             List<String> pasos = this.tablaHash.insertar(clave, valor);
             
+            // CONTAR COLISIONES: Revisamos los pasos impresos buscando la palabra "[COLISIÓN]"
+            for (String paso : pasos) {
+                if (paso.contains("[COLISIÓN]")) {
+                    this.colisionesLogradas++;
+                }
+            }
+            
             actualizarConsolaPasos(pasos);
             actualizarGraficoTabla();
+            verificarCondicionVictoria();
             limpiarCampos();
             
         } catch (NumberFormatException ex) {
             JOptionPane.showMessageDialog(this, "El valor debe ser un número entero.", "Error de Tipo", JOptionPane.ERROR_MESSAGE);
         } catch (IllegalStateException ex) {
-            JOptionPane.showMessageDialog(this, "¡Memoria Llena! No se pueden introducir más elementos en esta ciudad.", "Tabla Hash Llena", JOptionPane.ERROR_MESSAGE);
-            this.areaPasos.append("\n[SISTEMA] Operación cancelada: Estructura al 100% de capacidad.\n");
+            JOptionPane.showMessageDialog(this, "¡Memoria Llena! No puedes introducir más elementos.", "Tabla Hash Llena", JOptionPane.ERROR_MESSAGE);
+            this.areaPasos.append("\n[SISTEMA] Operación cancelada: Estructura al 100%.\n");
         }
     }
 
-    /**
-     * Recoge la clave del formulario e invoca la búsqueda secuencial en la estructura.
-     * * @pre Ninguna.
-     * @post Imprime el camino de búsqueda en la consola lateral y despliega un cuadro emergente indicando el resultado.
-     */
     private void ejecutarBusqueda() {
         String clave = this.campoClave.getText().trim();
 
@@ -161,18 +186,58 @@ public class VentanaCiudad6 extends JFrame {
         actualizarConsolaPasos(resultado.getPasosExplicativos());
         
         if (resultado.getValorEncontrado() != -1) {
+            // VERIFICAR VICTORIA DE BÚSQUEDA: Si se encontró y en los pasos hubo un Linear Probing
+            boolean sufrioColision = false;
+            for (String paso : resultado.getPasosExplicativos()) {
+                if (paso.contains("Aplicando Linear Probing")) {
+                    sufrioColision = true;
+                }
+            }
+            
+            if (sufrioColision) {
+                this.busquedaColisionadaExitosa = true;
+                this.areaPasos.append("\n[¡LOGRO!] Has localizado un elemento que fue desplazado por colisión.\n");
+            }
+            
             JOptionPane.showMessageDialog(this, "¡Elemento encontrado!\nValor: " + resultado.getValorEncontrado(), "Resultado", JOptionPane.INFORMATION_MESSAGE);
         } else {
             JOptionPane.showMessageDialog(this, "La clave '" + clave + "' no existe.", "No Encontrado", JOptionPane.ERROR_MESSAGE);
         }
+        
+        verificarCondicionVictoria();
         limpiarCampos();
     }
 
     /**
-     * Sincroniza el estado lógico del array de la Tabla Hash con las etiquetas gráficas del panel izquierdo.
-     * * @pre Ninguna.
-     * @post Modifica los textos y colores de fondo de las celdas ocupadas frente a las vacías.
+     * Evalúa si el usuario cumplió los requisitos lógicos para ganar la ciudad.
      */
+    private void verificarCondicionVictoria() {
+        if (this.ciudadGanada) {
+            return;
+        }
+
+        // Actualizamos dinámicamente la barra de la misión para dar feedback
+        String estadoMision = "<html><font color='white'><b>ESTADO DE LA MISIÓN:</b><br>"
+                + "• Colisiones provocadas: <b>" + this.colisionesLogradas + "/" + COLISIONES_REQUERIDAS + "</b><br>"
+                + "• ¿Encontraste un elemento colisionado?: <b>" + (this.busquedaColisionadaExitosa ? "SÍ" : "NO") + "</b></font></html>";
+        this.etiquetaMision.setText(estadoMision);
+
+        // Si se cumplen ambas condiciones: ¡Victoria!
+        if (this.colisionesLogradas >= COLISIONES_REQUERIDAS && this.busquedaColisionadaExitosa) {
+            this.ciudadGanada = true;
+            this.etiquetaMision.setText("<html><font color='#2ECC71'><b>¡CIUDAD 6 GANADA! +100 PUNTOS</b><br>"
+                    + "Has dominado el algoritmo de Hashing y Linear Probing de forma perfecta. El camino está libre.</font></html>");
+            
+            // Deshabilitamos los controles para cerrar el juego limpiamente
+            this.botonInsertar.setEnabled(false);
+            this.botonBuscar.setEnabled(false);
+            this.campoClave.setEnabled(false);
+            this.campoValor.setEnabled(false);
+            
+            JOptionPane.showMessageDialog(this, "¡Felicidades, ganaste la Ciudad 6!\nHas descifrado el comportamiento de la Tabla Hash.", "¡Victoria!", JOptionPane.INFORMATION_MESSAGE);
+        }
+    }
+
     private void actualizarGraficoTabla() {
         CeldaHash[] celdas = this.tablaHash.getTabla();
         for (int i = 0; i < celdas.length; i++) {
@@ -186,34 +251,21 @@ public class VentanaCiudad6 extends JFrame {
         }
     }
 
-    /**
-     * Vuelca la lista de explicaciones del algoritmo en el JTextArea derecho.
-     * * @pre La lista de pasos no debe ser nula.
-     * @post El panel de texto se limpia y se rellena con la nueva bitácora de ejecución.
-     */
     private void actualizarConsolaPasos(List<String> pasos) {
         this.areaPasos.setText("");
         for (String paso : pasos) {
             this.areaPasos.append(paso + "\n");
         }
+        // Desplaza el scroll automáticamente hacia arriba de todo para empezar a leer desde el inicio del cálculo
+        this.areaPasos.setCaretPosition(0);
     }
 
-    /**
-     * Resetea el contenido de las cajas de texto de la UI.
-     * * @pre Ninguna.
-     * @post Cajas vacías y el foco de escritura reasignado a la caja de la clave.
-     */
     private void limpiarCampos() {
         this.campoClave.setText("");
         this.campoValor.setText("");
         this.campoClave.requestFocus();
     }
 
-    /**
-     * Punto de entrada principal (main) para lanzar la aplicación de manera autónoma en Eclipse.
-     * * @pre Ninguna.
-     * @post Despliega y hace visible la ventana gráfica de la Ciudad 6.
-     */
     public static void main(String[] args) {
         SwingUtilities.invokeLater(new Runnable() {
             @Override
