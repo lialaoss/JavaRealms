@@ -103,6 +103,10 @@ public class RenderizarMenu {
 		ciudades.add(new NodoCiudad(300, 300, 4));
 		ciudades.add(new NodoCiudad(450, 450, 5));
 		ciudades.add(new NodoCiudad(500, 500, 6));
+		ciudades.add(new NodoCiudad(600, 400, 7));
+		ciudades.add(new NodoCiudad(700, 300, 8));
+		ciudades.add(new NodoCiudad(800, 200, 9));
+		ciudades.add(new NodoCiudad(900, 100, 10));
 	}
 	
 	public void renderizarMapaGeneral(Graphics2D g2) {

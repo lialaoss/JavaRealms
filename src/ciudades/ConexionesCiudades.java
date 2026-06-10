@@ -3,8 +3,8 @@ package ciudades;
 import java.util.List;
 import java.util.Map;
 
-import grafos.Arista;
-import grafos.Grafo;
+import tda.Arista;
+import tda.Grafo;
 import utiles.Validaciones;
 
 
