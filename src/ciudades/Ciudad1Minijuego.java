@@ -7,6 +7,9 @@ import entidad.Jugador;
 import modelo.Elemento;
 import modelo.Partida;
 import modelo.PartidaLectura;
+import render.RenderCiudad1;
+import render.RenderJugador;
+import ui.GestorRecursos;
 import modelo.ObservadorRecoleccion;
 
 public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
@@ -14,15 +17,22 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
     private Ciudad ciudad;
     private Partida partida;
     private Jugador jugador;
+    
+    private GestorRecursos recursos;
+    private RenderCiudad1 renderMapa;
+    private RenderJugador renderJugador;
 
     // Estado para que render() sepa qué dibujar
     private PartidaLectura estadoActual;
     private String mensajeRadar = "";
     private String mensajeRecoleccion = "";
 
-    public Ciudad1Minijuego(Ciudad ciudad, Jugador jugador) {
+    public Ciudad1Minijuego(Ciudad ciudad, Jugador jugador, GestorRecursos recursos) {
         this.ciudad = ciudad;
         this.jugador = jugador;
+        this.recursos = recursos;
+        this.renderMapa = new RenderCiudad1(recursos);
+        this.renderJugador = new RenderJugador(recursos);
     }
 
     @Override
@@ -57,23 +67,8 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
         if (estadoActual == null) {
             return;
         }
-        // Por ahora: dibuja posición del jugador y mensajes
-        // Tu amiga puede reemplazar esto con los BMP reales
-        g2.setColor(Color.WHITE);
-        g2.drawString("Ciudad 1 - Recolección", 50, 50);
-        g2.drawString("Pos: X=" + estadoActual.getX()
-                    + " Y=" + estadoActual.getY()
-                    + " Z=" + estadoActual.getZ(), 50, 80);
-        g2.drawString("Radio visión: " + estadoActual.getRadioVision(), 50, 110);
-
-        if (!mensajeRadar.isEmpty()) {
-            g2.setColor(Color.CYAN);
-            g2.drawString(mensajeRadar, 50, 140);
-        }
-        if (!mensajeRecoleccion.isEmpty()) {
-            g2.setColor(Color.YELLOW);
-            g2.drawString(mensajeRecoleccion, 50, 170);
-        }
+        this.renderMapa.render(g2, this.partida.getMapa(), this.estadoActual, this.mensajeRadar, this.mensajeRecoleccion);
+        this.renderJugador.render(g2, this.estadoActual);
     }
 
     @Override

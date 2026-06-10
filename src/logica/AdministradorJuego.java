@@ -7,6 +7,7 @@ import ciudades.Ciudad;
 import ciudades.EstadoCiudad;
 import ciudades.Minijuego;
 import entidad.Jugador;
+import ui.GestorRecursos;
 import ui.Ventana;
 import utiles.Validaciones;
 
@@ -20,6 +21,7 @@ public class AdministradorJuego {
 	private Jugador jugador;
 	private Minijuego juegoActual;
 	private Ventana ventana;
+	private GestorRecursos recursos;
 	
 	// CONSTRUCTOR
 	public AdministradorJuego() {
@@ -27,6 +29,7 @@ public class AdministradorJuego {
 	    this.adminCiudades = new AdministradorCiudades();
 	    this.ciudades = this.adminCiudades.getCiudades();
 	    this.jugador = new Jugador();
+	    this.recursos = new GestorRecursos();
 
 	}
 	
@@ -54,7 +57,7 @@ public class AdministradorJuego {
 	    if(!puedeEntrar()) { setEstado(EstadoJuego.MAPA_GENERAL); return; }
 
 	    if(juegoActual == null) {
-	        juegoActual = CrearMinijuegos.crear(ciudadActual, jugador);
+	        juegoActual = CrearMinijuegos.crear(ciudadActual, jugador, recursos);
 	        if(juegoActual != null) {
 	            juegoActual.iniciar();
 	        }
@@ -115,6 +118,10 @@ public class AdministradorJuego {
 	public Ventana getVentana() {
         return this.ventana;
     }
+	
+	public GestorRecursos getRecursos() {
+		return this.recursos;
+	}
 	
 	
 	// SETTERS

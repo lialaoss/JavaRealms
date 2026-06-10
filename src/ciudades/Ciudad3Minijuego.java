@@ -9,6 +9,7 @@ import juegoLaberinto.BFS;
 import juegoLaberinto.DFS;
 import juegoLaberinto.Laberinto;
 import juegoLaberinto.Snapshot;
+import ui.GestorRecursos;
 
 public class Ciudad3Minijuego implements Minijuego {
 
@@ -17,6 +18,7 @@ public class Ciudad3Minijuego implements Minijuego {
 
     private Ciudad ciudad;
     private Jugador jugador;
+    private GestorRecursos recursos;
 
     private List<Snapshot> frames;
     private int frameActual = 0;
@@ -30,9 +32,10 @@ public class Ciudad3Minijuego implements Minijuego {
     // true = BFS, false = DFS — podés cambiar esto o hacerlo seleccionable
     private boolean usarBFS = true;
 
-    public Ciudad3Minijuego(Ciudad ciudad, Jugador jugador) {
+    public Ciudad3Minijuego(Ciudad ciudad, Jugador jugador, GestorRecursos recursos) {
         this.ciudad = ciudad;
         this.jugador = jugador;
+        this.recursos = recursos;
     }
 
     @Override

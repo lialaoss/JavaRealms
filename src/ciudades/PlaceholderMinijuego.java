@@ -3,15 +3,18 @@ package ciudades;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import entidad.Jugador;
+import ui.GestorRecursos;
 
 public class PlaceholderMinijuego implements Minijuego {
 
     private Ciudad ciudad;
     private Jugador jugador;
+    private GestorRecursos recursos;
 
-    public PlaceholderMinijuego(Ciudad ciudad, Jugador jugador) {
+    public PlaceholderMinijuego(Ciudad ciudad, Jugador jugador, GestorRecursos recursos) {
         this.ciudad = ciudad;
         this.jugador = jugador;
+        this.recursos = recursos;
     }
 
     @Override

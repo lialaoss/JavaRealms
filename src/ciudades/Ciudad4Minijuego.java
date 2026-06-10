@@ -6,11 +6,13 @@ import java.awt.Graphics2D;
 import entidad.Jugador;
 import modelo.BubbleSort;
 import modelo.ObservadorOrdenamiento;
+import ui.GestorRecursos;
 
 public class Ciudad4Minijuego implements Minijuego, ObservadorOrdenamiento {
 
     private Ciudad ciudad;
     private Jugador jugador;
+    private GestorRecursos recursos;
     
     private int[] vectorActual;
     private int indiceA = -1;
@@ -20,9 +22,10 @@ public class Ciudad4Minijuego implements Minijuego, ObservadorOrdenamiento {
     
     private String algoritmoSeleccionado = "Seleccion de Algoritmo";
 
-    public Ciudad4Minijuego(Ciudad ciudad, Jugador jugador) {
+    public Ciudad4Minijuego(Ciudad ciudad, Jugador jugador, GestorRecursos recursos) {
         this.ciudad = ciudad;
         this.jugador = jugador;
+        this.recursos = recursos;
     }
 
     @Override

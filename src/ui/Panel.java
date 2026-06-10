@@ -55,7 +55,7 @@ public class Panel extends JPanel implements Runnable {
 	
 	public Panel(AdministradorJuego admin){
 		setAdmin(admin);
-		setRecursos(new GestorRecursos());
+		setRecursos(admin.getRecursos());
 		setRenderUI(new RenderizadorUI(this.screenWidth, this.screenHeight, this.recursos, this.admin));
 		
 		mouseH = new MouseHandler(this.admin, this.renderUI.getRenderMenus());
