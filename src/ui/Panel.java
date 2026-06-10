@@ -50,6 +50,9 @@ public class Panel extends JPanel implements Runnable {
 	private Thread gameThread; // un Thread es algo que se puede iniciar y detener
 	// Una vez se inicia, el programa sigue funcionando hasta que lo detienes o se hace algo en particular jeje
 	
+	private boolean enTransicion = false;
+	private float alpha = 0f;
+	private EstadoJuego estadoDestino;
 
 	// CONSTRUCTOR
 	
@@ -58,7 +61,7 @@ public class Panel extends JPanel implements Runnable {
 		setRecursos(admin.getRecursos());
 		setRenderUI(new RenderizadorUI(this.screenWidth, this.screenHeight, this.recursos, this.admin));
 		
-		mouseH = new MouseHandler(this.admin, this.renderUI.getRenderMenus());
+		mouseH = new MouseHandler(this.admin, this.renderUI.getRenderMenus(), this);
 		 
 		this.setPreferredSize(new Dimension(this.screenWidth, this.screenHeight));
 		this.setBackground(Color.BLACK);
@@ -136,6 +139,15 @@ public class Panel extends JPanel implements Runnable {
 	        // ESTO FALTABA
 	        renderUI.renderizarPorEstado(estado, g2);
 	    }
+	    
+	    if (enTransicion) {
+	        g2.setComposite(java.awt.AlphaComposite.getInstance(
+	            java.awt.AlphaComposite.SRC_OVER, alpha));
+	        g2.setColor(java.awt.Color.BLACK);
+	        g2.fillRect(0, 0, screenWidth, screenHeight);
+	        g2.setComposite(java.awt.AlphaComposite.getInstance(
+	            java.awt.AlphaComposite.SRC_OVER, 1f));
+	    }
 	}
 	
 	/**
@@ -166,6 +178,16 @@ public class Panel extends JPanel implements Runnable {
 			}
 		}
 		
+		if (enTransicion) {
+		    alpha += 0.05f;
+		    if (alpha >= 1f) {
+		        admin.setEstado(estadoDestino);
+		        alpha = 0f;
+		        enTransicion = false;
+		    }
+		    return;
+		}
+		
 	    Minijuego juego = admin.getJuegoActual();
 	        if(juego instanceof Ciudad1Minijuego) {
 	            Ciudad1Minijuego c1 = (Ciudad1Minijuego) juego;
@@ -183,6 +205,13 @@ public class Panel extends JPanel implements Runnable {
 	    	    }
 	    	}
 	    }
+	
+	
+	public void iniciarTransicion(EstadoJuego destino) {
+	    this.estadoDestino = destino;
+	    this.enTransicion = true;
+	    this.alpha = 0f;
+	}
 	
 
 	//SETTERS

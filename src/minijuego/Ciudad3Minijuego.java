@@ -116,8 +116,12 @@ public class Ciudad3Minijuego implements Minijuego {
 		    ConfiguracionPantalla.SCREEN_HEIGHT
 		);
 		if(!cargado || frames == null || frames.isEmpty()) {
-			g2.setColor(Color.WHITE);
-			g2.drawString("Seleccione un algoritmo!", 50, 50);
+			g2.setFont(new Font("Arial", Font.BOLD, 28));
+			g2.setColor(new Color(255, 215, 0)); // dorado igual que los botones
+			FontMetrics fm = g2.getFontMetrics();
+			String titulo = "Seleccione un algoritmo";
+			int tx = (ConfiguracionPantalla.SCREEN_WIDTH - fm.stringWidth(titulo)) / 2;
+			g2.drawString(titulo, tx, 80);
 			mostrarOpciones(g2);
 			return;
 		} 
@@ -176,16 +180,20 @@ public class Ciudad3Minijuego implements Minijuego {
 	}
 	
 	private void renderHUD(Graphics2D g2) {
-		g2.setColor(Color.WHITE);
-		g2.drawString("Frame: " + (frameActual + 1) + "/" + frames.size(), 50, 30);
-		g2.drawString(usarBFS ? "BFS" : "DFS", 200, 30);
-		if (ganado) {
-			g2.setColor(Color.GREEN);
-			g2.drawString("¡Laberinto resuelto! Q para volver", 50, 50);
-		} else {
-			g2.setColor(Color.WHITE);
-			g2.drawString("Q para volver al mapa", 900, 30);
-		}
+	    int bx = ConfiguracionPantalla.SCREEN_WIDTH - 220;
+	    int by = 10;
+	    int bw = 40;
+	    int bh = 40;
+	    g2.drawImage(recursos.getBotonVolver(), bx, by, bw, bh, null);
+	    g2.setColor(Color.WHITE);
+	    g2.setFont(new Font("Arial", Font.BOLD, 16));
+	    g2.drawString("Volver", bx + bw + 8, by + bh / 2 + 6);
+
+	    if (ganado) {
+	        g2.setColor(Color.GREEN);
+	        g2.setFont(new Font("Arial", Font.BOLD, 16));
+	        g2.drawString("¡Laberinto resuelto!", 50, 50);
+	    }
 	}
 	
 	/**
