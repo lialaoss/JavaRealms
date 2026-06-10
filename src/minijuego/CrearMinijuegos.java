@@ -14,10 +14,12 @@ public class CrearMinijuegos {
 	 */
 	
 	public static Minijuego crear(Ciudad ciudad, Jugador jugador, GestorRecursos recursos) {
+		System.out.println(ciudad.getNombre());
         switch (ciudad.getId()) {
             case 1:
                 return new Ciudad1Minijuego(ciudad, jugador, recursos);
             case 2:
+            	return null;
             case 3:
             	return new Ciudad3Minijuego(ciudad, jugador, recursos);
             case 4:
