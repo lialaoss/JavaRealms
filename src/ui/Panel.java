@@ -9,6 +9,7 @@ import java.awt.Graphics2D;
 import javax.swing.JPanel;
 
 import logica.AdministradorJuego;
+import logica.DireccionJugador;
 import logica.EstadoJuego;
 import logica.KeyHandler;
 import logica.MouseHandler;
@@ -123,7 +124,7 @@ public class Panel extends JPanel implements Runnable {
 	    Graphics2D g2 = (Graphics2D) g;
 
 	    g2.setColor(Color.RED);
-	    g2.drawString("RENDERING: " + admin.getEstado(), 50, 50);
+	    g2.drawString("RENDERING: " + admin.getEstado(), 50, screenHeight - 20);
 
 	    EstadoJuego estado = admin.getEstado();
 
@@ -169,10 +170,26 @@ public class Panel extends JPanel implements Runnable {
 	    Minijuego juego = admin.getJuegoActual();
 	        if(juego instanceof Ciudad1Minijuego) {
 	            Ciudad1Minijuego c1 = (Ciudad1Minijuego) juego;
-	            if(keyH.upPressed)    { c1.mover(0, -1, 0); keyH.upPressed = false; }
-	            if(keyH.downPressed)  { c1.mover(0,  1, 0); keyH.downPressed = false; }
-	            if(keyH.leftPressed)  { c1.mover(-1, 0, 0); keyH.leftPressed = false; }
-	            if(keyH.rightPressed) { c1.mover( 1, 0, 0); keyH.rightPressed = false; }
+	            if(keyH.upPressed)    {
+	            	c1.mover(0, -1, 0);
+	            	admin.getJugador().setDireccion(DireccionJugador.UP);
+	            	keyH.upPressed = false;
+	            }
+	            if(keyH.downPressed)  {
+	            	c1.mover(0,  1, 0);
+	            	admin.getJugador().setDireccion(DireccionJugador.DOWN);
+	            	keyH.downPressed = false;
+	            }
+	            if(keyH.leftPressed)  {
+	            	c1.mover(-1, 0, 0);
+	            	admin.getJugador().setDireccion(DireccionJugador.LEFT);
+	            	keyH.leftPressed = false;
+	            }
+	            if(keyH.rightPressed) {
+	            	c1.mover( 1, 0, 0);
+	            	admin.getJugador().setDireccion(DireccionJugador.RIGHT);
+	            	keyH.rightPressed = false;
+	            }
 	        }
 	        
 	        if(juego instanceof Ciudad10Minijuego) {

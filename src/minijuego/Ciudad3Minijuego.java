@@ -151,7 +151,6 @@ public class Ciudad3Minijuego implements Minijuego {
 	    int laberintoAncho = estado[0].length * CELDA;
 	    int laberintoAlto = estado.length * CELDA;
 
-	    
 	    int centroX = (ConfiguracionPantalla.SCREEN_WIDTH - laberintoAncho) / 2;
 	    int centroY = (ConfiguracionPantalla.SCREEN_HEIGHT - laberintoAlto) / 2;
 
