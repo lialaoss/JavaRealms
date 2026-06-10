@@ -54,12 +54,18 @@ public class AdministradorJuego {
 	 * accesible antes de entrar.
 	 */
 	public void update() {
-	    if(estado != EstadoJuego.EN_PROGRESO) { return; }
-	    if(!puedeEntrar()) { setEstado(EstadoJuego.MAPA_GENERAL); return; }
-
-	    juegoActual = CrearMinijuegos.crear(ciudadActual, jugador, recursos);
-	    if(juegoActual != null) {
-	       juegoActual.iniciar();
+	    if(estado != EstadoJuego.EN_PROGRESO) {
+	    	return; 
+	    }
+	    if(!puedeEntrar()) {
+	    	setEstado(EstadoJuego.MAPA_GENERAL); 
+	    	return;
+	    }
+	    if(juegoActual == null) {
+		    juegoActual = CrearMinijuegos.crear(ciudadActual, jugador, recursos);
+		    if(juegoActual != null) {
+		       juegoActual.iniciar();
+		    }
 	    }
 	}
 

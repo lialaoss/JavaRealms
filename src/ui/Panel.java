@@ -161,6 +161,7 @@ public class Panel extends JPanel implements Runnable {
 					
 				admin.setEstado(EstadoJuego.MAPA_GENERAL);
 				keyH.QPressed = false;
+				admin.limpiarJuegoActual();
 			}
 		}
 		
