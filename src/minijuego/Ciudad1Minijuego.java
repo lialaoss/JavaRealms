@@ -100,4 +100,10 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
             partida.mover(dx, dy, dz);
         }
     }
+
+	@Override
+	public void procesarClick(int mouseX, int mouseY) {
+		// TODO Auto-generated method stub
+		
+	}
 }

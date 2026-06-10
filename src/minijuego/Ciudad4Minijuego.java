@@ -112,4 +112,10 @@ public class Ciudad4Minijuego implements Minijuego, ObservadorOrdenamiento {
     public void setAlgoritmoSeleccionado(String nombre) {
         this.algoritmoSeleccionado = nombre;
     }
+
+	@Override
+	public void procesarClick(int mouseX, int mouseY) {
+		// TODO Auto-generated method stub
+		
+	}
 }

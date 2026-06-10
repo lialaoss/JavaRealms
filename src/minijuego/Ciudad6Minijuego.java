@@ -45,4 +45,10 @@ public class Ciudad6Minijuego implements Minijuego {
     public void desbloquearVecinos() {
         ciudad.setEstado(EstadoCiudad.COMPLETADA);
     }
+
+	@Override
+	public void procesarClick(int mouseX, int mouseY) {
+		// TODO Auto-generated method stub
+		
+	}
 }

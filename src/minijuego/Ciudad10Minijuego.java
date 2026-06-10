@@ -135,4 +135,10 @@ public class Ciudad10Minijuego implements Minijuego {
     public String getInputUsuario() {
         return inputUsuario;
     }
+
+	@Override
+	public void procesarClick(int mouseX, int mouseY) {
+		// TODO Auto-generated method stub
+		
+	}
 }
