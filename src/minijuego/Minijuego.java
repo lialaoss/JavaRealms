@@ -12,4 +12,6 @@ public interface Minijuego {
 
 	public void iniciar();
 
+	public void procesarClick(int mouseX, int mouseY);
+
 }

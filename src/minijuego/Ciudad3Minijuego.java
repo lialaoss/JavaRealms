@@ -1,12 +1,17 @@
 package minijuego;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.awt.Image;
 import java.util.List;
 
 import ciudades.Ciudad;
 import ciudades.EstadoCiudad;
 import entidad.Jugador;
+import ui.BotonMenu;
+import ui.ConfiguracionPantalla;
 import ui.GestorRecursos;
 import modelo.ciudad3.BFS;
 import modelo.ciudad3.DFS;
@@ -15,126 +20,272 @@ import modelo.ciudad3.Snapshot;
 
 public class Ciudad3Minijuego implements Minijuego {
 
-	private static final int CELDA = 20; // píxeles por celda
-	private static final String RUTA_LABERINTO = "/laberintos/lab2.txt";
-
+	// CONSTANTES
+	private static final int CELDA = 20;
+	private final long MS_POR_FRAME = 100;
+	
+	// ATRIBUTOS
 	private Ciudad ciudad;
 	private Jugador jugador;
-	private GestorRecursos recursos;
 
 	private List<Snapshot> frames;
 	private int frameActual = 0;
 	private long ultimoTick = 0;
-	private final long MS_POR_FRAME = 100;
-
+	
 	private boolean ganado = false;
 	private boolean cargado = false;
+	
 	private String error = null;
+	
+	private Laberinto lab;
+	
+	private GestorRecursos recursos;	
+	private BotonMenu bfsBoton, dfsBoton;
 
-	// true = BFS, false = DFS — podés cambiar esto o hacerlo seleccionable
 	private boolean usarBFS = true;
 
+	// CONSTRUCTOR
 	public Ciudad3Minijuego(Ciudad ciudad, Jugador jugador, GestorRecursos recursos) {
 		this.ciudad = ciudad;
 		this.jugador = jugador;
 		this.recursos = recursos;
+		crearBotones();
 	}
+	
+	// ===================== JUEGO ========================
 
 	@Override
 	public void iniciar() {
 		try {
 			java.net.URL url = getClass().getResource("/laberintos/lab2.txt");
 			String ruta = new java.io.File(url.toURI()).getAbsolutePath();
-			Laberinto lab = new Laberinto(ruta);
-			if (usarBFS) {
-				frames = new BFS().buscar(lab);
-			} else {
-				frames = new DFS().buscar(lab);
-			}
-			cargado = true;
-			frameActual = 0;
+			this.lab = new Laberinto(ruta);
 		} catch (Exception e) {
 			error = "Error: " + e.getMessage();
 			System.out.println("ERROR CIUDAD 3: " + e.getMessage());
 		}
 	}
+	
+	private void empezarLaberinto() {
+		if (usarBFS) {
+			frames = new BFS().buscar(lab);
+		} else {
+			frames = new DFS().buscar(lab);
+		}
+	}
+
+	// ======================== RENDER ========================
+	
+	private void crearBotones() {
+		int anchoBoton = 300;
+		int altoBoton = 70;
+
+		int x = (ConfiguracionPantalla.SCREEN_WIDTH - anchoBoton) / 2;
+		int y = (ConfiguracionPantalla.SCREEN_HEIGHT - altoBoton) / 2 - 50;
+		
+		bfsBoton = new BotonMenu(recursos.getBotonMenu1(), x, y, anchoBoton, altoBoton);
+		dfsBoton = new BotonMenu(recursos.getBotonMenu1(), x, y + 150, anchoBoton, altoBoton);
+	}
+	
+	private void mostrarOpciones(Graphics2D g2) {
+		bfsBoton.dibujar(g2);
+		dfsBoton.dibujar(g2);
+	}
+
+	@Override
+	public void procesarClick(int mouseX, int mouseY) {
+		if(!cargado) {
+		    if (bfsBoton.contiene(mouseX, mouseY)) {
+		    	cargado = true;
+		    	empezarLaberinto();
+			} else if (dfsBoton.contiene(mouseX, mouseY)) {
+				usarBFS = false;
+				cargado = true;
+		    	empezarLaberinto();
+			}
+	    }
+	}
 
 	@Override
 	public void render(Graphics2D g2) {
+		g2.setColor(new Color(120, 123, 33));
+		g2.fillRect(
+		    0,
+		    0,
+		    ConfiguracionPantalla.SCREEN_WIDTH,
+		    ConfiguracionPantalla.SCREEN_HEIGHT
+		);
+		if(!cargado || frames == null || frames.isEmpty()) {
+			g2.setColor(Color.WHITE);
+			g2.drawString("Seleccione un algoritmo!", 50, 50);
+			mostrarOpciones(g2);
+			return;
+		} 
 		if (error != null) {
 			g2.setColor(Color.RED);
 			g2.drawString(error, 50, 50);
 			return;
 		}
-		if (!cargado || frames == null || frames.isEmpty()) {
-			g2.setColor(Color.WHITE);
-			g2.drawString("Cargando laberinto...", 50, 50);
-			return;
+		actualizarAnimacion();
+		dibujarLaberinto(g2);
+		renderHUD(g2);
+		if(ganado) {
+			mostrarResultados(g2);
 		}
+	}
 
-		// Avanzar frame automáticamente
+	private void actualizarAnimacion() {
 		long ahora = System.currentTimeMillis();
 		if (ahora - ultimoTick >= MS_POR_FRAME && frameActual < frames.size() - 1) {
 			frameActual++;
 			ultimoTick = ahora;
 		}
-
 		if (frameActual == frames.size() - 1) {
 			ganado = true;
 		}
+	}
+	
+	private void dibujarLaberinto(Graphics2D g2) {
+	    char[][] estado = frames.get(frameActual).estado;
 
-		// Dibujar frame actual
-		char[][] estado = frames.get(frameActual).estado;
-		for (int fila = 0; fila < estado.length; fila++) {
-			for (int col = 0; col < estado[fila].length; col++) {
-				char celda = estado[fila][col];
-				g2.setColor(colorDeCelda(celda));
-				g2.fillRect(col * CELDA + 50, fila * CELDA + 50, CELDA, CELDA);
-			}
-		}
+	    int laberintoAncho = estado[0].length * CELDA;
+	    int laberintoAlto = estado.length * CELDA;
 
-		// HUD
+	    
+	    int centroX = (ConfiguracionPantalla.SCREEN_WIDTH - laberintoAncho) / 2;
+	    int centroY = (ConfiguracionPantalla.SCREEN_HEIGHT - laberintoAlto) / 2;
+
+	    for (int fila = 0; fila < estado.length; fila++) {
+	        for (int col = 0; col < estado[fila].length; col++) {
+
+	            char celda = estado[fila][col];
+	            Image img = imagenDeCelda(celda);
+
+	            if (img != null) {
+	                g2.drawImage(
+	                    img,
+	                    col * CELDA + centroX,
+	                    fila * CELDA + centroY,
+	                    CELDA,
+	                    CELDA,
+	                    null
+	                );
+	            }
+	        }
+	    }
+	}
+	
+	private void renderHUD(Graphics2D g2) {
 		g2.setColor(Color.WHITE);
 		g2.drawString("Frame: " + (frameActual + 1) + "/" + frames.size(), 50, 30);
 		g2.drawString(usarBFS ? "BFS" : "DFS", 200, 30);
 		if (ganado) {
 			g2.setColor(Color.GREEN);
-			g2.drawString("¡Laberinto resuelto! Q para volver", 50, 45);
+			g2.drawString("¡Laberinto resuelto! Q para volver", 50, 50);
+		} else {
+			g2.setColor(Color.WHITE);
+			g2.drawString("Q para volver al mapa", 900, 30);
 		}
-		g2.setColor(Color.GRAY);
-		g2.drawString("Q para volver al mapa", 800, 30);
 	}
-
-	private Color colorDeCelda(char c) {
+	
+	/**
+	 * Se que los sprites estan pobres lo dejo para lo ultimo BYE
+	 * @param c
+	 * @return
+	 */
+	private Image imagenDeCelda(char c) {
 		switch (c) {
 		case '#':
-			return Color.DARK_GRAY;
+			return recursos.getPiedra(); // Pared
 		case '.':
-			return Color.WHITE;
+			return recursos.getPasto(); // Camino libre
 		case 'I':
-			return Color.GREEN;
+			return recursos.getPiedra2(); // Inicio
 		case 'F':
-			return Color.RED;
+			return recursos.getCofre(); // Fin
 		case '*':
-			return new Color(100, 100, 255); // visitado
+			return recursos.getPasto2(); // Tile visitado
 		case 'A':
-			return Color.YELLOW; // actual
+			return recursos.getJugadorDown()[0]; // Jugador
 		case 'P':
-			return Color.ORANGE; // camino final
+			return recursos.getPasto3(); // Resultado del camino final
 		default:
-			return Color.BLACK;
+			return null;
 		}
 	}
 
+	// =============== FIN DEL JUEGO =======================
+	
+	private void mostrarResultados(Graphics2D g2) {
+		g2.setColor(new Color(0, 0, 0, 180));
+		g2.fillRect(
+		    0,
+		    0,
+		    ConfiguracionPantalla.SCREEN_WIDTH,
+		    ConfiguracionPantalla.SCREEN_HEIGHT
+		);
+		
+		String texto = "Puntos de experiencia ganados : "
+		        + ciudad.getPuntosDeExperiencia()
+		        + " ptos !!!";
+
+		g2.setColor(Color.WHITE);
+		g2.setFont(new Font("Arial", Font.BOLD, 30));
+
+		FontMetrics fm = g2.getFontMetrics();
+
+		int x = (ConfiguracionPantalla.SCREEN_WIDTH - fm.stringWidth(texto)) / 2;
+		int y = ConfiguracionPantalla.SCREEN_HEIGHT / 2;
+
+		g2.drawString(texto, x, y);
+	}
+	
 	@Override
 	public void resultadoPartida() {
 		if (ganado) {
 			desbloquearVecinos();
+			ciudad.setEstado(EstadoCiudad.COMPLETADA);
+			this.jugador.sumarPuntos(ciudad.getPuntosDeExperiencia());
 		}
 	}
 
 	@Override
 	public void desbloquearVecinos() {
-		ciudad.setEstado(EstadoCiudad.COMPLETADA);
 	}
+	
+	// ====================================================
+	
+
+//	private Color colorDeCelda(char c) {
+//		switch (c) {
+//		case '#':
+//			return Color.DARK_GRAY;
+//		case '.':
+//			return Color.WHITE;
+//		case 'I':
+//			return Color.GREEN;
+//		case 'F':
+//			return Color.RED;
+//		case '*':
+//			return new Color(100, 100, 255); // visitado
+//		case 'A':
+//			return Color.YELLOW; // actual
+//		case 'P':
+//			return Color.ORANGE; // camino final
+//		default:
+//			return Color.BLACK;
+//		}
+//	}
+	
+
+//	private void dibujarLaberinto(Graphics2D g2) {
+//		char[][] estado = frames.get(frameActual).estado;
+//		for (int fila = 0; fila < estado.length; fila++) {
+//			for (int col = 0; col < estado[fila].length; col++) {
+//				char celda = estado[fila][col];
+//				g2.setColor(colorDeCelda(celda));
+//				g2.fillRect(col * CELDA + 300, fila * CELDA + 15, CELDA, CELDA);
+//			}
+//		}
+//	}
 }

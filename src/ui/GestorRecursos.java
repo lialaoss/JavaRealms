@@ -12,26 +12,23 @@ public class GestorRecursos {
 	private BufferedImage[] jugadorDown;
 	private BufferedImage[] jugadorLeft;
 	private BufferedImage[] jugadorRight;
+	
+	private BufferedImage piedra, piedra2, pasto, pasto2, pasto3, cofre;
 
 	
 	public GestorRecursos() {
 		cargarSpritesMenu();
 		cargarSpritesJugador();
 		cargarFondos();
+		cargarTiles();
 	}
 	
 	
 	public void cargarSpritesMenu() {
 		try {
-			
 			botonMenu1 = ImageIO.read(getClass().getResourceAsStream("/sprites/menu/boton1.png"));
 			botonMenu2 = ImageIO.read(getClass().getResourceAsStream("/sprites/menu/boton2.png"));
 			botonMenu3 = ImageIO.read(getClass().getResourceAsStream("/sprites/menu/boton3.png"));
-			
-			System.out.println("boton1: " + botonMenu1);
-	        System.out.println("boton2: " + botonMenu2);
-	        System.out.println("boton3: " + botonMenu3);
-
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -66,6 +63,19 @@ public class GestorRecursos {
 	public void cargarFondos() {
 		
 	}
+	
+	private void cargarTiles() {
+		try {
+			piedra = ImageIO.read(getClass().getResourceAsStream("/tiles/piedra.png"));
+			piedra2 = ImageIO.read(getClass().getResourceAsStream("/tiles/piedra2.png"));
+			pasto = ImageIO.read(getClass().getResourceAsStream("/tiles/pasto.png"));
+			pasto2 = ImageIO.read(getClass().getResourceAsStream("/tiles/pasto2.png"));
+			pasto3 = ImageIO.read(getClass().getResourceAsStream("/tiles/pasto3.png"));
+			cofre = ImageIO.read(getClass().getResourceAsStream("/tiles/cofre.png")); // se que no es tileee
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public BufferedImage getBotonMenu1() {
 		return botonMenu1;
@@ -94,6 +104,34 @@ public class GestorRecursos {
 
 	public BufferedImage[] getJugadorRight() {
 		return jugadorRight;
+	}
+
+
+	public BufferedImage getPiedra() {
+		return piedra;
+	}
+
+
+	public BufferedImage getPiedra2() {
+		return piedra2;
+	}
+
+
+	public BufferedImage getPasto() {
+		return pasto;
+	}
+
+
+	public BufferedImage getPasto2() {
+		return pasto2;
+	}
+	
+	public BufferedImage getPasto3() {
+		return pasto3;
+	}
+
+	public BufferedImage getCofre() {
+		return cofre;
 	}
 	
 }

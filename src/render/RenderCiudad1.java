@@ -5,11 +5,12 @@ import java.awt.Graphics2D;
 
 import modelo.ciudad1.MapaLectura;
 import modelo.ciudad1.PartidaLectura;
+import ui.ConfiguracionPantalla;
 import ui.GestorRecursos;
 
 public class RenderCiudad1 {
 	
-	private final int TILE_SIZE = 48; // estoy pensando como tener esto para todos los mapas ahre
+	private final int TILE_SIZE = ConfiguracionPantalla.TILE_SIZE; // estoy pensando como tener esto para todos los mapas ahre
 	
 	private GestorRecursos recursos;
 	

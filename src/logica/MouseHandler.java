@@ -28,9 +28,19 @@ public class MouseHandler extends MouseAdapter {
 	        case MAPA_GENERAL:
 	            menu.procesarClickMapa(mouseX, mouseY, admin);
 	            break;
-	        // ...
 	        default:
 	            break;
+	    }
+	    
+	    // Diria que podemos agregar en este switch solo aquellas ciudades q necesiten al cursor
+	    if(admin.getJuegoActual() != null) {
+		    switch (admin.getCiudadActual().getId()) {
+		    	case 3:
+		    	    admin.getJuegoActual().procesarClick(mouseX, mouseY);
+		    	    break;
+		    	default:
+		    		break;
+		    }
 	    }
 	}
 }
