@@ -3,7 +3,7 @@ package render;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import modelo.PartidaLectura;
+import modelo.ciudad1.PartidaLectura;
 import ui.GestorRecursos;
 
 public class RenderJugador {

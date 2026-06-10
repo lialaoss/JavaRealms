@@ -3,7 +3,6 @@ package minijuego;
 import ciudades.Ciudad;
 import entidad.Jugador;
 import ui.GestorRecursos;
-import ciudades.PlaceholderMinijuego;
 
 public class CrearMinijuegos {
 	

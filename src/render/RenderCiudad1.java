@@ -3,8 +3,8 @@ package render;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import modelo.MapaLectura;
-import modelo.PartidaLectura;
+import modelo.ciudad1.MapaLectura;
+import modelo.ciudad1.PartidaLectura;
 import ui.GestorRecursos;
 
 public class RenderCiudad1 {

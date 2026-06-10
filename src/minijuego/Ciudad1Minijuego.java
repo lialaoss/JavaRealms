@@ -6,7 +6,6 @@ import java.awt.Graphics2D;
 import ciudades.Ciudad;
 import ciudades.EstadoCiudad;
 import entidad.Jugador;
-import modelo.PartidaLectura;
 import render.RenderCiudad1;
 import render.RenderJugador;
 import ui.GestorRecursos;
@@ -26,7 +25,7 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
     private RenderCiudad1 renderMapa;
     private RenderJugador renderJugador;
 
-    // Estado para que render() sepa qué dibujar
+    // Estado para que render() sepa qué dibujar   <- ella jura
     private PartidaLectura estadoActual;
     private String mensajeRadar = "";
     private String mensajeRecoleccion = "";
