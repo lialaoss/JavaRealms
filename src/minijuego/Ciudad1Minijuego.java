@@ -3,6 +3,7 @@ package minijuego;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import ciudades.AdministradorCiudades;
 import ciudades.Ciudad;
 import ciudades.EstadoCiudad;
 import entidad.Jugador;
@@ -73,16 +74,24 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
         this.renderMapa.render(g2, this.partida.getMapa(), this.estadoActual, this.mensajeRadar, this.mensajeRecoleccion);
         this.renderJugador.render(g2, this.estadoActual);
     }
+    
+    
 
     @Override
     public void resultadoPartida() {
-        // Acá evaluás si ganó (mochila completa, etc.) y llamás desbloquearVecinos()
+    	int cantidadElementosVictoria = 3;
+    	if(this.partida == null) {
+    		return;
+    	}
+    	
+    	if(this.partida.getCantidadElementosMochila() >= cantidadElementosVictoria) {
+    		desbloquearVecinos();
+    	}
     }
 
     @Override
     public void desbloquearVecinos() {
         ciudad.setEstado(EstadoCiudad.COMPLETADA);
-        // acá el admin de ciudades desbloquea los vecinos del grafo
     }
 
     // Para que Panel pueda pasarle input

@@ -121,6 +121,10 @@ public class Partida implements PartidaLectura {
         }
     }
     
+    public int getCantidadElementosMochila() {
+        return this.mochila.size();
+    }
+    
     public List<Elemento> getMochila() { 
         return new ArrayList<>(mochila); 
     }

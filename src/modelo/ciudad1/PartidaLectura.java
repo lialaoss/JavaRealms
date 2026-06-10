@@ -10,6 +10,7 @@ public interface PartidaLectura {
     int getZ();
     int getRadioVision();
     MapaLectura getMapa();
+    int getCantidadElementosMochila();
     List<Elemento> getMochila();
     Jugador getJugador();
 }
