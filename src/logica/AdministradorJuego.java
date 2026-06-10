@@ -54,14 +54,18 @@ public class AdministradorJuego {
 	 * accesible antes de entrar.
 	 */
 	public void update() {
-	    if(estado != EstadoJuego.EN_PROGRESO) { return; }
-	    if(!puedeEntrar()) { setEstado(EstadoJuego.MAPA_GENERAL); return; }
-
+	    if(estado != EstadoJuego.EN_PROGRESO) {
+	    	return; 
+	    }
+	    if(!puedeEntrar()) {
+	    	setEstado(EstadoJuego.MAPA_GENERAL); 
+	    	return;
+	    }
 	    if(juegoActual == null) {
-	        juegoActual = CrearMinijuegos.crear(ciudadActual, jugador, recursos);
-	        if(juegoActual != null) {
-	            juegoActual.iniciar();
-	        }
+		    juegoActual = CrearMinijuegos.crear(ciudadActual, jugador, recursos);
+		    if(juegoActual != null) {
+		       juegoActual.iniciar();
+		    }
 	    }
 	}
 
@@ -72,7 +76,7 @@ public class AdministradorJuego {
 	 * @return : Devuelve true si es posible acceder dentro de la ciudad
 	 */
 	private boolean puedeEntrar() {
-		System.out.println("puedeEntrar: estado=" + ciudadActual.getEstado());
+//		System.out.println("puedeEntrar: estado=" + ciudadActual.getEstado());
 	    if(ciudadActual.getEstado() == EstadoCiudad.COMPLETADA) {
 	        return false;
 	    }

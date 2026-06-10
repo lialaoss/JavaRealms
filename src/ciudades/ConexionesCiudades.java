@@ -67,7 +67,7 @@ public class ConexionesCiudades {
 	            return false;
 	        }
 	    }
-		System.out.println("Camino libre!"); // solo estan para saber q pasa por la terminal ahre
+//		System.out.println("Camino libre!"); // solo estan para saber q pasa por la terminal ahre
 		return true;
 	}
 	

@@ -273,12 +273,12 @@ public class VentanaCiudad6 extends JFrame {
         this.campoClave.requestFocus();
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new VentanaCiudad6().setVisible(true);
-            }
-        });
-    }
+//    public static void main(String[] args) {
+//        SwingUtilities.invokeLater(new Runnable() {
+//            @Override
+//            public void run() {
+//                new VentanaCiudad6().setVisible(true);
+//            }
+//        });
+//    }
 }
