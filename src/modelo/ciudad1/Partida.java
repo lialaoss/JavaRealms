@@ -49,6 +49,7 @@ public class Partida implements PartidaLectura {
         int ny = this.y + dy;
         int nz = this.z + dz;
 
+        mapa.actualizarNiebla(dz, nx, ny, nz);
         if (mapa.esCoordenadaValida(nx, ny, nz)) {
             this.x = nx;
             this.y = ny;

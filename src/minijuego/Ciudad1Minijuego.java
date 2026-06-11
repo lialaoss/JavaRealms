@@ -84,12 +84,30 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
 
         renderMapa(g2, centroX, centroY);
         this.renderJugador.render(g2, this.estadoActual, centroX, centroY);
-        
+        renderVision(g2, centroX, centroY);
         renderHUD(g2, centroX);
     }
     
-    public void renderVision(Graphics2D g2) {
-    	
+    public void renderVision(Graphics2D g2, int centroX, int centroY) {
+
+        for (int x = 0; x < estadoActual.getMapa().getAncho(); x++) {
+            for (int y = 0; y < estadoActual.getMapa().getAlto(); y++) {
+
+                if (!estadoActual.getMapa().estaRevelado(x, y, estadoActual.getZ())) {
+
+                    int pantallaX = centroX + x * TILE_SIZE;
+                    int pantallaY = centroY + y * TILE_SIZE;
+
+                    g2.setColor(new Color(0, 0, 0, 180));
+                    g2.fillRect(
+                        pantallaX,
+                        pantallaY,
+                        TILE_SIZE,
+                        TILE_SIZE
+                    );
+                }
+            }
+        }
     }
     
     private void renderMapa(Graphics2D g2, int centroX, int centroY) {
