@@ -17,6 +17,7 @@ import modelo.ciudad3.BFS;
 import modelo.ciudad3.DFS;
 import modelo.ciudad3.Laberinto;
 import modelo.ciudad3.Snapshot;
+import render.FinMinijuegoPantalla;
 
 public class Ciudad3Minijuego implements Minijuego {
 
@@ -38,6 +39,8 @@ public class Ciudad3Minijuego implements Minijuego {
 	private String error = null;
 	
 	private Laberinto lab;
+
+    private FinMinijuegoPantalla pantallaFinal = new FinMinijuegoPantalla();
 	
 	private GestorRecursos recursos;	
 	private BotonMenu bfsBoton, dfsBoton;
@@ -130,7 +133,7 @@ public class Ciudad3Minijuego implements Minijuego {
 		dibujarLaberinto(g2);
 		renderHUD(g2);
 		if(ganado) {
-			mostrarResultados(g2);
+			pantallaFinal.mostrarResultados(g2, ciudad);
 		}
 	}
 
@@ -214,30 +217,6 @@ public class Ciudad3Minijuego implements Minijuego {
 	}
 
 	// =============== FIN DEL JUEGO =======================
-	
-	private void mostrarResultados(Graphics2D g2) {
-		g2.setColor(new Color(0, 0, 0, 180));
-		g2.fillRect(
-		    0,
-		    0,
-		    ConfiguracionPantalla.SCREEN_WIDTH,
-		    ConfiguracionPantalla.SCREEN_HEIGHT
-		);
-		
-		String texto = "Puntos de experiencia ganados : "
-		        + ciudad.getPuntosDeExperiencia()
-		        + " ptos !!!";
-
-		g2.setColor(Color.WHITE);
-		g2.setFont(new Font("Arial", Font.BOLD, 30));
-
-		FontMetrics fm = g2.getFontMetrics();
-
-		int x = (ConfiguracionPantalla.SCREEN_WIDTH - fm.stringWidth(texto)) / 2;
-		int y = ConfiguracionPantalla.SCREEN_HEIGHT / 2;
-
-		g2.drawString(texto, x, y);
-	}
 	
 	@Override
 	public void resultadoPartida() {

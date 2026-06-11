@@ -122,7 +122,9 @@ public class Mapa3D implements MapaLectura {
 				 for (int z = 0; z < niveles; z++) {
 					 if (this.celdas[x][y][z] != null) {
 						 double distancia = Math.pow(px - x, 2) + Math.pow(py - y, 2) + Math.pow(pz - z, 2);
-						 if (distancia < minimaDistancia) {
+						 if (distancia < minimaDistancia && this.celdas[x][y][z] != null &&
+								 !((x == px) && (y == py) && (z == pz))) {
+							 
 							 minimaDistancia = distancia;
 							 coordenadas = new int[]{x, y, z};
 						 }

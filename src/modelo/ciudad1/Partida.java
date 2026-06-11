@@ -102,6 +102,10 @@ public class Partida implements PartidaLectura {
         return radioVision; 
     }
     
+    public void setZ(int z) {
+    	this.z = z;
+    }
+    
     public void setRadioVision(int nuevoRadio) { 
         ValidacionesUtiles.validarRango(nuevoRadio, 0, 10, "Radio de Vision");
         this.radioVision = nuevoRadio; 

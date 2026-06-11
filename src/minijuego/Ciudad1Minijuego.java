@@ -4,17 +4,24 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.util.ArrayList;
+import java.util.List;
 
 import ciudades.Ciudad;
 import ciudades.EstadoCiudad;
 import entidad.Jugador;
+import render.FinMinijuegoPantalla;
+import render.RenderElementos;
 import render.RenderJugador;
 import ui.ConfiguracionPantalla;
 import ui.GestorRecursos;
+import modelo.ciudad1.Antorcha;
+import modelo.ciudad1.Bengala;
 import modelo.ciudad1.Elemento;
 import modelo.ciudad1.ObservadorRecoleccion;
 import modelo.ciudad1.Partida;
 import modelo.ciudad1.PartidaLectura;
+import modelo.ciudad1.Radar;
 
 
 public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
@@ -25,8 +32,12 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
     private Partida partida;
     private Jugador jugador;
     
+    private FinMinijuegoPantalla pantallaFinal = new FinMinijuegoPantalla();
+
+	private boolean ganado = false;
     private GestorRecursos recursos;
     private RenderJugador renderJugador;
+    private List<RenderElementos> elementosRender = new ArrayList<>();
 
     // Estado para que render() sepa qué dibujar   <- ella jura
     private PartidaLectura estadoActual;
@@ -50,6 +61,18 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
         
         // La primera notificación para que haya estado inicial
         this.estadoActual = this.partida;
+        
+        Elemento antorcha = new Antorcha();
+        this.partida.getMapa().colocarElemento(10, 5, 0, antorcha);
+        elementosRender.add(new RenderElementos(10, 5, 0, antorcha));
+
+        Elemento radar = new Radar();
+        this.partida.getMapa().colocarElemento(8, 9, 1, radar);
+        elementosRender.add(new RenderElementos(8, 9, 1, radar));
+
+        Elemento bengala = new Bengala();
+        this.partida.getMapa().colocarElemento(19, 1, 2, bengala);
+        elementosRender.add(new RenderElementos(19, 1, 2, bengala));
     }
 
 
@@ -65,8 +88,29 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
 
     @Override
     public void objetoRecolectado(Elemento item) {
+    	subirNivel();
+    	for(RenderElementos elemento : elementosRender) {
+    		if(item.equals(elemento.getElemento())) {
+    			elemento.elementoEncontrado();
+    		}
+    	}
         this.mensajeRecoleccion = "Recolectaste: " + item.getClass().getSimpleName();
     }
+    
+    private void subirNivel() {
+    	if(this.partida == null) {
+    		return;
+    	}
+    	this.partida.setZ(this.partida.getZ() + 1);
+    	if(ganado()) {
+    		this.ganado = true;
+    	}
+    }
+    
+	public boolean ganado() {
+		int cantidadElementosVictoria = 3;
+		return this.partida.getCantidadElementosMochila() >= cantidadElementosVictoria;
+	}
     
     // ========================= RENDER ===========================
 
@@ -83,22 +127,48 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
         int centroY = (ConfiguracionPantalla.SCREEN_HEIGHT - altoMapa) / 2;
 
         renderMapa(g2, centroX, centroY);
-        this.renderJugador.render(g2, this.estadoActual, centroX, centroY);
+        dibujarElementos(g2, centroX, centroY);
         renderVision(g2, centroX, centroY);
+        mostrarMochila(g2);
+        this.renderJugador.render(g2, this.estadoActual, centroX, centroY);
         renderHUD(g2, centroX);
+        
+        if(ganado) {
+			this.pantallaFinal.mostrarResultados(g2, ciudad);
+		}
     }
     
+    public void dibujarElementos(Graphics2D g2, int centroX, int centroY) {
+    	for (RenderElementos elemento : elementosRender) {
+    	    if (elemento.getZ() == estadoActual.getZ() && !elemento.getEncontrado()) {
+    	    	elemento.dibujar(g2, centroX, centroY);
+    	    }
+    	}
+    }
+    
+    
+    /**
+     * 
+     * @param g2
+     * @param centroX
+     * @param centroY
+     */
     public void renderVision(Graphics2D g2, int centroX, int centroY) {
+        int radio = estadoActual.getRadioVision();
 
         for (int x = 0; x < estadoActual.getMapa().getAncho(); x++) {
             for (int y = 0; y < estadoActual.getMapa().getAlto(); y++) {
 
-                if (!estadoActual.getMapa().estaRevelado(x, y, estadoActual.getZ())) {
+                int dx = Math.abs(x - estadoActual.getX());
+                int dy = Math.abs(y - estadoActual.getY());
+
+                // de esta manera solo se pinta lo que esta fuera del radio del pj
+                if (dx > radio || dy > radio) {
 
                     int pantallaX = centroX + x * TILE_SIZE;
                     int pantallaY = centroY + y * TILE_SIZE;
 
-                    g2.setColor(new Color(0, 0, 0, 180));
+                    g2.setColor(Color.BLACK);
                     g2.fillRect(
                         pantallaX,
                         pantallaY,
@@ -147,14 +217,34 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
 	    g2.drawString(hud, fm.stringWidth(hud) / 2, 30);
 	
 	    if (!mensajeRadar.isEmpty()) {
-	        g2.setColor(Color.CYAN);
-	        g2.drawString(mensajeRadar, 50, 140);
+	        g2.setColor(Color.WHITE);
+	        g2.drawString(mensajeRadar, 50, 50);
 	    }
 	    if (!mensajeRecoleccion.isEmpty()) {
 	        g2.setColor(Color.YELLOW);
-	        g2.drawString(mensajeRecoleccion, 50, 170);
+	        g2.drawString(mensajeRecoleccion, 50, 70);
 	    }
 	}
+    
+    public void mostrarMochila(Graphics2D g2) {
+        g2.setColor(Color.GRAY);
+        String texto = "Objetos recolectados:";
+
+		FontMetrics fm = g2.getFontMetrics();
+
+		int y = ConfiguracionPantalla.SCREEN_HEIGHT - 30;
+		int xActual = 300 + fm.stringWidth(texto) + 20;
+		
+		g2.drawString(texto, 300, y);
+
+		for (int i = 0; i < this.partida.getCantidadElementosMochila(); i++) {
+		    String nombreObjeto = this.partida.getMochila().get(i).getNombre();
+		    g2.drawString(nombreObjeto, xActual, y);
+		    xActual += fm.stringWidth(nombreObjeto) + 20;
+		}
+    }
+    
+    
 
     // ================= EVENTOS ========================
     
@@ -174,13 +264,8 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
 	// =============== FIN DEL JUEGO =======================
 
     @Override
-    public void resultadoPartida() {
-    	int cantidadElementosVictoria = 3;
-    	if(this.partida == null) {
-    		return;
-    	}
-    	
-    	if(this.partida.getCantidadElementosMochila() >= cantidadElementosVictoria) {
+    public void resultadoPartida() {    	
+    	if(ganado) {
     		desbloquearVecinos();
     	}
     }
