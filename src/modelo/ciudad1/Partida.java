@@ -38,6 +38,7 @@ public class Partida implements PartidaLectura {
         this.mochila = new ArrayList<>();
         this.mapa = new Mapa3D(ancho, alto, niveles);
         this.observador = obs;
+        this.mapa.actualizarNiebla(this.x, this.y, this.z, this.radioVision);
     }
     
     /**
@@ -49,12 +50,13 @@ public class Partida implements PartidaLectura {
         int ny = this.y + dy;
         int nz = this.z + dz;
 
-        mapa.actualizarNiebla(dz, nx, ny, nz);
+        mapa.actualizarNiebla(nx, ny, nz, this.radioVision);
         if (mapa.esCoordenadaValida(nx, ny, nz)) {
             this.x = nx;
             this.y = ny;
             this.z = nz;
-
+            
+            mapa.actualizarNiebla(this.x, this.y, this.z, this.radioVision);
             recolectar();
             observador.actualizarVista(this); 
         }
