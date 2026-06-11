@@ -170,26 +170,40 @@ public class Panel extends JPanel implements Runnable {
 	    Minijuego juego = admin.getJuegoActual();
 	        if(juego instanceof Ciudad1Minijuego) {
 	            Ciudad1Minijuego c1 = (Ciudad1Minijuego) juego;
-	            if(keyH.upPressed)    {
-	            	c1.mover(0, -1, 0);
-	            	admin.getJugador().setDireccion(DireccionJugador.UP);
-	            	keyH.upPressed = false;
+	            if(keyH.upPressed == true || keyH.downPressed == true 
+	    				|| keyH.leftPressed == true || keyH.rightPressed == true) {
+		            if(keyH.upPressed)    {
+		            	c1.mover(0, -1, 0);
+		            	admin.getJugador().setDireccion(DireccionJugador.UP);
+		            	keyH.upPressed = false;
+		            }
+		            if(keyH.downPressed)  {
+		            	c1.mover(0,  1, 0);
+		            	admin.getJugador().setDireccion(DireccionJugador.DOWN);
+		            	keyH.downPressed = false;
+		            }
+		            if(keyH.leftPressed)  {
+		            	c1.mover(-1, 0, 0);
+		            	admin.getJugador().setDireccion(DireccionJugador.LEFT);
+		            	keyH.leftPressed = false;
+		            }
+		            if(keyH.rightPressed) {
+		            	c1.mover( 1, 0, 0);
+		            	admin.getJugador().setDireccion(DireccionJugador.RIGHT);
+		            	keyH.rightPressed = false;
+		            }
+		            
+					admin.getJugador().contadorSprite++;
+					
+					if(admin.getJugador().numeroDeSprite == 1) {
+						admin.getJugador().numeroDeSprite = 2;
+					} else if (admin.getJugador().numeroDeSprite == 2) {
+						admin.getJugador().numeroDeSprite = 1;
+					}
+					admin.getJugador().contadorSprite = 0;
+					
 	            }
-	            if(keyH.downPressed)  {
-	            	c1.mover(0,  1, 0);
-	            	admin.getJugador().setDireccion(DireccionJugador.DOWN);
-	            	keyH.downPressed = false;
-	            }
-	            if(keyH.leftPressed)  {
-	            	c1.mover(-1, 0, 0);
-	            	admin.getJugador().setDireccion(DireccionJugador.LEFT);
-	            	keyH.leftPressed = false;
-	            }
-	            if(keyH.rightPressed) {
-	            	c1.mover( 1, 0, 0);
-	            	admin.getJugador().setDireccion(DireccionJugador.RIGHT);
-	            	keyH.rightPressed = false;
-	            }
+
 	        }
 	        
 	        if(juego instanceof Ciudad10Minijuego) {

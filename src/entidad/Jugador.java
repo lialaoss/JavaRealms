@@ -6,6 +6,9 @@ public class Jugador {
 	private int puntosExperiencia = 0;
 	private DireccionJugador direccion = DireccionJugador.DOWN;
 	
+	public int contadorSprite = 0;
+	public int numeroDeSprite = 1;
+	
 	public void sumarPuntos(int puntosASumar) {
 		setPuntosExperiencia(this.puntosExperiencia + puntosASumar);
 	}

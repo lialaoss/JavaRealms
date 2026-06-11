@@ -43,13 +43,25 @@ public class RenderJugador {
 	public Image direccion() {
 		switch(jugador.getDireccion()) {
 			case DOWN:
-				return recursos.getJugadorDown()[0];
+				if(jugador.numeroDeSprite == 1) {
+					return recursos.getJugadorDown()[0];
+				}
+				return recursos.getJugadorDown()[1];
 			case UP:
-				return recursos.getJugadorUp()[0];
+				if(jugador.numeroDeSprite == 1) {
+					return recursos.getJugadorUp()[0];
+				}
+				return recursos.getJugadorUp()[1];
 			case LEFT:
-				return recursos.getJugadorLeft()[0];
+				if(jugador.numeroDeSprite == 1) {
+					return recursos.getJugadorLeft()[0];
+				}
+				return recursos.getJugadorLeft()[1];
 			case RIGHT:
-				return recursos.getJugadorRight()[0];
+				if(jugador.numeroDeSprite == 1) {
+					return recursos.getJugadorRight()[0];
+				}
+				return recursos.getJugadorRight()[1];
 			default:
 				throw new RuntimeException("No se encontro el sprite de jugador");
 			}
