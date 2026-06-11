@@ -38,6 +38,26 @@ public class ValidacionesUtiles {
 	
 	/**
 	 * Pre: mensaje no es nulo.
+	 * Post: lanza RuntimeException si el texto es nulo o vacío.
+	 */
+	public static void validarNoVacio(String texto, String mensaje) {
+	    if (texto == null || texto.trim().isEmpty()) {
+	        throw new RuntimeException("Error de Texto: " + mensaje + " no puede ser nulo ni vacío.");
+	    }
+	}
+
+	/**
+	 * Pre: mensaje no es nulo.
+	 * Post: lanza RuntimeException si el valor es negativo.
+	 */
+	public static void validarNoNegativo(int valor, String mensaje) {
+	    if (valor < 0) {
+	        throw new RuntimeException("Error de Valor: " + mensaje + " no puede ser negativo. Valor: " + valor);
+	    }
+	}
+	
+	/**
+	 * Pre: mensaje no es nulo.
 	 * Post: lanza RuntimeException si el valor no es estrictamente mayor a cero.
 	 */
 	public static void validarMayorACero(double valor, String mensaje) {
