@@ -92,6 +92,7 @@ public class GestorRecursos {
 	        nodoCiudad8 = ImageIO.read(getClass().getResourceAsStream("/sprites/mapa/ciudad8.png"));
 	        nodoCiudad9 = ImageIO.read(getClass().getResourceAsStream("/sprites/mapa/ciudad9.png"));
 	        nodoCiudad10 = ImageIO.read(getClass().getResourceAsStream("/sprites/mapa/ciudad10.png"));
+	        fondoMenu = ImageIO.read(getClass().getResourceAsStream("/sprites/menu/fondo.png"));
 	    } catch (Exception e) {
 	        System.out.println("ERROR cargarFondoMapa: " + e.getMessage());
 	    }
@@ -142,6 +143,10 @@ public class GestorRecursos {
 	
 	public BufferedImage getFondoMapa() {
 	    return fondoMapa;
+	}
+	
+	public BufferedImage getFondoMenu() {
+	    return fondoMenu;
 	}
 
 
