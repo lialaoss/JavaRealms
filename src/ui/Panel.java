@@ -14,6 +14,7 @@ import logica.KeyHandler;
 import logica.MouseHandler;
 import minijuego.Ciudad10Minijuego;
 import minijuego.Ciudad1Minijuego;
+import minijuego.Ciudad2Minijuego;
 import minijuego.Minijuego;
 
 public class Panel extends JPanel implements Runnable {
@@ -204,6 +205,18 @@ public class Panel extends JPanel implements Runnable {
 	    	        keyH.ultimoCaracter = 0;
 	    	    }
 	    	}
+	        
+	        if(juego instanceof Ciudad2Minijuego) {
+	            Ciudad2Minijuego c2 = (Ciudad2Minijuego) juego;
+	            if(keyH.ultimoCaracter != 0) {
+	                c2.procesarCaracter(keyH.ultimoCaracter);
+	                keyH.ultimoCaracter = 0;
+	            }
+	            if(keyH.enterPressed) {
+	                c2.avanzarFrame();
+	                keyH.enterPressed = false;
+	            }
+	        }
 	    }
 	
 	
