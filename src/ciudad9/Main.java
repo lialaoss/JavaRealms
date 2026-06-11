@@ -1,36 +1,68 @@
 package ciudad9;
+
+/**
+ * Punto de entrada del módulo Ciudad 9.
+ * Maneja la comunicación entre el modelo lógico (ControladorCombate) y la interfaz (VistaCombate).
+ */
 public class Main {
-
+    
+    /**
+     * Pre: Ninguna.
+     * Post: Se inicializan los componentes MVC, se ejecuta el bucle principal de turnos pidiendo datos al usuario y delegando la ejecución al controlador, y finaliza mostrando el mensaje de resolución cuando se alcanza la victoria o derrota.
+     */
     public static void main(String[] args) {
+        ControladorCombate combate = new ControladorCombate();
+        VistaCombate vista = new VistaCombate();
 
-        ControladorCombate combate =
-                new ControladorCombate();
+        while (!combate.victoria() && !combate.derrota()) {
+            vista.mostrarEstado(combate);
 
-        VistaCombate vista =
-                new VistaCombate();
+            if (combate.esTurnoJugador()) {
+                int accionesRequeridas = combate.isComboDisponible() ? 2 : 1;
+                boolean requiereSeleccionarObjetivo = false;
 
-        combate.agregarAccionJugador("ATAQUE");
-        combate.agregarAccionJugador("DEFENSA");
-        combate.agregarAccionJugador("HABILIDAD");
+                for (int i = 0; i < accionesRequeridas; i++) {
+                    int opcion = vista.solicitarAccion(i + 1, accionesRequeridas);
+                    String tipoAccion;
 
-        while (!combate.victoria()
-                && !combate.derrota()) {
+                    switch (opcion) {
+                        case 1:
+                            tipoAccion = Accion.ATAQUE;
+                            requiereSeleccionarObjetivo = true;
+                            break;
+                        case 2:
+                            tipoAccion = Accion.DEFENSA;
+                            break;
+                        case 3:
+                            tipoAccion = Accion.HABILIDAD;
+                            break;
+                        default:
+                            tipoAccion = Accion.DEFENSA;
+                            break;
+                    }
+                    combate.agregarAccionJugador(tipoAccion);
+                }
 
-            vista.mostrarEstado(
-                    combate.getJugador(),
-                    combate.getListaEnemigos());
+                int objetivoElegido = 0;
+                if (requiereSeleccionarObjetivo && combate.getListaEnemigos().quedanEnemigos()) {
+                    objetivoElegido = vista.solicitarObjetivo(combate.getListaEnemigos());
+                }
 
-            combate.ejecutarTurno();
+                combate.ejecutarTurno(objetivoElegido);
+
+            } else {
+                combate.ejecutarTurno(0);
+                vista.mostrarEstado(combate);
+
+                try {
+                    Thread.sleep(800);
+                } catch (InterruptedException e) {
+                    Thread.currentThread().interrupt();
+                }
+            }
         }
 
-        if (combate.victoria()) {
-
-            System.out.println(
-                    "Todos los enemigos fueron derrotados.");
-        } else {
-
-            System.out.println(
-                    "El jugador ha sido derrotado.");
-        }
+        vista.mostrarEstado(combate);
+        vista.mostrarMensajeFin(combate.victoria());
     }
 }

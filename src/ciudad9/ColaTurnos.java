@@ -1,40 +1,52 @@
 package ciudad9;
+
 import java.util.LinkedList;
 import java.util.Queue;
 
 /**
- * Gestiona el orden de turnos mediante FIFO.
+ * Cola FIFO que gestiona el orden de los turnos en el combate.
  */
 public class ColaTurnos {
+    private final Queue<Personaje> cola;
 
-    private Queue<Personaje> colaTurnos;
-
+    /**
+     * Pre: Ninguna.
+     * Post: Se inicializa una cola de turnos vacía.
+     */
     public ColaTurnos() {
-        colaTurnos = new LinkedList<>();
+        this.cola = new LinkedList<>();
     }
 
     /**
-     * Inserta un personaje al final de la cola.
+     * Pre: 'personaje' no debe ser nulo.
+     * Post: El personaje se inserta al final de la cola (FIFO).
      */
     public void encolar(Personaje personaje) {
-
-        if (personaje != null) {
-            colaTurnos.offer(personaje);
-        }
+        if (personaje == null) return; 
+        this.cola.offer(personaje);
     }
 
     /**
-     * Obtiene el siguiente turno.
+     * Pre: Ninguna.
+     * Post: Retorna y elimina el personaje al frente de la cola. Si la cola está vacía, retorna null.
      */
     public Personaje desencolar() {
-        return colaTurnos.poll();
+        return this.cola.poll();
     }
 
+    /**
+     * Pre: Ninguna.
+     * Post: Retorna el personaje al frente de la cola sin removerlo. Si la cola está vacía, retorna null.
+     */
+    public Personaje espiar() {
+        return this.cola.peek(); 
+    }
+
+    /**
+     * Pre: Ninguna.
+     * Post: Retorna true si la cola no tiene elementos, false en caso contrario.
+     */
     public boolean estaVacia() {
-        return colaTurnos.isEmpty();
-    }
-
-    public int cantidadElementos() {
-        return colaTurnos.size();
+        return this.cola.isEmpty();
     }
 }

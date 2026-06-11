@@ -1,44 +1,36 @@
 package ciudad9;
+
 import java.util.Stack;
 
 /**
- * Gestiona las acciones del jugador mediante una pila.
+ * Pila LIFO que almacena las acciones seleccionadas por el jugador.
  */
 public class PilaAcciones {
+    private final Stack<Accion> acciones;
 
-    private Stack<Accion> acciones;
-
+    /**
+     * Pre: Ninguna.
+     * Post: Se inicializa una pila de acciones vacía.
+     */
     public PilaAcciones() {
-        acciones = new Stack<>();
+        this.acciones = new Stack<>();
     }
 
     /**
-     * Agrega una acción a la pila.
+     * Pre: 'accion' no debe ser nula.
+     * Post: La acción es apilada en la cima de la estructura (LIFO).
      */
     public void apilarAccion(Accion accion) {
-
-        if (accion != null) {
-            acciones.push(accion);
-        }
+        if (accion == null) return; 
+        this.acciones.push(accion);
     }
 
     /**
-     * Obtiene la última acción cargada.
+     * Pre: Ninguna.
+     * Post: Retorna y elimina la acción en la cima de la pila. Si la pila está vacía, retorna null.
      */
     public Accion desapilarAccion() {
-
-        if (acciones.isEmpty()) {
-            return null;
-        }
-
-        return acciones.pop();
-    }
-
-    public boolean estaVacia() {
-        return acciones.isEmpty();
-    }
-
-    public int cantidadAcciones() {
-        return acciones.size();
+        if (acciones.isEmpty()) return null;
+        return this.acciones.pop();
     }
 }
