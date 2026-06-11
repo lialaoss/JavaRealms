@@ -30,6 +30,7 @@ public class CrearMinijuegos {
             case 7:
             case 8:
             case 9:
+            	return new Ciudad9Minijuego(ciudad, jugador);
             case 10:
                 return new Ciudad10Minijuego(ciudad, jugador);
             default:
