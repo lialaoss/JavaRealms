@@ -1,4 +1,4 @@
-package ciudad8;
+package modelo.ciudad8;
 
 /**
  * Representa un movimiento individual de un disco dentro del juego.

@@ -1,4 +1,4 @@
-package ciudad8;
+package modelo.ciudad8;
 
 import javax.swing.*;
 import java.awt.*;
@@ -30,13 +30,15 @@ public class VentanaCiudad8 extends JFrame {
     private JLabel etiquetaEstado;
     private JButton botonSiguiente;
     private JComboBox<String> comboDiscos;
+    private utiles.ObservadorVictoria observador;
 
     /**
      * Constructor de la ventana gráfica.
      * @pre Ninguna.
      * @post Inicializa los paneles del ritual y carga el escenario base de 3 discos.
      */
-    public VentanaCiudad8() {
+    public VentanaCiudad8(utiles.ObservadorVictoria observador) {
+    	this.observador = observador;
         this.motorHanoi = new LogicaHanoi();
         this.discosSeleccionados = 3; // Configuración inicial por defecto
         
@@ -53,7 +55,7 @@ public class VentanaCiudad8 extends JFrame {
     private void configurarVentana() {
         setTitle("JavaRealms - ¡Desafío de la Ciudad 8: Las Torres de Hanoi!");
         setSize(1000, 700);
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
     }
@@ -230,6 +232,9 @@ public class VentanaCiudad8 extends JFrame {
             this.etiquetaEstado.setText("<html><font color='#2ECC71'><b>¡CIUDAD 8 GANADA! EL TIEMPO SE REANUDÓ</b></font></html>");
             this.botonSiguiente.setEnabled(false);
             JOptionPane.showMessageDialog(this, "¡Excelente! El algoritmo recursivo completó las Torres de Hanoi de forma óptima.", "¡Victoria!", JOptionPane.INFORMATION_MESSAGE);
+            if (this.observador != null) {
+                this.observador.notificarVictoria();
+            }
         }
     }
 
