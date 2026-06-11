@@ -52,15 +52,10 @@ public class RenderizarMenu {
 	}
 	
 	public void renderizarMenuPrincipal(Graphics2D g2) {
-		System.out.println("ENTRANDO A RENDERMENU");
-		g2.setColor(java.awt.Color.DARK_GRAY);
-		g2.fillRect(0, 0, screenWidth, screenHeight);
-		
-		System.out.println("Dibujando botones en pantalla " + screenWidth + "x" + screenHeight);
-		
-		botonJugar.dibujar(g2);
-		botonInstrucciones.dibujar(g2);
-		botonSalir.dibujar(g2);
+	    g2.drawImage(recursos.getFondoMenu(), 0, 0, screenWidth, screenHeight, null);
+	    botonJugar.dibujar(g2);
+	    botonInstrucciones.dibujar(g2);
+	    botonSalir.dibujar(g2);
 	}
 	
 	/**
