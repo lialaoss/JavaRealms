@@ -1,4 +1,4 @@
-package ciudad8;
+package modelo.ciudad8;
 
 import java.util.ArrayList;
 import java.util.List;
