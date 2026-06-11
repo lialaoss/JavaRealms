@@ -13,6 +13,7 @@ public class GestorRecursos {
 	private BufferedImage[] jugadorLeft;
 	private BufferedImage[] jugadorRight;
 	private BufferedImage fondoMapa;
+	private BufferedImage fondoMenu;
 	private BufferedImage nodoCiudad1;
 	private BufferedImage nodoCiudad2;
 	private BufferedImage nodoCiudad3;
@@ -42,6 +43,7 @@ public class GestorRecursos {
 			botonMenu2 = ImageIO.read(getClass().getResourceAsStream("/sprites/menu/boton2.png"));
 			botonMenu3 = ImageIO.read(getClass().getResourceAsStream("/sprites/menu/boton3.png"));
 			botonVolver = ImageIO.read(getClass().getResourceAsStream("/sprites/menu/botonVolver.png"));
+			fondoMenu = ImageIO.read(getClass().getResourceAsStream("/sprites/menu/fondo.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -124,6 +126,10 @@ public class GestorRecursos {
 
 	public BufferedImage getBotonMenu3() {
 		return botonMenu3;
+	}
+	
+	public BufferedImage getFondoMenu() {
+	    return fondoMenu;
 	}
 
 	public BufferedImage[] getJugadorUp() {
