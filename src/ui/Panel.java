@@ -172,13 +172,14 @@ public class Panel extends JPanel implements Runnable {
 		
 		
 		if(admin.getEstado() == EstadoJuego.EN_PROGRESO) {
-			if(keyH.QPressed == true) {
-					
-				admin.setEstado(EstadoJuego.MAPA_GENERAL);
-				keyH.QPressed = false;
-				admin.getJuegoActual().resultadoPartida();
-				admin.limpiarJuegoActual();
-			}
+		    if(keyH.QPressed == true) {
+		        admin.setEstado(EstadoJuego.MAPA_GENERAL);
+		        keyH.QPressed = false;
+		        keyH.ultimoCaracter = 0;
+		        keyH.enterPressed = false;
+		        admin.getJuegoActual().resultadoPartida();
+		        admin.limpiarJuegoActual();
+		    }
 		}
 		
 		if (enTransicion) {
