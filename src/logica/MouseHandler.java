@@ -40,6 +40,9 @@ public class MouseHandler extends MouseAdapter {
 		    	case 3:
 		    	    admin.getJuegoActual().procesarClick(mouseX, mouseY);
 		    	    break;
+		    	case 4:
+		    	    admin.getJuegoActual().procesarClick(mouseX, mouseY);
+		    	    break;
 		    	default:
 		    		break;
 		    }

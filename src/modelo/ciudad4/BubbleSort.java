@@ -2,7 +2,7 @@ package modelo.ciudad4;
 
 import utiles.ValidacionesUtiles;
 
-public class BubbleSort {
+public class BubbleSort implements AlgoritmoOrdenamiento {
 	
 	/**
 	 * Pre: el vector no es nulo.

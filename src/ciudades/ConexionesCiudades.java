@@ -62,8 +62,8 @@ public class ConexionesCiudades {
 			Ciudad destino = camino.get(i);
 
 			int peso = grafoCiudades.getPeso(origen, destino);
-			System.out.println("Puntos jugador: " + puntosJugador);
-			System.out.println("Puntos ciudad: " + peso);
+//			System.out.println("Puntos jugador: " + puntosJugador);
+//			System.out.println("Puntos ciudad: " + peso);
 	        if (puntosJugador < peso) {
 	            return false;
 	        }

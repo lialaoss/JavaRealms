@@ -2,7 +2,7 @@ package modelo.ciudad4;
 
 import utiles.ValidacionesUtiles;
 
-public class QuickSort {
+public class QuickSort implements AlgoritmoOrdenamiento {
 	
 	/**
 	 * pre: el vector no es nulo.
