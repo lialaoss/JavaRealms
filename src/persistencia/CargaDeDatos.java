@@ -74,5 +74,17 @@ public class CargaDeDatos {
 	        e.printStackTrace();
 	    }
 	}
+
+	// =============== ELIMINACION DE DATOS DEL JUEGO ===================
+	
+	public void eliminarDatosDeArchivo() {
+		System.out.println(new File(RUTA_DATOS).getAbsolutePath());
+		System.out.println(new File(RUTA_DATOS).exists());
+		try (BufferedWriter bw = new BufferedWriter(new FileWriter(RUTA_DATOS))) {
+	        bw.write("0");
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
 	
 }

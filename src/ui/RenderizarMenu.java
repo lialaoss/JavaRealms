@@ -16,10 +16,8 @@ public class RenderizarMenu {
 	private int screenWidth = ConfiguracionPantalla.SCREEN_WIDTH;
 	private int screenHeight = ConfiguracionPantalla.SCREEN_HEIGHT;
 	
-	private Boton botonJugar;
-	private Boton botonInstrucciones;
-	private Boton botonSalir;
-	private Boton botonGuardado;
+	private Boton botonJugar, botonSalir, botonInstrucciones;
+	private Boton botonGuardado, botonBorrar;
 	
 	private List<NodoCiudad> ciudades;
 	
@@ -30,6 +28,7 @@ public class RenderizarMenu {
 		crearBotones();
 		crarCiudades();
 		crearBotonGuardado();
+		crearBotonBorrarDatos();
 	}
 	
 	// ============================== MENU =======================================
@@ -42,6 +41,17 @@ public class RenderizarMenu {
 		int y = 50;
 		
 		botonGuardado = new Boton(recursos.getBotonMenu1(),
+				x, y, anchoBoton, altoBoton);
+	}
+	
+	public void crearBotonBorrarDatos() {
+		int anchoBoton = 48;
+		int altoBoton = 48;
+		
+		int x = 50;
+		int y = 100;
+		
+		botonBorrar = new Boton(recursos.getBotonMenu1(),
 				x, y, anchoBoton, altoBoton);
 	}
 	
@@ -118,6 +128,7 @@ public class RenderizarMenu {
 	public void renderizarMapaGeneral(Graphics2D g2) {
 	    g2.drawImage(recursos.getFondoMapa(), 0, 0, screenWidth, screenHeight, null);
 	    botonGuardado.dibujar(g2);
+	    botonBorrar.dibujar(g2);
 	    for(NodoCiudad ciudad : ciudades) {
 	        ciudad.dibujar(g2);
 	    }
@@ -141,6 +152,12 @@ public class RenderizarMenu {
 		if(botonGuardado.contiene(mouseX, mouseY)) {
             System.out.println("Datos actualizados!!!");
 			admin.actualizarDatos();
+		}
+
+		if(botonBorrar.contiene(mouseX, mouseY)) {
+            System.out.println("Datos eliminados!!!");
+            admin.eliminarDatos();
+	        System.exit(0);
 		}
 	}
 	

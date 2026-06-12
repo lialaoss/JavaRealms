@@ -65,7 +65,7 @@ public class AdministradorJuego {
 	    if(estado != EstadoJuego.EN_PROGRESO) {
 	    	return; 
 	    }
-	    if(juegoActual != null && !puedeEntrar()) {
+	    if(!puedeEntrar()) {
 	    	setEstado(EstadoJuego.MAPA_GENERAL); 
 	    	return;
 	    }
@@ -85,7 +85,7 @@ public class AdministradorJuego {
 	 * @return : Devuelve true si es posible acceder dentro de la ciudad
 	 */
 	private boolean puedeEntrar() {
-		System.out.println("puedeEntrar: estado=" + ciudadActual.getEstado());
+//		System.out.println("puedeEntrar: estado=" + ciudadActual.getEstado());
 	    if(ciudadActual.getEstado() == EstadoCiudad.COMPLETADA) {
 	        return false;
 	    }
@@ -93,18 +93,6 @@ public class AdministradorJuego {
 	        return false;
 	    }
 	    return adminCiudades.getGrafo().verificarCamino(ciudadActual, jugador.getPuntosExperiencia());
-	}
-
-	public Minijuego getJuegoActual() {
-	    return juegoActual;
-	}
-
-	public void limpiarJuegoActual() {
-	    this.juegoActual = null;
-	}
-	
-	public void actualizarDatos() {
-		this.guardado.actualizarArchivoDeDatos();
 	}
 	
 	/**
@@ -118,6 +106,20 @@ public class AdministradorJuego {
 	
 	public void desbloquearVecinos(Ciudad ciudad) {
 		adminCiudades.getGrafo().desbloquearVecinos(ciudad);
+	}
+	
+	// ================== MANEJO DE DATOS DEL JUEGO ====================
+
+	public void limpiarJuegoActual() {
+	    this.juegoActual = null;
+	}
+	
+	public void actualizarDatos() {
+		this.guardado.actualizarArchivoDeDatos();
+	}
+	
+	public void eliminarDatos() {
+		this.guardado.eliminarDatosDeArchivo();
 	}
 
 	// GETTERS
@@ -135,6 +137,10 @@ public class AdministradorJuego {
 
 	public Jugador getJugador() {
 		return jugador;
+	}
+
+	public Minijuego getJuegoActual() {
+	    return juegoActual;
 	}
 	
 	public Ventana getVentana() {
