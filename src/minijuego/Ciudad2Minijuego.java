@@ -35,6 +35,11 @@ public class Ciudad2Minijuego implements Minijuego {
         this.ciudad = ciudad;
         this.jugador = jugador;
     }
+    
+    /**
+     * Pre: ciudad y jugador no son nulos.
+     * Post: no requiere inicialización — el estado inicial es INPUT_N.
+     */
 
     @Override
     public void iniciar() {}
@@ -113,6 +118,12 @@ public class Ciudad2Minijuego implements Minijuego {
             g2.drawString("¡Solución encontrada!", 560, 130);
         }
     }
+    
+    /**
+     * Pre: c es un carácter válido de teclado.
+     * Post: si c es ENTER procesa el input actual, si es BACKSPACE borra el último carácter,
+     *       si es otro carácter lo agrega al input.
+     */
 
     public void procesarCaracter(char c) {
         error = "";
@@ -126,6 +137,12 @@ public class Ciudad2Minijuego implements Minijuego {
             inputActual += c;
         }
     }
+    
+    /**
+     * Pre: ninguna.
+     * Post: si hay historial disponible avanza un frame. Al llegar al último frame
+     *       determina si hay solución o no y llama resultadoPartida si ganó.
+     */
 
     public void avanzarFrame() {
         if (fase == Fase.RESOLVIENDO && historial != null && frameActual < historial.size() - 1) {
@@ -165,6 +182,11 @@ public class Ciudad2Minijuego implements Minijuego {
             error = "Ingresá un número entero válido.";
         }
     }
+    
+    /**
+     * Pre: dimension >= 4, filaInicial y columnaInicial dentro del rango del tablero.
+     * Post: genera el historial de pasos del backtracking y cambia la fase a RESOLVIENDO.
+     */
 
     private void resolver() {
         try {
@@ -177,6 +199,11 @@ public class Ciudad2Minijuego implements Minijuego {
             error = e.getMessage();
         }
     }
+    
+    /**
+     * Pre: ninguna.
+     * Post: si ganado es true desbloquea vecinos y marca la ciudad como completada.
+     */
 
     @Override
     public void resultadoPartida() {

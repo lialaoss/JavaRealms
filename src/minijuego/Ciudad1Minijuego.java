@@ -54,6 +54,11 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
 
 	// ===================== JUEGO ========================
 
+    /**
+     * Pre: ciudad, jugador y recursos no son nulos.
+     * Post: inicializa la partida con un mapa 20x10x3 y coloca los tres elementos en posiciones fijas.
+     */
+    
     @Override
     public void iniciar() {
         // Creamos la Partida pasándonos como observador
@@ -74,17 +79,31 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
         this.partida.getMapa().colocarElemento(19, 1, 2, bengala);
         elementosRender.add(new RenderElementos(19, 1, 2, bengala));
     }
-
+    
+    /**
+     * Pre: partida no es nula.
+     * Post: actualiza el estado actual que usa render() para dibujar el mapa.
+     */
 
     @Override
     public void actualizarVista(PartidaLectura partida) {
         this.estadoActual = partida;
     }
+    
+    /**
+     * Pre: mensaje no es nulo.
+     * Post: establece el mensaje del radar que se muestra en el HUD.
+     */
 
     @Override
     public void mostrarMensajeRadar(String mensaje) {
         this.mensajeRadar = mensaje;
     }
+    
+    /**
+     * Pre: item no es nulo.
+     * Post: sube el nivel Z del jugador, marca el elemento como encontrado y actualiza el mensaje de recolección.
+     */
 
     @Override
     public void objetoRecolectado(Elemento item) {
@@ -248,7 +267,11 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
 
     // ================= EVENTOS ========================
     
-    // Para que Panel pueda pasarle input
+    /**
+     * Pre: ninguna.
+     * Post: si la partida está inicializada, delega el movimiento al modelo.
+     */
+    
     public void mover(int dx, int dy, int dz) {
         if (partida != null) {
             partida.mover(dx, dy, dz);
@@ -262,7 +285,12 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
 	}
 
 	// =============== FIN DEL JUEGO =======================
-
+	
+	/**
+	 * Pre: ninguna.
+	 * Post: si ganado es true suma los puntos al jugador y marca la ciudad como completada.
+	 */
+	
     @Override
     public void resultadoPartida() {    	
     	if(ganado) {

@@ -83,7 +83,9 @@ public class Ciudad10Minijuego implements Minijuego {
     }
 
     /**
-     * Recibe input de teclado — llamar desde Panel.update()
+     * Pre: c es un carácter válido de teclado.
+     * Post: si c es ENTER resuelve la ecuación, si es BACKSPACE borra el último carácter,
+     *       si es otro carácter lo agrega al input actual.
      */
     public void procesarCaracter(char c) {
         if (c == '\n' || c == '\r') {
@@ -96,6 +98,13 @@ public class Ciudad10Minijuego implements Minijuego {
             inputUsuario += c;
         }
     }
+    
+    
+    /**
+     * Pre: inputUsuario no es nulo.
+     * Post: si la ecuación es válida establece el resultado, la expansión y marca ganado como true.
+     *       Si la ecuación es inválida establece el mensaje de error.
+     */
 
     private void resolver() {
         error = "";
@@ -119,6 +128,11 @@ public class Ciudad10Minijuego implements Minijuego {
             error = e.getMessage();
         }
     }
+    
+    /**
+     * Pre: ninguna.
+     * Post: si ganado es true marca la ciudad como completada y desbloquea vecinos.
+     */
 
     @Override
     public void resultadoPartida() {
@@ -126,6 +140,11 @@ public class Ciudad10Minijuego implements Minijuego {
             ciudad.setEstado(EstadoCiudad.COMPLETADA);
         }
     }
+    
+    /**
+     * Pre: ninguna.
+     * Post: devuelve el texto ingresado por el jugador hasta el momento.
+     */
 
     public String getInputUsuario() {
         return inputUsuario;

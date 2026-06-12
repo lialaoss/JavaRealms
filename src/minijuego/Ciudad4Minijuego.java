@@ -46,8 +46,8 @@ public class Ciudad4Minijuego implements Minijuego, ObservadorOrdenamiento {
     // ======================= LOGICA JUEGO ==========================
     
     /**
-     * "Los algoritmos de ordenamiento implementan una interfaz común AlgoritmoOrdenamiento, 
-     * permitiendo seleccionar dinámicamente la estrategia de ordenamiento elegida por el jugador."
+     * Pre: ciudad, jugador y recursos no son nulos.
+     * Post: reinicia el estado del minijuego y carga el vector inicial.
      */
 
     @Override
@@ -57,6 +57,11 @@ public class Ciudad4Minijuego implements Minijuego, ObservadorOrdenamiento {
         // Vector de prueba para validar la conexion
         this.vectorActual = new int[]{34, 12, 5, 89, 56, 21, 7};
     }
+    
+    /**
+     * Pre: algoritmoSeleccionado es "Bubble Sort" o "Quick Sort". vectorActual no es nulo.
+     * Post: corre el algoritmo seleccionado en un hilo separado notificando cada cambio al observador.
+     */
     
     public void ejecutarOrdenamiento() {
     	Thread hiloOrdenamiento = new Thread(() -> {
@@ -81,6 +86,12 @@ public class Ciudad4Minijuego implements Minijuego, ObservadorOrdenamiento {
 
         hiloOrdenamiento.start();
     }
+    
+    
+    /**
+     * Pre: vector no es nulo.
+     * Post: actualiza el estado visual del vector y genera una pausa de 500ms para la animación.
+     */
 
     @Override
     public void notificarCambio(int[] vector, int indiceA, int indiceB, int pivote) {
@@ -194,6 +205,12 @@ public class Ciudad4Minijuego implements Minijuego, ObservadorOrdenamiento {
     
     // ========================= FIN DEL JUEGO ============================
 
+    
+    /**
+     * Pre: ninguna.
+     * Post: si completado es true desbloquea vecinos y suma puntos al jugador.
+     */
+    
     @Override
     public void resultadoPartida() {
     	if(completado) {
@@ -202,6 +219,11 @@ public class Ciudad4Minijuego implements Minijuego, ObservadorOrdenamiento {
             jugador.sumarPuntos(ciudad.getPuntosDeExperiencia());
     	}
     }
+    
+    /**
+     * Pre: nombre no es nulo.
+     * Post: establece el algoritmo a ejecutar en el siguiente ordenamiento.
+     */
     
     public void setAlgoritmoSeleccionado(String nombre) {
         this.algoritmoSeleccionado = nombre;
