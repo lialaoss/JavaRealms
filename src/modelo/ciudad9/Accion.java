@@ -1,5 +1,7 @@
 package modelo.ciudad9;
 
+import utiles.ValidacionesUtiles;
+
 /**
  * Representa una acción que puede realizar un personaje.
  */
@@ -15,7 +17,7 @@ public class Accion {
      * Post: Se crea una nueva Accion con el tipo especificado.
      */
     public Accion(String tipo) {
-        this.tipo = tipo;
+        this.tipo = ValidacionesUtiles.esNulo(tipo) ? DEFENSA : tipo;;
     }
 
     /**

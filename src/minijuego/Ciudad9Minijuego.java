@@ -7,6 +7,7 @@ import ciudades.EstadoCiudad;
 import entidad.Jugador;
 import modelo.ciudad9.Accion;
 import modelo.ciudad9.ControladorCombate;
+import modelo.ciudad9.Pregunta;
 import modelo.ciudad9.VistaCombate;
 import render.FinMinijuegoPantalla;
 import utiles.ObservadorVictoria;
@@ -29,9 +30,12 @@ public class Ciudad9Minijuego implements Minijuego, ObservadorVictoria {
 
     @Override
     public void iniciar() {
+        Pregunta.cargarDesdeArchivo("preguntas.txt");
+
         combate = new ControladorCombate();
-        vista = new VistaCombate(this);
+        vista = new VistaCombate();
         vista.mostrarEstado(combate);
+
         new Thread(() -> correrCombate()).start();
     }
 
@@ -54,9 +58,12 @@ public class Ciudad9Minijuego implements Minijuego, ObservadorVictoria {
                 if (requiereObjetivo && combate.getListaEnemigos().quedanEnemigos()) {
                     objetivo = vista.solicitarObjetivo(combate.getListaEnemigos());
                 }
-                combate.ejecutarTurno(objetivo);
+
+                Pregunta preguntaAleatoria = Pregunta.obtenerAleatoria();
+                boolean respondioBien = vista.hacerPreguntaEstructuras(preguntaAleatoria);
+                combate.ejecutarTurno(objetivo, respondioBien);
             } else {
-                combate.ejecutarTurno(0);
+            	combate.ejecutarTurno(0, true);
                 try { Thread.sleep(800); } catch (InterruptedException e) { break; }
             }
             vista.mostrarEstado(combate);
