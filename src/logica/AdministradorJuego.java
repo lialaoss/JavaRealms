@@ -24,8 +24,6 @@ public class AdministradorJuego {
 	private Jugador jugador;
 	private Minijuego juegoActual;
 	
-	private Ventana ventana;
-	
 	private GestorRecursos recursos;
 	private CargaDeDatos guardado;
 	
@@ -42,24 +40,35 @@ public class AdministradorJuego {
 	// =========================== LOGICA JUEGO ====================================
 	
 	/**
-	 * Inicia el juego y desbloquea por default la ciudad 1 (mas no se encuentra completa)
+	 * Inicializa el juego y configura sus valores iniciales.
+	 * Pre: Debe existir una ciudad con id 1.
+	 * Post:
+	 * - La ciudad 1 queda desbloqueada si no estaba completada.
+	 * - El jugador recibe la experiencia inicial.
+	 * - Se crea la ventana principal del juego.
 	 */
 	public void iniciarJuego() {
-//		if(this.ciudades.get(1).getEstado() != EstadoCiudad.COMPLETADA) {
-//			this.ciudades.get(1).setEstado(EstadoCiudad.DESBLOQUEADA);
-//		}
-	    for(Ciudad c : ciudades.values()) {
-	        c.setEstado(EstadoCiudad.DESBLOQUEADA);
-	    }
+		if(this.ciudades.get(1).getEstado() != EstadoCiudad.COMPLETADA) {
+			this.ciudades.get(1).setEstado(EstadoCiudad.DESBLOQUEADA);
+		}
+//	    for(Ciudad c : ciudades.values()) {
+//	        c.setEstado(EstadoCisudad.DESBLOQUEADA);
+//	    }
 	    jugador.setPuntosExperiencia(1000);
-	    this.ventana = new Ventana(this);
+	    new Ventana(this);
 	}
 	
 	/**
-	 * Actualiza el juego. En caso de que el jugador se encuentre en el menu no
-	 * sucede nada. En caso de que haya entrado a una ciudad, se dice que el
-	 * juego se encuentra en progreso... este metodo valida que la ciudad sea
-	 * accesible antes de entrar.
+	 * Actualiza el estado actual del juego.
+	 * Si el estado no es EN_PROGRESO no realiza ninguna acción.
+	 * Si la ciudad seleccionada es accesible, crea e inicia
+	 * el minijuego correspondiente.
+	 *
+	 * Pre: Debe existir una ciudad seleccionada cuando el estado sea EN_PROGRESO.
+	 * Post:
+	 * - Si no puede accederse a la ciudad, el estado pasa a
+	 *   MAPA_GENERAL.
+	 * - Si corresponde, se crea e inicia un minijuego.
 	 */
 	public void update() {
 	    if(estado != EstadoJuego.EN_PROGRESO) {
@@ -79,10 +88,13 @@ public class AdministradorJuego {
 	}
 
 	/**
-	 * Se evalua que la ciudad al que el usuario quiere visitar se encuentre Desbloqueada
-	 * y tambien que contenga los puntos necesarios para entrar. 
-	 * Que la ciudad se encuentre bloqueada o completa no es valido.
-	 * @return : Devuelve true si es posible acceder dentro de la ciudad
+	 * Verifica si el jugador puede ingresar a la ciudad actual.
+	 * Pre: ciudadActual != null.
+	 * Post: 
+	 * - Devuelve true si la ciudad no está bloqueada ni completada
+	 *   y el jugador posee los requisitos necesarios para acceder.
+	 * - No modifica el estado de ningún objeto.
+	 * @return true si puede ingresar a la ciudad.
 	 */
 	private boolean puedeEntrar() {
 //		System.out.println("puedeEntrar: estado=" + ciudadActual.getEstado());
@@ -96,28 +108,52 @@ public class AdministradorJuego {
 	}
 	
 	/**
-	 * Actualiza la ciudad en la que el jugador quiere entrar
-	 * @param idCiudad : id de la ciudad
+	 * Cambia la ciudad actual seleccionada por el jugador,
+	 * Pre: ciudades.containsKey(idCiudad), donde idCiudad > 0, 
+	 * y debe existir una ciudad asociada al identificador.
+	 * Post: ciudadActual referencia a la ciudad indicada.
+	 * @param idCiudad: identificador de la ciudad.
 	 */
 	public void cambiarDeCiudad(int idCiudad) {
 		Validaciones.validarMayorACero(idCiudad, "idCiudad");
 		setCiudadActual(ciudades.get(idCiudad));
 	}
 	
+	/**
+	 * Desbloquea las ciudades vecinas de la ciudad indicada.
+	 * Pre: ciudad != null.
+	 * Post: Las ciudades vecinas quedan desbloqueadas según las
+	 * reglas definidas por el grafo de ciudades.
+	 * @param ciudad: ciudad desde la cual se desbloquean vecinos.
+	 */
 	public void desbloquearVecinos(Ciudad ciudad) {
 		adminCiudades.getGrafo().desbloquearVecinos(ciudad);
 	}
 	
-	// ================== MANEJO DE DATOS DEL JUEGO ====================
-
+	/**
+	 * Elimina la referencia al minijuego actual.
+	 * Post: juegoActual == null.
+	 */
 	public void limpiarJuegoActual() {
 	    this.juegoActual = null;
 	}
 	
+	// ================== MANEJO DE DATOS DEL JUEGO ====================
+
+	/**
+	 * Guarda el estado actual del juego en el archivo de datos.
+	 * Pre: El sistema de persistencia debe estar inicializado.
+	 * Post: Los datos actuales del juego quedan almacenados.
+	 */
 	public void actualizarDatos() {
 		this.guardado.actualizarArchivoDeDatos();
 	}
 	
+	/**
+	 * Elimina los datos almacenados del juego al sobreescribir
+	 * el archivo de datos.
+	 * Post: Los datos guardados son eliminados.
+	 */
 	public void eliminarDatos() {
 		this.guardado.eliminarDatosDeArchivo();
 	}
@@ -142,10 +178,6 @@ public class AdministradorJuego {
 	public Minijuego getJuegoActual() {
 	    return juegoActual;
 	}
-	
-	public Ventana getVentana() {
-        return this.ventana;
-    }
 	
 	public GestorRecursos getRecursos() {
 		return this.recursos;

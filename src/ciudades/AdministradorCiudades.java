@@ -22,7 +22,15 @@ public class AdministradorCiudades {
 	private ConexionesCiudades grafo;
 
 	// CONSTRUCTOR
-	
+	/**
+	 * Crea el administrador de ciudades, cargando las ciudades
+	 * y sus conexiones desde los archivos correspondientes.
+	 * Pre: Los archivos de ciudades y vecinos deben existir.
+	 * Post:
+	 * - Las ciudades son cargadas en memoria.
+	 * - El grafo de conexiones queda inicializado.
+	 * - Las relaciones de vecindad quedan establecidas.
+	 */
 	public AdministradorCiudades() {
 		cargarDatosCiudades();
 		this.grafo = new ConexionesCiudades(ciudades, ID_CIUDAD_INICIAL);
@@ -32,6 +40,13 @@ public class AdministradorCiudades {
 	// ========================= CARGA DE CIUDADES =========================
 	
 	/**
+	 *
+	 * Carga las ciudades desde el archivo de datos.
+	 * Pre: El archivo de ciudades debe existir y respetar
+	 * el formato establecido.
+	 * Post: Todas las ciudades del archivo son agregadas a
+	 * la colección de ciudades.
+	 * 
 	 * formato linea:
 	 * NombreCiudad;Puntos;ID
 	 */
@@ -52,6 +67,15 @@ public class AdministradorCiudades {
 
 	}
 	
+	/**
+	 * Crea una ciudad a partir de los datos recibidos y la
+	 * agrega a la colección de ciudades.
+	 * Pre: 
+	 *  - datos != null
+	 *  - datos debe contener nombre, experiencia e id.
+	 * Post: La ciudad creada queda almacenada en la colección.
+	 * @param datos información de la ciudad.
+	 */
 	private void agregarCiudad(String[] datos) {
 		Validaciones.esDistintoDeNull(datos, "datos");
 		String nombre = datos[0];
@@ -66,6 +90,12 @@ public class AdministradorCiudades {
 	
 
 	/**
+	 * Carga las conexiones entre ciudades desde el archivo
+	 * de vecinos.
+	 * Pre: El archivo de vecinos debe existir y respetar
+	 * el formato establecido.
+	 * Post: Todas las conexiones definidas son agregadas al grafo.
+	 * 
 	 * formato linea:
 	 * NombreCiudad;PesoArista;IDVecino
 	 */
@@ -85,10 +115,15 @@ public class AdministradorCiudades {
 	}
 	
 	/**
-	 * Agrega un arista en el grafo para poder conectar una ciudad a otra
-	 * agregandoa su vez el peso, el cual serian los puntos necesarios para
-	 * poder ingresar a la ciudad
-	 * @param datos
+	 * Agrega una conexión entre dos ciudades en el grafo, indicando el
+	 * costo necesario para acceder a ella.
+	 * Pre:
+	 * - datos != null.
+	 * - Las ciudades indicadas deben existir.
+	 * - datos debe contener idCiudad, peso e idVecino.
+	 * Post:
+	 * - Se crea una conexión entre ambas ciudades con el peso especificado.
+	 * @param datos: información de la conexión.
 	 */
 	private void agregarVecino(String[] datos) {
 		Validaciones.esDistintoDeNull(datos, "datos");
@@ -110,6 +145,17 @@ public class AdministradorCiudades {
 
     // ========================= UTIL =========================
 
+	/**
+	 * Abre un archivo de recursos y devuelve un lector
+	 * para acceder a su contenido.
+	 * Pre:
+	 * - ruta != null.
+	 * - El archivo debe existir en la ruta indicada.
+	 * Post: Se devuelve un BufferedReader asociado al archivo.
+	 *
+	 * @param ruta ubicación del archivo.
+	 * @return lector para acceder al contenido.
+	 */
     private BufferedReader abrirArchivo(String ruta) {
     	Validaciones.esDistintoDeNull(ruta, "ruta");
         InputStream is = getClass().getResourceAsStream(ruta);
