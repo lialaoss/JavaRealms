@@ -8,6 +8,7 @@ import javax.imageio.ImageIO;
 public class GestorRecursos {
 	
 	private BufferedImage botonMenu1, botonMenu2, botonMenu3, botonVolver;
+	private BufferedImage botonArbol, botonLista;
 	private BufferedImage[] jugadorUp;
 	private BufferedImage[] jugadorDown;
 	private BufferedImage[] jugadorLeft;
@@ -34,6 +35,7 @@ public class GestorRecursos {
 		cargarFondos();
 		cargarTiles();
 		cargarFondoMapa();
+		cargarBotonesArdillas();
 	}
 	
 	
@@ -112,6 +114,15 @@ public class GestorRecursos {
 			e.printStackTrace();
 		}
 	}
+	
+	private void cargarBotonesArdillas() {
+		try {
+			botonArbol = ImageIO.read(getClass().getResourceAsStream("/busquedaArchivos/ardilla1.png"));
+			botonLista = ImageIO.read(getClass().getResourceAsStream("/busquedaArchivos/ardilla2.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 
 	public BufferedImage getBotonMenu1() {
 		return botonMenu1;
@@ -186,6 +197,15 @@ public class GestorRecursos {
 		return cofre;
 	}
 	
+	public BufferedImage getBotonArbol() {
+		return botonArbol;
+	}
+
+
+	public BufferedImage getBotonLista() {
+		return botonLista;
+	}
+
 	public BufferedImage getNodoCiudad1() {
 	    return nodoCiudad1;
 	}

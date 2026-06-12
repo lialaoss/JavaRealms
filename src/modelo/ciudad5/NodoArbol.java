@@ -1,4 +1,4 @@
-package logica;
+package modelo.ciudad5;
 
 public class NodoArbol {
     public String palabra;

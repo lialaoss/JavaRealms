@@ -1,17 +1,12 @@
-package logica;
+package modelo.ciudad5;
 import java.util.Scanner;
-import logica.ArbolABB;
-import logica.ListaDinamica;
-import logica.TransformadorTXT;
-import logica.NodoArbol;
-import logica.NodoLista;
 
 public class Main {
     public static void main(String[] args) {
         Scanner teclado = new Scanner(System.in);
-        ArbolABB miArbol = new ArbolABB();
-        ListaDinamica miLista = new ListaDinamica();
-        TransformadorTXT transformador = new TransformadorTXT();
+        ArbolABB miArbol = new ArbolABB(); //
+        ListaDinamica miLista = new ListaDinamica(); //
+        TransformadorTXT transformador = new TransformadorTXT(); //
 
         System.out.println("=================================================");
         System.out.println("JUEGO ÁRBOL VS LISTA");
