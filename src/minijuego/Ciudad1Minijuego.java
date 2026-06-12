@@ -26,8 +26,8 @@ import modelo.ciudad1.Radar;
 
 public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
 	
-	private final int TILE_SIZE = ConfiguracionPantalla.TILE_SIZE; // estoy pensando como tener esto para todos los mapas ahre
-	
+	private final int TILE_SIZE = ConfiguracionPantalla.TILE_SIZE;
+
     private Ciudad ciudad;
     private Partida partida;
     private Jugador jugador;
@@ -266,13 +266,10 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
     @Override
     public void resultadoPartida() {    	
     	if(ganado) {
-    		desbloquearVecinos();
+    		this.jugador.sumarPuntos(ciudad.getPuntosDeExperiencia());
+    		ciudad.setEstado(EstadoCiudad.COMPLETADA);
     	}
     }
 
-    @Override
-    public void desbloquearVecinos() {
-        ciudad.setEstado(EstadoCiudad.COMPLETADA);
-    }
 
 }

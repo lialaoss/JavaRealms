@@ -189,12 +189,9 @@ public class Ciudad7Minijuego implements Minijuego {
 
     @Override
     public void resultadoPartida() {
-        if (ganado) { desbloquearVecinos(); }
-    }
-
-    @Override
-    public void desbloquearVecinos() {
-        ciudad.setEstado(EstadoCiudad.COMPLETADA);
+        if (ganado) { 
+            ciudad.setEstado(EstadoCiudad.COMPLETADA);
+        }
     }
 
     @Override

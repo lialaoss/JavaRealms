@@ -12,8 +12,8 @@ import utiles.Validaciones;
 public class AdministradorCiudades {
 	
 	// CONSTANTES
-	private final String RUTA_CIUDADES = "/Ciudades/Ciudades.txt";
-	private final String RUTA_VECINOS = "/Ciudades/Vecinos.txt";
+	private final String RUTA_CIUDADES = "/datosJuego/Ciudades.txt";
+	private final String RUTA_VECINOS = "/datosJuego/Vecinos.txt";
 	private final String SEPARADOR = ";";
 	private final int ID_CIUDAD_INICIAL = 1; // ...
 	

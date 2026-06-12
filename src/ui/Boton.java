@@ -3,7 +3,7 @@ package ui;
 import java.awt.Graphics2D;
 import java.awt.image.BufferedImage;
 
-public class BotonMenu {
+public class Boton {
 
     private int x;
     private int y;
@@ -20,7 +20,7 @@ public class BotonMenu {
      * @param width
      * @param height
      */
-    public BotonMenu(
+    public Boton(
             BufferedImage imagen,
             int x,
             int y,

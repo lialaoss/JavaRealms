@@ -123,13 +123,8 @@ public class Ciudad10Minijuego implements Minijuego {
     @Override
     public void resultadoPartida() {
         if (ganado) {
-            desbloquearVecinos();
+            ciudad.setEstado(EstadoCiudad.COMPLETADA);
         }
-    }
-
-    @Override
-    public void desbloquearVecinos() {
-        ciudad.setEstado(EstadoCiudad.COMPLETADA);
     }
 
     public String getInputUsuario() {

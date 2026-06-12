@@ -72,11 +72,6 @@ public class Ciudad9Minijuego implements Minijuego, ObservadorVictoria {
 
     @Override
     public void resultadoPartida() {
-        desbloquearVecinos();
-    }
-
-    @Override
-    public void desbloquearVecinos() {
         ciudad.setEstado(EstadoCiudad.COMPLETADA);
     }
 

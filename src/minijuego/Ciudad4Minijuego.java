@@ -101,11 +101,6 @@ public class Ciudad4Minijuego implements Minijuego, ObservadorOrdenamiento {
     @Override
     public void resultadoPartida() {
         this.completado = true;
-        desbloquearVecinos();
-    }
-
-    @Override
-    public void desbloquearVecinos() {
         ciudad.setEstado(EstadoCiudad.COMPLETADA);
     }
     

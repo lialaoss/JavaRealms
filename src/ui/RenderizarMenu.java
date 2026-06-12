@@ -16,9 +16,10 @@ public class RenderizarMenu {
 	private int screenWidth;
 	private int screenHeight;
 	
-	private BotonMenu botonJugar;
-	private BotonMenu botonInstrucciones;
-	private BotonMenu botonSalir;
+	private Boton botonJugar;
+	private Boton botonInstrucciones;
+	private Boton botonSalir;
+	private Boton botonGuardado;
 	
 	private List<NodoCiudad> ciudades;
 	
@@ -30,9 +31,21 @@ public class RenderizarMenu {
 		setAdmin(admin);
 		crearBotones();
 		crarCiudades();
+		crearBotonGuardado();
 	}
 	
 	// ============================== MENU =======================================
+	
+	public void crearBotonGuardado() {
+		int anchoBoton = 48;
+		int altoBoton = 48;
+		
+		int x = 50;
+		int y = 50;
+		
+		botonGuardado = new Boton(recursos.getBotonMenu1(),
+				x, y, anchoBoton, altoBoton);
+	}
 	
 	public void crearBotones() {
 		int anchoBoton = 300;
@@ -41,13 +54,13 @@ public class RenderizarMenu {
 		int x = (this.screenWidth - anchoBoton) / 2;
 		int y = (this.screenHeight - altoBoton) / 2 - 50;
 		
-		botonJugar = new BotonMenu(recursos.getBotonMenu1(),
+		botonJugar = new Boton(recursos.getBotonMenu1(),
 				x, y, anchoBoton, altoBoton);
 		
-		botonInstrucciones = new BotonMenu(recursos.getBotonMenu2(),
+		botonInstrucciones = new Boton(recursos.getBotonMenu2(),
 				x, y + 100, anchoBoton, altoBoton);
 		
-		botonSalir = new BotonMenu(recursos.getBotonMenu3(),
+		botonSalir = new Boton(recursos.getBotonMenu3(),
 				x, y + 200, anchoBoton, altoBoton);
 	}
 	
@@ -65,7 +78,6 @@ public class RenderizarMenu {
 	 * @param admin
 	 */
 	public void procesarClickMenu(int mouseX, int mouseY, AdministradorJuego admin) {
-
 	    if(botonJugar.contiene(mouseX, mouseY)) {
 	        admin.setEstado(EstadoJuego.MAPA_GENERAL);
 	    } else if(botonInstrucciones.contiene(mouseX, mouseY)) {
@@ -106,6 +118,7 @@ public class RenderizarMenu {
 	
 	public void renderizarMapaGeneral(Graphics2D g2) {
 	    g2.drawImage(recursos.getFondoMapa(), 0, 0, screenWidth, screenHeight, null);
+	    botonGuardado.dibujar(g2);
 	    for(NodoCiudad ciudad : ciudades) {
 	        ciudad.dibujar(g2);
 	    }
@@ -126,6 +139,10 @@ public class RenderizarMenu {
 	            break;
 	        }
 	    }
+		if(botonGuardado.contiene(mouseX, mouseY)) {
+            System.out.println("Datos actualizados!!!");
+			admin.actualizarDatos();
+		}
 	}
 	
 	

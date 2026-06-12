@@ -9,6 +9,7 @@ import entidad.Jugador;
 import ui.GestorRecursos;
 import minijuego.CrearMinijuegos;
 import minijuego.Minijuego;
+import persistencia.CargaDeDatos;
 import ui.Ventana;
 import utiles.Validaciones;
 
@@ -18,20 +19,24 @@ public class AdministradorJuego {
 	private AdministradorCiudades adminCiudades;
 	private Map<Integer, Ciudad> ciudades;
 	private EstadoJuego estado = EstadoJuego.MENU_PRINCIPAL;
+	
 	private Ciudad ciudadActual;
 	private Jugador jugador;
 	private Minijuego juegoActual;
+	
 	private Ventana ventana;
+	
 	private GestorRecursos recursos;
+	private CargaDeDatos guardado;
 	
 	// CONSTRUCTOR
 	public AdministradorJuego() {
-
+		
 	    this.adminCiudades = new AdministradorCiudades();
 	    this.ciudades = this.adminCiudades.getCiudades();
 	    this.jugador = new Jugador();
 	    this.recursos = new GestorRecursos();
-
+	    this.guardado = new CargaDeDatos(this);
 	}
 	
 	// =========================== LOGICA JUEGO ====================================
@@ -40,10 +45,13 @@ public class AdministradorJuego {
 	 * Inicia el juego y desbloquea por default la ciudad 1 (mas no se encuentra completa)
 	 */
 	public void iniciarJuego() {
-	    for(Ciudad c : ciudades.values()) {
-	        c.setEstado(EstadoCiudad.DESBLOQUEADA);
-	    }
-	    jugador.setPuntosExperiencia(1000);
+		if(this.ciudades.get(1).getEstado() != EstadoCiudad.COMPLETADA) {
+			this.ciudades.get(1).setEstado(EstadoCiudad.DESBLOQUEADA);
+		}
+//	    for(Ciudad c : ciudades.values()) {
+//	        c.setEstado(EstadoCiudad.DESBLOQUEADA);
+//	    }
+//	    jugador.setPuntosExperiencia(1000);
 	    this.ventana = new Ventana(this);
 	}
 	
@@ -57,10 +65,11 @@ public class AdministradorJuego {
 	    if(estado != EstadoJuego.EN_PROGRESO) {
 	    	return; 
 	    }
-	    if(!puedeEntrar()) {
+	    if(juegoActual != null && !puedeEntrar()) {
 	    	setEstado(EstadoJuego.MAPA_GENERAL); 
 	    	return;
 	    }
+	    // creo que ahora si se puede quitar este if ahre
 	    if(juegoActual == null) {
 		    juegoActual = CrearMinijuegos.crear(ciudadActual, jugador, recursos);
 		    if(juegoActual != null) {
@@ -76,7 +85,7 @@ public class AdministradorJuego {
 	 * @return : Devuelve true si es posible acceder dentro de la ciudad
 	 */
 	private boolean puedeEntrar() {
-//		System.out.println("puedeEntrar: estado=" + ciudadActual.getEstado());
+		System.out.println("puedeEntrar: estado=" + ciudadActual.getEstado());
 	    if(ciudadActual.getEstado() == EstadoCiudad.COMPLETADA) {
 	        return false;
 	    }
@@ -94,6 +103,10 @@ public class AdministradorJuego {
 	    this.juegoActual = null;
 	}
 	
+	public void actualizarDatos() {
+		this.guardado.actualizarArchivoDeDatos();
+	}
+	
 	/**
 	 * Actualiza la ciudad en la que el jugador quiere entrar
 	 * @param idCiudad : id de la ciudad
@@ -101,6 +114,10 @@ public class AdministradorJuego {
 	public void cambiarDeCiudad(int idCiudad) {
 		Validaciones.validarMayorACero(idCiudad, "idCiudad");
 		setCiudadActual(ciudades.get(idCiudad));
+	}
+	
+	public void desbloquearVecinos(Ciudad ciudad) {
+		adminCiudades.getGrafo().desbloquearVecinos(ciudad);
 	}
 
 	// GETTERS

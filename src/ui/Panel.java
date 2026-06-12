@@ -8,6 +8,7 @@ import java.awt.Graphics2D;
 
 import javax.swing.JPanel;
 
+import ciudades.EstadoCiudad;
 import logica.AdministradorJuego;
 import logica.DireccionJugador;
 import logica.EstadoJuego;
@@ -178,6 +179,10 @@ public class Panel extends JPanel implements Runnable {
 		        keyH.ultimoCaracter = 0;
 		        keyH.enterPressed = false;
 		        admin.getJuegoActual().resultadoPartida();
+		        if(admin.getCiudadActual().getEstado() == EstadoCiudad.COMPLETADA) {
+		        	System.out.println("Se completo la ciudad: " + admin.getCiudadActual().getNombre());
+		        	admin.desbloquearVecinos(admin.getCiudadActual());
+		        }
 		        admin.limpiarJuegoActual();
 		    }
 		}

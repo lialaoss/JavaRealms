@@ -38,11 +38,6 @@ public class Ciudad6Minijuego implements Minijuego {
 
     @Override
     public void resultadoPartida() {
-        desbloquearVecinos();
-    }
-
-    @Override
-    public void desbloquearVecinos() {
         ciudad.setEstado(EstadoCiudad.COMPLETADA);
     }
 

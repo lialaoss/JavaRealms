@@ -10,7 +10,7 @@ import java.util.List;
 import ciudades.Ciudad;
 import ciudades.EstadoCiudad;
 import entidad.Jugador;
-import ui.BotonMenu;
+import ui.Boton;
 import ui.ConfiguracionPantalla;
 import ui.GestorRecursos;
 import modelo.ciudad3.BFS;
@@ -43,7 +43,7 @@ public class Ciudad3Minijuego implements Minijuego {
     private FinMinijuegoPantalla pantallaFinal = new FinMinijuegoPantalla();
 	
 	private GestorRecursos recursos;	
-	private BotonMenu bfsBoton, dfsBoton;
+	private Boton bfsBoton, dfsBoton;
 
 	private boolean usarBFS = true;
 
@@ -86,8 +86,8 @@ public class Ciudad3Minijuego implements Minijuego {
 		int x = (ConfiguracionPantalla.SCREEN_WIDTH - anchoBoton) / 2;
 		int y = (ConfiguracionPantalla.SCREEN_HEIGHT - altoBoton) / 2 - 50;
 		
-		bfsBoton = new BotonMenu(recursos.getBotonMenu1(), x, y, anchoBoton, altoBoton);
-		dfsBoton = new BotonMenu(recursos.getBotonMenu1(), x, y + 150, anchoBoton, altoBoton);
+		bfsBoton = new Boton(recursos.getBotonMenu1(), x, y, anchoBoton, altoBoton);
+		dfsBoton = new Boton(recursos.getBotonMenu1(), x, y + 150, anchoBoton, altoBoton);
 	}
 	
 	private void mostrarOpciones(Graphics2D g2) {
@@ -229,14 +229,9 @@ public class Ciudad3Minijuego implements Minijuego {
 	@Override
 	public void resultadoPartida() {
 		if (ganado) {
-			desbloquearVecinos();
 			ciudad.setEstado(EstadoCiudad.COMPLETADA);
 			this.jugador.sumarPuntos(ciudad.getPuntosDeExperiencia());
 		}
-	}
-
-	@Override
-	public void desbloquearVecinos() {
 	}
 	
 	// ====================================================
