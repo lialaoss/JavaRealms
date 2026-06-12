@@ -1,65 +1,57 @@
 package ciudad9;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
+import java.util.Vector;
 
-/**
- * Gestiona a los enemigos activos mediante una Lista.
+/*
+  Gestiona la colección de enemigos activos usando un Vector (Regla UBASOFT).
  */
 public class ListaEnemigos {
-    private final List<Personaje> enemigos;
+    private final Vector<Personaje> enemigos;
 
-    /**
-     * Pre: Ninguna.
-     * Post: Se inicializa una lista de enemigos vacía.
+    /*
+      Pre: Ninguna.
+      Post: Se inicializa un vector vacío para almacenar los enemigos.
      */
     public ListaEnemigos() {
-        this.enemigos = new ArrayList<>();
+        this.enemigos = new Vector<>();
     }
 
-    /**
-     * Pre: 'enemigo' no debe ser nulo.
-     * Post: El enemigo es agregado al final de la lista.
+    /*
+      Pre: 'enemigo' no debe ser nulo.
+      Post: El enemigo se añade al final de la colección.
      */
     public void agregarEnemigo(Personaje enemigo) {
-        if (enemigo == null) return; 
+        if (ValidacionesUtiles.esNulo(enemigo)) return; 
         this.enemigos.add(enemigo);
     }
 
-    /**
-     * Pre: La lista de enemigos debe estar inicializada.
-     * Post: Todos los enemigos cuya vida sea <= 0 son removidos de la lista.
+    /*
+     Pre: La lista debe estar inicializada.
+     Post: Remueve a todos los enemigos con vida 0 utilizando Stream API (removeIf).
      */
     public void eliminarDerrotados() {
-        Iterator<Personaje> iterator = enemigos.iterator();
-        while (iterator.hasNext()) {
-            Personaje enemigo = iterator.next();
-            if (!enemigo.estaVivo()) {
-                iterator.remove(); 
-            }
-        }
+        this.enemigos.removeIf(enemigo -> !enemigo.estaVivo());
     }
 
-    /**
-     * Pre: Ninguna.
-     * Post: Retorna una copia de la lista de enemigos actuales.
+    /*
+     Pre: Ninguna.
+     Post: Devuelve una copia del vector de enemigos actuales para mantener el encapsulamiento.
      */
-    public List<Personaje> obtenerEnemigos() {
-        return new ArrayList<>(enemigos); 
+    public Vector<Personaje> obtenerEnemigos() {
+        return new Vector<>(enemigos); 
     }
 
-    /**
-     * Pre: Ninguna.
-     * Post: Retorna true si hay al menos un enemigo en la lista, false si está vacía.
+    /*
+     Pre: Ninguna.
+     Post: Devuelve true si hay al menos un enemigo en el vector.
      */
     public boolean quedanEnemigos() {
         return !enemigos.isEmpty();
     }
 
-    /**
-     * Pre: Ninguna.
-     * Post: Retorna la cantidad entera de enemigos vivos en la lista.
+    /*
+     Pre: Ninguna.
+     Post: Devuelve la cantidad entera de enemigos en el vector.
      */
     public int cantidadEnemigos() {
         return enemigos.size();

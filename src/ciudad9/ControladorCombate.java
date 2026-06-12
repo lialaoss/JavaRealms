@@ -1,10 +1,9 @@
 package ciudad9;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Vector;
 
-/**
- * Motor del combate. Orquesta el flujo de turnos, acciones y estructuras.
+/*
+  Motor del combate. Maneja el flujo de turnos, acciones y estructuras.
  */
 public class ControladorCombate {
     public static final int MAX_COMBO = 3;
@@ -16,25 +15,29 @@ public class ControladorCombate {
 
     private int experienciaCombo;
     private boolean comboDisponible;
-    private final List<String> historialSucesos;
+    private final Vector<String> historialSucesos;
 
-    /**
-     * Pre: Ninguna.
-     * Post: Se inicializan las estructuras, se crean los personajes y se encolan para iniciar el combate.
+    /*
+     Pre: Ninguna.
+     Post: Se inicializan las estructuras, se limpia el historial y se inicia el combate con los valores predeterminados.
      */
     public ControladorCombate() {
-        this.jugador = new Personaje("Heroe", 100, 25, true);
+        this.jugador = new Personaje("Heroe", 150, 30, true);
         this.listaEnemigos = new ListaEnemigos();
         this.colaTurnos = new ColaTurnos();
         this.pilaAcciones = new PilaAcciones();
         this.experienciaCombo = 0;
         this.comboDisponible = false;
-        this.historialSucesos = new ArrayList<>();
+        this.historialSucesos = new Vector<>();
         
         registrarSuceso("¡Comienza la batalla en Ciudad 9!");
         inicializarCombate();
     }
 
+    /*
+     Pre: El combate no debe haber sido inicializado previamente y no deben existir personajes registrados.
+     Post: Se crean los enemigos y se encolan junto al jugador en la Cola de Turnos.
+     */
     private void inicializarCombate() {
         Personaje tanque = new Personaje("Tanque", 100, 8, false);
         Personaje guerrero = new Personaje("Guerrero", 70, 12, false);
@@ -50,39 +53,44 @@ public class ControladorCombate {
         colaTurnos.encolar(mago);
     }
 
-    /**
-     * Pre: 'suceso' no debe ser nulo.
-     * Post: El suceso se agrega al historial. Si el historial supera los 12 elementos, se elimina el más antiguo.
+    /*
+     Pre: 'suceso' no debe ser nulo.
+     Post: Añade el suceso al historial. Si excede 12 elementos, borra el más antiguo.
      */
     public void registrarSuceso(String suceso) {
+        if (ValidacionesUtiles.esNulo(suceso)) return;
         this.historialSucesos.add(suceso);
         if (this.historialSucesos.size() > 12) {
             this.historialSucesos.remove(0);
         }
     }
 
-    public List<String> getHistorialSucesos() { return historialSucesos; }
+    /*
+     Pre: Ninguna.
+     Posr: Devuelve el vector con el historial de eventos recientes.
+     */
+    public Vector<String> getHistorialSucesos() { return historialSucesos; }
 
-    /**
-     * Pre: La cola de turnos debe estar inicializada.
-     * Post: Retorna true si el jugador es el próximo en desencolarse, false en caso contrario.
+    /*
+     Pre: Ninguna.
+     Post: Devuelve true si el próximo personaje en la cola de turnos es el jugador.
      */
     public boolean esTurnoJugador() {
         return !colaTurnos.estaVacia() && colaTurnos.espiar() == jugador;
     }
 
-    /**
-     * Pre: 'tipoAccion' debe ser una constante válida de la clase Accion.
-     * Post: La acción elegida queda registrada como la última acción pendiente a ejecutar en el turno.
+    /*
+     Pre: 'tipoAccion' debe ser válido.
+     Poat: Apila la acción seleccionada en la pila del jugador.
      */
     public void agregarAccionJugador(String tipoAccion) {
-        if (tipoAccion == null) return;
+        if (ValidacionesUtiles.esNulo(tipoAccion)) return;
         pilaAcciones.apilarAccion(new Accion(tipoAccion));
     }
 
-    /**
-     * Pre: El jugador acaba de finalizar su turno correctamente.
-     * Post: Aumenta la experiencia de combo. Si alcanza MAX_COMBO, comboDisponible pasa a true.
+    /*
+     Pre: El turno del jugador finalizó correctamente.
+     Poat: Incrementa la experiencia de combo. Si llega al máximo, se activa el combo.
      */
     private void aumentarCombo() {
         if (!comboDisponible) {
@@ -94,16 +102,16 @@ public class ControladorCombate {
         }
     }
 
-    /**
-     * Pre: 'objetivo' debe ser el índice del enemigo seleccionado (0 si es automático).
-     * Post: Se desencola al personaje actual y se ejecuta su acción. Los personajes derrotados son eliminados. Los personajes vivos vuelven al final de la cola.
+    /*
+     Pre: 'objetivo' es un índice válido y 'aciertoPregunta' indica si el jugador respondió bien la trivia.
+     Post: Desencola al personaje activo y procesa su turno. Si sigue vivo, lo vuelve a encolar.
      */
-    public void ejecutarTurno(int objetivo) {
+    public void ejecutarTurno(int objetivo, boolean aciertoPregunta) {
         Personaje actual = colaTurnos.desencolar();
         if (actual == null || !actual.estaVivo()) return;
 
         if (actual == jugador) {
-            ejecutarTurnoJugador(objetivo);
+            ejecutarTurnoJugador(objetivo, aciertoPregunta);
             aumentarCombo(); 
         } else {
             ejecutarTurnoEnemigo(actual);
@@ -115,11 +123,11 @@ public class ControladorCombate {
         }
     }
 
-    /**
-     * Pre: La pila de acciones contiene al menos una acción apilada.
-     * Post: Se desapilan y ejecutan LIFO las acciones correspondientes (1 normal, o 2 si el combo está activo).
+    /*
+     Pre: El jugador tiene acciones encoladas en su pila.
+     Post: Desapila y ejecuta sus acciones. Aplica los penalizadores si aciertoPregunta es false.
      */
-    private void ejecutarTurnoJugador(int objetivo) {
+    private void ejecutarTurnoJugador(int objetivo, boolean aciertoPregunta) {
         int accionesAEjecutar = comboDisponible ? 2 : 1;
         
         if (comboDisponible) {
@@ -128,44 +136,72 @@ public class ControladorCombate {
             experienciaCombo = 0;
         }
 
+        if (aciertoPregunta) {
+            registrarSuceso("✓ ¡Respuesta Correcta! El Héroe actúa con máxima eficacia.");
+        } else {
+            registrarSuceso("✗ Respuesta Incorrecta... El Héroe titubea y pierde efectividad.");
+        }
+
         for (int i = 0; i < accionesAEjecutar; i++) {
             Accion accion = pilaAcciones.desapilarAccion();
             if (accion == null) break;
 
             switch (accion.getTipo()) {
                 case Accion.ATAQUE:
-                    realizarAtaque(objetivo);
+                    realizarAtaque(objetivo, aciertoPregunta);
                     break;
                 case Accion.DEFENSA:
-                    realizarDefensa();
+                    realizarDefensa(aciertoPregunta);
                     break;
                 case Accion.HABILIDAD:
-                    usarHabilidad();
+                    usarHabilidad(aciertoPregunta);
                     break;
             }
         }
     }
 
-    private void realizarAtaque(int objetivo) {
+    /*
+     Pre: El jugador eligió Atacar.
+     Post: Calcula el daño con o sin penalización y lo inflige al enemigo objetivo.
+     */
+    private void realizarAtaque(int objetivo, boolean acierto) {
         if (!listaEnemigos.quedanEnemigos()) return;
-        if (objetivo < 0 || objetivo >= listaEnemigos.cantidadEnemigos()) {
-            objetivo = 0;
-        }
+        if (objetivo < 0 || objetivo >= listaEnemigos.cantidadEnemigos()) objetivo = 0;
+        
         Personaje enemigo = listaEnemigos.obtenerEnemigos().get(objetivo);
-        enemigo.recibirDanio(jugador.getAtaque());
-        registrarSuceso("[Acción] Héroe atacó a " + enemigo.getNombre() + " infligiendo " + jugador.getAtaque() + " de daño.");
+        int danioAInfligir = acierto ? jugador.getAtaque() : jugador.getAtaque() / 2;
+        
+        enemigo.recibirDanio(danioAInfligir);
+        registrarSuceso("[Acción] Héroe atacó a " + enemigo.getNombre() + " infligiendo " + danioAInfligir + " de daño.");
     }
 
-    private void realizarDefensa() {
-        jugador.activarDefensa();
-        registrarSuceso("[Acción] Héroe se puso en guardia. Mitigará el 50% del próximo ataque.");
+    /*
+     Pre: El jugador eligió Defender.
+     Post: Activa la defensa del jugador si respondió bien la pregunta.
+     */
+    private void realizarDefensa(boolean acierto) {
+        if (acierto) {
+            jugador.activarDefensa();
+            registrarSuceso("[Acción] Héroe se puso en guardia perfecta. Mitigará daño.");
+        } else {
+            registrarSuceso("[Acción] Héroe intentó defenderse pero tropezó. ¡Queda expuesto!");
+        }
     }
 
-    private void usarHabilidad() {
-        jugador.curar(30);
-        registrarSuceso("[Acción] Héroe usó Sanación y recuperó +30 HP.");
+    /*
+     Pre: El jugador eligió Habilidad.
+     Post: Cura al jugador. Si respondió mal la trivia, la curación es mucho menor.
+     */
+    private void usarHabilidad(boolean acierto) {
+        int cura = acierto ? 30 : 10;
+        jugador.curar(cura);
+        registrarSuceso("[Acción] Héroe usó Sanación y recuperó +" + cura + " HP.");
     }
 
+    /*
+     Pre: Es el turno de un enemigo.
+     Post: El enemigo ataca al jugador aplicando daño según su atributo de ataque.
+     */
     private void ejecutarTurnoEnemigo(Personaje enemigo) {
         int vidaAntes = jugador.getVida();
         jugador.recibirDanio(enemigo.getAtaque());
@@ -173,21 +209,39 @@ public class ControladorCombate {
         registrarSuceso("[Turno Enemigo] " + enemigo.getNombre() + " atacó al Héroe infligiendo " + danioReal + " de daño.");
     }
 
-    /** Pre: Ninguna. 
-     *  Post: Retorna true si la lista de enemigos está vacía.
-    **/
+    /*
+     Pre: Ninguna.
+     Post: Devuelve true si no quedan enemigos vivos.
+     */
     public boolean victoria() { return !listaEnemigos.quedanEnemigos(); }
 
-    /** Pre: Ninguna.
-     *  Post: Retorna true si la vida del jugador es 0.
-    **/
+    /*
+     Pre: Ninguna.
+     Post: Devuelve true si la vida del jugador llegó a 0.
+     */
     public boolean derrota() { return !jugador.estaVivo(); }
 
+    /*
+     Pre: Ninguna.
+     Post: Devuelve la instancia del personaje Jugador.
+     */
     public Personaje getJugador() { return jugador; }
-    
+
+    /*
+     Pre: Ninguna.
+     Post: Devuelve la colección de enemigos.
+     */
     public ListaEnemigos getListaEnemigos() { return listaEnemigos; }
-    
+
+    /*
+     Pre: Ninguna.
+     Post: Devuelve el contador de experiencia para el combo.
+     */
     public int getExperienciaCombo() { return experienciaCombo; }
-    
+
+    /*
+     Pre: Ninguna.
+     Post: Devuelve true si el jugador tiene su combo cargado y listo.
+     */
     public boolean isComboDisponible() { return comboDisponible; }
 }

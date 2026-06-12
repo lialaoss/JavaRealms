@@ -7,16 +7,15 @@ import javax.swing.JOptionPane;
 import java.awt.Font;
 import java.awt.BorderLayout;
 
-/**
- * Interfaz gráfica principal del combate. 
- * Separa la lógica de presentación del modelo de datos.
+/*
+ * Interfaz gráfica principal del combate (Vista).
  */
 public class VistaCombate extends JFrame {
     private final JTextArea areaTexto;
 
-    /**
-     * Pre: Ninguna.
-     * Post: Se inicializa la ventana principal de Swing, estableciendo sus dimensiones, layout y haciéndola visible en pantalla.
+    /*
+     Pre: Ninguna.
+     Post: Se configura y se hace visible la ventana de combate en Swing.
      */
     public VistaCombate() {
         setTitle("Al-Quest - Desafío Ciudad 9");
@@ -35,9 +34,9 @@ public class VistaCombate extends JFrame {
         setVisible(true);
     }
 
-    /**
-     * Pre: 'combate' no debe ser nulo y debe contener el estado actualizado de la partida.
-     * Post: El área de texto de la ventana se actualiza mostrando la vida del jugador, los enemigos activos y el historial de sucesos.
+    /*
+     Pre: 'combate' no debe ser nulo.
+     Post: El área de texto se repinta reflejando los puntos de vida actuales y el historial.
      */
     public void mostrarEstado(ControladorCombate combate) {
         StringBuilder sb = new StringBuilder();
@@ -45,7 +44,7 @@ public class VistaCombate extends JFrame {
         sb.append("==================================================\n");
         sb.append("                BATALLA: CIUDAD 9                 \n");
         sb.append("==================================================\n");
-        sb.append(String.format(" Jugador: %-12s | HP: %-3d/100\n", 
+        sb.append(String.format(" Jugador: %-12s | HP: %-3d/150\n", 
                 combate.getJugador().getNombre(), combate.getJugador().getVida()));
         
         sb.append(" Combo: [").append(combate.getExperienciaCombo()).append("/")
@@ -71,62 +70,79 @@ public class VistaCombate extends JFrame {
         areaTexto.setText(sb.toString());
     }
 
-    /**
-     * Pre: 'accionActual' y 'totalAcciones' deben ser enteros positivos mayores a 0.
-     * Post: Retorna un entero (1, 2 o 3) ingresado por el usuario mediante un cuadro de diálogo. Si el usuario cancela, el programa finaliza. Si ingresa texto inválido, retorna 2 (Defensa) por defecto.
+    /*
+     Pre: 'accionActual' y 'totalAcciones' son valores positivos.
+     Post: Muestra botones gráficos y retorna el número asociado a la acción elegida (1, 2 o 3).
      */
     public int solicitarAccion(int accionActual, int totalAcciones) {
-        String mensajeMenu = "Acción [" + accionActual + " de " + totalAcciones + "]\n\n"
-                           + "1 -> Ataque\n"
-                           + "2 -> Defensa\n"
-                           + "3 -> Habilidad\n\n"
-                           + "Seleccione una opción (1-3):";
+        String mensaje = "Acción [" + accionActual + " de " + totalAcciones + "]\n\n¿Qué hará el Héroe?";
+        String[] opcionesBotones = {"Ataque", "Defensa", "Habilidad"};
         
-        String inputOpcion = JOptionPane.showInputDialog(this, mensajeMenu, "Turno del Héroe", JOptionPane.QUESTION_MESSAGE);
+        int seleccion = JOptionPane.showOptionDialog(this,
+                mensaje,
+                "Turno del Héroe",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                opcionesBotones,
+                opcionesBotones[0]);
         
-        if (inputOpcion == null) {
+        if (seleccion == JOptionPane.CLOSED_OPTION) {
             System.exit(0); 
         }
-
-        try {
-            return Integer.parseInt(inputOpcion);
-        } catch (NumberFormatException e) {
-            return 2; 
-        }
+        return seleccion + 1;
     }
 
-    /**
-     * Pre: 'listaEnemigos' no debe ser nula y debe contener al menos un enemigo vivo.
-     * Post: Retorna el índice del enemigo seleccionado. Si queda un solo enemigo, retorna 0 automáticamente sin mostrar el diálogo. Ante una entrada inválida, retorna 0.
+    /*
+     Pre: 'listaEnemigos' no es nulo.
+     Post: Retorna el índice del enemigo elegido mediante botones. Si queda uno, lo autoselecciona (retorna 0).
      */
     public int solicitarObjetivo(ListaEnemigos listaEnemigos) {
         int cantidadVivos = listaEnemigos.cantidadEnemigos();
-        
-        if (cantidadVivos == 1) {
-            return 0; 
-        }
+        if (cantidadVivos == 1) return 0; 
 
-        StringBuilder sbMenuEnemigos = new StringBuilder("Seleccione el objetivo de su ataque:\n\n");
+        String[] opcionesBotones = new String[cantidadVivos];
         for (int i = 0; i < cantidadVivos; i++) {
             Personaje e = listaEnemigos.obtenerEnemigos().get(i);
-            sbMenuEnemigos.append(i + 1).append(") ").append(e.getNombre()).append(" (HP: ").append(e.getVida()).append(")\n");
+            opcionesBotones[i] = e.getNombre() + " (HP: " + e.getVida() + ")";
         }
         
-        String inputObjetivo = JOptionPane.showInputDialog(this, sbMenuEnemigos.toString(), "Selección de Objetivo", JOptionPane.QUESTION_MESSAGE);
+        int seleccion = JOptionPane.showOptionDialog(this,
+                "Seleccione el objetivo de su ataque:",
+                "Selección de Objetivo",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                opcionesBotones,
+                opcionesBotones[0]);
         
-        if (inputObjetivo != null) {
-            try {
-                return Integer.parseInt(inputObjetivo) - 1;
-            } catch (NumberFormatException e) {
-                return 0;
-            }
-        }
-        return 0;
+        if (seleccion == JOptionPane.CLOSED_OPTION) return 0;
+        return seleccion;
     }
 
-    /**
-     * Pre: El combate debe haber concluido (estado de victoria o derrota confirmado).
-     * Post: Muestra un cuadro de diálogo final informando el resultado al jugador.
+    /*
+     Pre: 'pregunta' es un objeto Pregunta válido instanciado.
+     Post: Despliega el desafío choice. Retorna true si el usuario clickeó el botón correcto.
+     */
+    public boolean hacerPreguntaEstructuras(Pregunta pregunta) {
+        // La API gráfica nativa exige Array de Objetos para el ploteo de botones.
+        Object[] opcionesArray = pregunta.getOpciones().toArray();
+        
+        int seleccion = JOptionPane.showOptionDialog(this,
+                "Para ejecutar la acción con éxito, responde:\n\n" + pregunta.getEnunciado(),
+                "¡Desafío del Profesor!",
+                JOptionPane.DEFAULT_OPTION,
+                JOptionPane.QUESTION_MESSAGE,
+                null,
+                opcionesArray,
+                opcionesArray[0]);
+
+        return seleccion == pregunta.getIndiceCorrecto();
+    }
+
+    /*
+     Pre: El juego determinó un ganador o perdedor.
+     Post: Renderiza una ventana de diálogo final anunciando el resultado.
      */
     public void mostrarMensajeFin(boolean victoria) {
         if (victoria) {

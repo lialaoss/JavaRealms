@@ -1,7 +1,7 @@
 package ciudad9;
 
-/**
- * Representa una acción que puede realizar un personaje.
+/*
+  Representa una acción que puede realizar un personaje.
  */
 public class Accion {
     public static final String ATAQUE = "ATAQUE";
@@ -10,17 +10,17 @@ public class Accion {
 
     private final String tipo;
 
-    /**
-     * Pre: El parámetro 'tipo' debe ser una de las constantes definidas en la clase.
-     * Post: Se crea una nueva Accion con el tipo especificado.
+    /*
+      Pre: 'tipo' debe ser una constante válida.
+      Post: Se crea una nueva acción con el tipo especificado.
      */
     public Accion(String tipo) {
-        this.tipo = tipo;
+        this.tipo = ValidacionesUtiles.esNulo(tipo) ? DEFENSA : tipo;
     }
 
-    /**
-     * Pre: Ninguna.
-     * Post: Retorna el tipo de la acción.
+    /*
+      Pre: Ninguna.
+      Post: Devuelve el tipo de la acción.
      */
     public String getTipo() {
         return tipo;

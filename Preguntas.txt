@@ -1,0 +1,15 @@
+¿Qué es un TDA (Tipo de Dato Abstracto)? ;Un tipo de dato exclusivo del hardware;Un modelo matemático con una serie de operaciones definidas;Una variable estática de Java;Un puntero a memoria;1
+En la Programación Orientada a Objetos, ¿qué representa el estado de un objeto?;Sus métodos públicos;Sus atributos o variables de instancia;Su clase padre;Las interfaces que implementa;1
+El concepto de Encapsulamiento en la POO sirve principalmente para...;Acelerar la ejecución del programa;Permitir la herencia múltiple;Ocultar el estado interno y proteger los datos;Crear variables globales;2
+Según las buenas prácticas, ¿quién debería encargarse de mostrar los carteles en pantalla (ej. JOptionPane)?;La clase Personaje;El Modelo de datos;La Vista (VistaCombate);El Main o la Pila;2
+Al separar la lógica del combate de la interfaz gráfica, estamos logrando una correcta...;Recursividad cruzada;Separación de responsabilidades y modularización;Sobrecarga de métodos;Herencia estructurada;1
+¿Qué estructura de datos es ideal para gestionar los turnos secuenciales de los personajes en tu combate?;Pila (Stack);Árbol Binario;Cola (Queue);Grafo Dirigido;2
+¿Qué principio rige el orden de salida de los elementos en una Cola (Queue)?;FIFO (Primero en entrar, primero en salir);LIFO (Último en entrar, primero en salir);Acceso directo por índice;Aleatorio;0
+En un TDA Cola, los nuevos elementos que se insertan (encolan) se ubican habitualmente en:;El frente de la cola;El medio de la cola;El final o fondo de la cola;Cualquier posición vacía;2
+¿Qué principio rige el orden de extracción de las acciones apiladas en una Pila (Stack)?;FIFO (Primero en entrar, primero en salir);LIFO (Último en entrar, primero en salir);Aleatorio;Por peso o prioridad;1
+Si en tu Pila de Acciones apilás primero 'Atacar' y luego 'Defender', al desapilar ¿qué se ejecuta primero?;Atacar;Defender;Ambas simultáneamente;Ninguna, da error;1
+¿Cómo se llama habitualmente a la operación de insertar un elemento en la cima de una Pila?;Push o Apilar;Pop o Desapilar;Enqueue o Encolar;Peek o Espiar;0
+¿Qué ocurre conceptualmente si se intenta desapilar (hacer un Pop) de una Pila que ya está vacía?;Se reinicia el programa;Un desbordamiento (Overflow);Un subdesbordamiento (Underflow);La pila genera un dato aleatorio;2
+¿Cuál es una ventaja fundamental de usar una Lista Dinámica (ej. ArrayList) frente a un Vector estático tradicional?;Puede redimensionarse dinámicamente;Solo guarda números enteros;No ocupa memoria en disco;Es más rápida al compilar;0
+En el TDA Lista, si pedimos la cantidad de elementos y nos devuelve 0, significa que:;Ocurrió un error de memoria;La lista no fue instanciada (es null);La lista está vacía;La lista llegó a su capacidad máxima;2
+En un ArrayList o Vector Dinámico, ¿cuál es el costo algorítmico de acceder a un elemento si conocemos su índice?;O(N);O(log N);O(N^2);O(1) o tiempo constante;3

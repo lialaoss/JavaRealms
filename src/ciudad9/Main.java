@@ -1,16 +1,18 @@
 package ciudad9;
 
-/**
- * Punto de entrada del módulo Ciudad 9.
- * Maneja la comunicación entre el modelo lógico (ControladorCombate) y la interfaz (VistaCombate).
+/*
+  Punto de entrada del módulo Ciudad 9.
  */
 public class Main {
     
-    /**
-     * Pre: Ninguna.
-     * Post: Se inicializan los componentes MVC, se ejecuta el bucle principal de turnos pidiendo datos al usuario y delegando la ejecución al controlador, y finaliza mostrando el mensaje de resolución cuando se alcanza la victoria o derrota.
+    /*
+     Pre: El archivo 'preguntas.txt' debe estar ubicado en la raíz del proyecto.
+     Poat: Lee el archivo, maneja la interacción entre MVC, y gestiona el combate hasta finalizar en victoria o derrota.
      */
     public static void main(String[] args) {
+
+        Pregunta.cargarDesdeArchivo("preguntas.txt");
+        
         ControladorCombate combate = new ControladorCombate();
         VistaCombate vista = new VistaCombate();
 
@@ -48,10 +50,14 @@ public class Main {
                     objetivoElegido = vista.solicitarObjetivo(combate.getListaEnemigos());
                 }
 
-                combate.ejecutarTurno(objetivoElegido);
+                Pregunta preguntaAleatoria = Pregunta.obtenerAleatoria();
+                boolean respondioBien = vista.hacerPreguntaEstructuras(preguntaAleatoria);
+
+                combate.ejecutarTurno(objetivoElegido, respondioBien);
 
             } else {
-                combate.ejecutarTurno(0);
+
+                combate.ejecutarTurno(0, true);
                 vista.mostrarEstado(combate);
 
                 try {
