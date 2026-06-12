@@ -57,7 +57,6 @@ public class Ciudad6Minijuego implements Minijuego {
 
 	@Override
 	public void procesarClick(int mouseX, int mouseY) {
-		// TODO Auto-generated method stub
 		
 	}
 }

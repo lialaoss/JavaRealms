@@ -131,7 +131,7 @@ public class RenderizarMenu {
 	}
 	
 	/**
-	 * Detecta que el click sobre una ciudad (el jugador decide entrar en ella)
+	 * Detecta el click sobre una ciudad.
 	 * @param mouseX
 	 * @param mouseY
 	 * @param admin
@@ -139,19 +139,16 @@ public class RenderizarMenu {
 	public void procesarClickMapa(int mouseX, int mouseY) {
 		for (NodoCiudad ciudad : ciudades) {
 	        if (ciudad.contiene(mouseX, mouseY)) {
-	            System.out.println("Ciudad " + ciudad.getId());
 	            admin.setEstado(EstadoJuego.EN_PROGRESO);
 	            admin.cambiarDeCiudad(ciudad.getId());
 	            break;
 	        }
 	    }
 		if(botonGuardado.contiene(mouseX, mouseY)) {
-            System.out.println("Datos actualizados!!!");
 			admin.actualizarDatos();
 		}
 
 		if(botonBorrar.contiene(mouseX, mouseY)) {
-            System.out.println("Datos eliminados!!!");
             admin.eliminarDatos();
 	        System.exit(0);
 		}
@@ -196,7 +193,6 @@ public class RenderizarMenu {
 	
 	public void procesarClickFinal(int mouseX, int mouseY) {
 		if(botonBorrar.contiene(mouseX, mouseY)) {
-            System.out.println("Datos eliminados!!!");
             admin.eliminarDatos();
 	        System.exit(0);
 		}

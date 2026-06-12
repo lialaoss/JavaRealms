@@ -19,7 +19,6 @@ public class Ciudad10Minijuego implements Minijuego {
     private Ciudad ciudad;
     private Jugador jugador;
 
-    // Estado del minijuego
     private String inputUsuario = "";
     private String resultado = "";
     private List<String> pasos = null;
@@ -35,7 +34,6 @@ public class Ciudad10Minijuego implements Minijuego {
 
     @Override
     public void iniciar() {
-        // nada que inicializar
     }
 
     @Override

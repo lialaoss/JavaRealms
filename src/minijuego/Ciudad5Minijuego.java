@@ -39,7 +39,7 @@ public class Ciudad5Minijuego implements Minijuego{
 
     private boolean datosCargados = false;
 
-    private String palabraBuscada = "arbol"; // podrian haber botones con opciones de palabras!!!
+    private String palabraBuscada = "arbol";
 
     private boolean eleccionArbol = true;
     
@@ -67,7 +67,6 @@ public class Ciudad5Minijuego implements Minijuego{
 	    miLista = new ListaDinamica();
 	    transformador = new TransformadorTXT();
 
-	    // Aqui tambien faltaria agregar algun input o opciones con archivos que nosotros creemos
 	    String rutaArchivo = "assets/busquedaArchivos/Busquedas1.txt";
 
 	    datosCargados = transformador.cargarDatos(rutaArchivo, miArbol, miLista);
@@ -92,11 +91,11 @@ public class Ciudad5Minijuego implements Minijuego{
 	    tiempoArbol = finArbol - inicioArbol;
 
 	    if (tiempoArbol < tiempoLista) {
-	        ganador = GanadorCarrera.ARBOL; // Ardilla rayada
+	        ganador = GanadorCarrera.ARBOL;
 	    } else if (tiempoLista < tiempoArbol) {
-	        ganador = GanadorCarrera.LISTA; // Ardilla voladora
+	        ganador = GanadorCarrera.LISTA;
 	    } else {
-	        ganador = GanadorCarrera.EMPATE; // Empate
+	        ganador = GanadorCarrera.EMPATE;
 	    }
 
 	}

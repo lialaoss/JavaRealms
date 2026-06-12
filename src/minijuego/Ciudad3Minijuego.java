@@ -120,7 +120,7 @@ public class Ciudad3Minijuego implements Minijuego {
 		);
 		if(!cargado || frames == null || frames.isEmpty()) {
 			g2.setFont(new Font("Arial", Font.BOLD, 28));
-			g2.setColor(new Color(255, 215, 0)); // dorado igual que los botones
+			g2.setColor(new Color(255, 215, 0));
 			FontMetrics fm = g2.getFontMetrics();
 			String titulo = "Seleccione un algoritmo";
 			int tx = (ConfiguracionPantalla.SCREEN_WIDTH - fm.stringWidth(titulo)) / 2;

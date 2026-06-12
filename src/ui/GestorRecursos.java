@@ -9,12 +9,15 @@ public class GestorRecursos {
 	
 	private BufferedImage botonMenu1, botonMenu2, botonMenu3, botonVolver;
 	private BufferedImage botonArbol, botonLista;
+	
 	private BufferedImage[] jugadorUp;
 	private BufferedImage[] jugadorDown;
 	private BufferedImage[] jugadorLeft;
 	private BufferedImage[] jugadorRight;
+	
 	private BufferedImage fondoMapa;
 	private BufferedImage fondoMenu;
+	
 	private BufferedImage nodoCiudad1;
 	private BufferedImage nodoCiudad2;
 	private BufferedImage nodoCiudad3;

@@ -39,7 +39,6 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
     private RenderJugador renderJugador;
     private List<RenderElementos> elementosRender = new ArrayList<>();
 
-    // Estado para que render() sepa qué dibujar   <- ella jura
     private PartidaLectura estadoActual;
     private String mensajeRadar = "";
     private String mensajeRecoleccion = "";
@@ -181,7 +180,6 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
                 int dx = Math.abs(x - estadoActual.getX());
                 int dy = Math.abs(y - estadoActual.getY());
 
-                // de esta manera solo se pinta lo que esta fuera del radio del pj
                 if (dx > radio || dy > radio) {
 
                     int pantallaX = centroX + x * TILE_SIZE;
@@ -280,7 +278,6 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
 
 	@Override
 	public void procesarClick(int mouseX, int mouseY) {
-		// TODO Auto-generated method stub
 		
 	}
 

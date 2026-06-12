@@ -7,12 +7,11 @@ import ui.GestorRecursos;
 public class CrearMinijuegos {
 	
 	/**
-	 * sigo pensando pensamientos el switch no me gusta aun...
+	 * 
 	 * @param ciudad
 	 * @param jugador
 	 * @return
 	 */
-	
 	public static Minijuego crear(Ciudad ciudad, Jugador jugador, GestorRecursos recursos) {
 		System.out.println(ciudad.getNombre());
         switch (ciudad.getId()) {

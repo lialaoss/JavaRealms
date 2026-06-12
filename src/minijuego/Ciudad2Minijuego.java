@@ -46,7 +46,7 @@ public class Ciudad2Minijuego implements Minijuego {
 
     @Override
     public void iniciar() {
-        // No requiere inicialización adicional.
+
     }
 
     @Override

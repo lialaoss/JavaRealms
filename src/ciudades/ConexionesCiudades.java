@@ -62,13 +62,10 @@ public class ConexionesCiudades {
 			Ciudad destino = camino.get(i);
 
 			int peso = grafoCiudades.getPeso(origen, destino);
-//			System.out.println("Puntos jugador: " + puntosJugador);
-//			System.out.println("Puntos ciudad: " + peso);
 	        if (puntosJugador < peso) {
 	            return false;
 	        }
 	    }
-//		System.out.println("Camino libre!"); // solo estan para saber q pasa por la terminal ahre
 		return true;
 	}
 	
@@ -107,7 +104,6 @@ public class ConexionesCiudades {
 	        Ciudad vecino = arista.getDestino().getValor();
 
 	        if (vecino.getEstado() == EstadoCiudad.BLOQUEADA) {
-	        	System.out.println("Se desbloqueo la ciudad: " + vecino.getNombre());
 	            vecino.setEstado(EstadoCiudad.DESBLOQUEADA);
 	        }
 	    }

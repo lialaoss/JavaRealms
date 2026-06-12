@@ -51,10 +51,6 @@ public class AdministradorJuego {
 		if(this.ciudades.get(1).getEstado() != EstadoCiudad.COMPLETADA) {
 			this.ciudades.get(1).setEstado(EstadoCiudad.DESBLOQUEADA);
 		}
-//	    for(Ciudad c : ciudades.values()) {
-//	        c.setEstado(EstadoCiudad.COMPLETADA);
-//	    }
-//	    jugador.setPuntosExperiencia(1000);
 	    new Ventana(this);
 	}
 	
@@ -80,7 +76,7 @@ public class AdministradorJuego {
 	    	setEstado(EstadoJuego.MAPA_GENERAL); 
 	    	return;
 	    }
-	    // creo que ahora si se puede quitar este if ahre
+
 	    if(juegoActual == null) {
 		    juegoActual = CrearMinijuegos.crear(ciudadActual, jugador, recursos);
 		    if(juegoActual != null) {
