@@ -16,6 +16,7 @@ import logica.MouseHandler;
 import minijuego.Ciudad10Minijuego;
 import minijuego.Ciudad1Minijuego;
 import minijuego.Ciudad2Minijuego;
+import minijuego.Ciudad4Minijuego;
 import minijuego.Ciudad7Minijuego;
 import minijuego.Minijuego;
 
@@ -260,6 +261,14 @@ public class Panel extends JPanel implements Runnable {
 	            if(keyH.enterPressed) {
 	                c7.avanzarFrame();
 	                keyH.enterPressed = false;
+	            }
+	        }
+	        
+	        if(juego instanceof Ciudad4Minijuego) {
+	            Ciudad4Minijuego c4 = (Ciudad4Minijuego) juego;
+	            if(keyH.ultimoCaracter != 0) {
+	                c4.procesarCaracter(keyH.ultimoCaracter);
+	                keyH.ultimoCaracter = 0;
 	            }
 	        }
 	    }

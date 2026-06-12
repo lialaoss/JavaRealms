@@ -22,6 +22,11 @@ public class Ciudad4Minijuego implements Minijuego, ObservadorOrdenamiento {
     private int pivote = -1;
     private boolean completado = false;
     
+    private enum Fase { INPUT_VECTOR, INPUT_ALGORITMO, ORDENANDO }
+    private Fase fase = Fase.INPUT_VECTOR;
+    private String inputActual = "";
+    private String error = "";
+    
     private String algoritmoSeleccionado = "Seleccion de Algoritmo";
 
     public Ciudad4Minijuego(Ciudad ciudad, Jugador jugador, GestorRecursos recursos) {
@@ -33,22 +38,7 @@ public class Ciudad4Minijuego implements Minijuego, ObservadorOrdenamiento {
     @Override
     public void iniciar() {
         this.completado = false;
-        // Vector de prueba para validar la conexion
-        this.vectorActual = new int[]{34, 12, 5, 89, 56, 21, 7};
-        this.algoritmoSeleccionado = "Bubble Sort";
-
-        // Aislamos la ejecucion en un hilo secundario para no bloquear la vista
-        Thread hiloOrdenamiento = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                BubbleSort bubble = new BubbleSort();
-                // Ciudad4Minijuego.this pasa la referencia del observador
-                bubble.ordenar(vectorActual, Ciudad4Minijuego.this);
-                resultadoPartida();
-            }
-        });
-        
-        hiloOrdenamiento.start();
+        this.fase = Fase.INPUT_VECTOR;
     }
 
     @Override
@@ -68,34 +58,116 @@ public class Ciudad4Minijuego implements Minijuego, ObservadorOrdenamiento {
 
     @Override
     public void render(Graphics2D g2) {
-        g2.setColor(Color.WHITE);
-        g2.drawString("Ciudad 4 - Modulo de Ordenamiento", 50, 50);
-        g2.drawString("Algoritmo en ejecucion: " + algoritmoSeleccionado, 50, 80);
+        g2.setColor(Color.BLACK);
+        g2.fillRect(0, 0, 1152, 576);
 
-        if (vectorActual != null) {
-            for (int i = 0; i < vectorActual.length; i++) {
-                
-                if (i == pivote && pivote != -1) {
-                    g2.setColor(Color.GREEN); 
-                } else if (i == indiceA || i == indiceB) {
-                    g2.setColor(Color.RED); 
-                } else {
-                    g2.setColor(Color.WHITE); 
+        g2.setColor(Color.YELLOW);
+        g2.setFont(new java.awt.Font("Monospaced", java.awt.Font.BOLD, 16));
+        g2.drawString("Ciudad 4 - Ordenamiento", 50, 35);
+
+        g2.setFont(new java.awt.Font("Monospaced", java.awt.Font.PLAIN, 14));
+        g2.setColor(Color.WHITE);
+
+        if (fase == Fase.INPUT_VECTOR) {
+            g2.drawString("Ingresa los números a ordenar separados por espacios:", 50, 70);
+            g2.drawString("Ejemplo: 34 12 5 89 56 21 7", 50, 95);
+            g2.drawString("> " + inputActual + "_", 50, 120);
+        } else if (fase == Fase.INPUT_ALGORITMO) {
+            g2.drawString("Seleccioná el algoritmo:", 50, 70);
+            g2.drawString("1 - Bubble Sort", 50, 100);
+            g2.drawString("2 - QuickSort", 50, 125);
+            g2.drawString("> " + inputActual + "_", 50, 155);
+        } else if (fase == Fase.ORDENANDO) {
+            g2.drawString("Algoritmo: " + algoritmoSeleccionado, 50, 70);
+            if (vectorActual != null) {
+                for (int i = 0; i < vectorActual.length; i++) {
+                    if (i == pivote && pivote != -1) {
+                        g2.setColor(Color.GREEN);
+                    } else if (i == indiceA || i == indiceB) {
+                        g2.setColor(Color.RED);
+                    } else {
+                        g2.setColor(Color.WHITE);
+                    }
+                    int barHeight = vectorActual[i] * 3;
+                    g2.fillRect(50 + (i * 80), 400 - barHeight, 60, barHeight);
+                    g2.setColor(Color.WHITE);
+                    g2.drawString(String.valueOf(vectorActual[i]), 70 + (i * 80), 420);
                 }
-                
-                g2.drawRect(50 + (i * 60), 120, 50, 50);
-                g2.drawString(String.valueOf(vectorActual[i]), 70 + (i * 60), 150);
+            }
+            if (completado) {
+                g2.setColor(Color.CYAN);
+                g2.drawString("¡Vector ordenado! Ciudad superada.", 50, 460);
+            } else {
+                g2.setColor(Color.YELLOW);
+                g2.drawString("Ordenando...", 50, 460);
             }
         }
 
-        g2.setColor(Color.WHITE);
-        if (completado) {
-            g2.setColor(Color.CYAN);
-            g2.drawString("Estado: Vector ordenado. Ciudad superada.", 50, 220);
-        } else {
-            g2.setColor(Color.YELLOW);
-            g2.drawString("Procesando iteraciones del algoritmo...", 50, 220);
+        if (!error.isEmpty()) {
+            g2.setColor(Color.RED);
+            g2.drawString("Error: " + error, 50, 555);
         }
+        g2.setColor(Color.GRAY);
+        g2.setFont(new java.awt.Font("Monospaced", java.awt.Font.PLAIN, 12));
+        g2.drawString("Q para volver al mapa", 50, 570);
+    }
+
+
+    public void procesarCaracter(char c) {
+        error = "";
+        if (c == '\n' || c == '\r') {
+            procesarEnter();
+        } else if (c == '\b') {
+            if (!inputActual.isEmpty()) {
+                inputActual = inputActual.substring(0, inputActual.length() - 1);
+            }
+        } else {
+            inputActual += c;
+        }
+    }
+    
+    private void procesarEnter() {
+        if (fase == Fase.INPUT_VECTOR) {
+            String[] partes = inputActual.trim().split("\\s+");
+            if (partes.length < 2) {
+                error = "Ingresá al menos 2 números.";
+                return;
+            }
+            try {
+                vectorActual = new int[partes.length];
+                for (int i = 0; i < partes.length; i++) {
+                    vectorActual[i] = Integer.parseInt(partes[i]);
+                }
+                inputActual = "";
+                fase = Fase.INPUT_ALGORITMO;
+            } catch (NumberFormatException e) {
+                error = "Solo se permiten números enteros.";
+            }
+        } else if (fase == Fase.INPUT_ALGORITMO) {
+            if (inputActual.trim().equals("1")) {
+                algoritmoSeleccionado = "Bubble Sort";
+            } else if (inputActual.trim().equals("2")) {
+                algoritmoSeleccionado = "QuickSort";
+            } else {
+                error = "Ingresá 1 o 2.";
+                return;
+            }
+            inputActual = "";
+            fase = Fase.ORDENANDO;
+            arrancarOrdenamiento();
+        }
+    }
+    
+    private void arrancarOrdenamiento() {
+        Thread hilo = new Thread(() -> {
+            if (algoritmoSeleccionado.equals("Bubble Sort")) {
+                new modelo.ciudad4.BubbleSort().ordenar(vectorActual, Ciudad4Minijuego.this);
+            } else {
+                new modelo.ciudad4.QuickSort().ordenar(vectorActual, Ciudad4Minijuego.this);
+            }
+            resultadoPartida();
+        });
+        hilo.start();
     }
 
     @Override
