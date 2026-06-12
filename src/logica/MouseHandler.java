@@ -25,10 +25,10 @@ public class MouseHandler extends MouseAdapter {
 
 	    switch (admin.getEstado()) {
 	        case MENU_PRINCIPAL:
-	        	menu.procesarClickMenuConTransicion(mouseX, mouseY, admin, panel);
+	        	menu.procesarClickMenuConTransicion(mouseX, mouseY, panel);
 	            break;
 	        case MAPA_GENERAL:
-	            menu.procesarClickMapa(mouseX, mouseY, admin);
+	            menu.procesarClickMapa(mouseX, mouseY);
 	            break;
 	        default:
 	            break;

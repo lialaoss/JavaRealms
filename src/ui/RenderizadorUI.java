@@ -9,9 +9,6 @@ import logica.EstadoJuego;
 public class RenderizadorUI {
 
 	// ATRIBUTOS
-	private int screenWidth;
-	private int screenHeight;
-	
 	private RenderizarMenu renderMenus;
 	private GestorRecursos recursos;
 	private AdministradorJuego admin;
@@ -23,12 +20,10 @@ public class RenderizadorUI {
 	 * @param screenWidth : ancho de la pantalla
 	 * @param screenHeight : alto de la pantalla
 	 */
-	public RenderizadorUI(int screenWidth, int screenHeight, GestorRecursos recursos, AdministradorJuego admin) {
-		setScreenWidth(screenWidth);
-		setScreenHeight(screenHeight);
+	public RenderizadorUI(GestorRecursos recursos, AdministradorJuego admin) {
 		setRecursos(recursos);
 		setAdmin(admin);
-		setRenderMenus(new RenderizarMenu(this.screenWidth, this.screenHeight, this.recursos, this.admin));
+		setRenderMenus(new RenderizarMenu(this.recursos, this.admin));
 	}
 	
 	// METODOS
@@ -42,7 +37,6 @@ public class RenderizadorUI {
 	public void renderizarPorEstado(EstadoJuego estado, Graphics2D g2) {
 		switch (estado) {
 			case MENU_PRINCIPAL:
-				System.out.println("CASE MENU_PRINCIPAL");
 				this.renderMenus.renderizarMenuPrincipal(g2);
 				break;
 			case MENU_INSTRUCCIONES:
@@ -69,15 +63,6 @@ public class RenderizadorUI {
 	}
 
 	// SETTERS
-
-	private void setScreenWidth(int screenWidth) {
-		this.screenWidth = screenWidth;
-	}
-
-	private void setScreenHeight(int screenHeight) {
-		this.screenHeight = screenHeight;
-	}
-
 	private void setRenderMenus(RenderizarMenu renderMenus) {
 		this.renderMenus = renderMenus;
 	}

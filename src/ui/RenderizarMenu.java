@@ -13,8 +13,8 @@ public class RenderizarMenu {
 	private AdministradorJuego admin;
 	private GestorRecursos recursos;
 	
-	private int screenWidth;
-	private int screenHeight;
+	private int screenWidth = ConfiguracionPantalla.SCREEN_WIDTH;
+	private int screenHeight = ConfiguracionPantalla.SCREEN_HEIGHT;
 	
 	private Boton botonJugar;
 	private Boton botonInstrucciones;
@@ -24,9 +24,7 @@ public class RenderizarMenu {
 	private List<NodoCiudad> ciudades;
 	
 	// CONSTRUCTOR
-	public RenderizarMenu(int screenWidth, int screenHeight, GestorRecursos recursos, AdministradorJuego admin) {
-		setScreenWidth(screenWidth);
-		setScreenHeight(screenHeight);
+	public RenderizarMenu(GestorRecursos recursos, AdministradorJuego admin) {
 		setRecursos(recursos);
 		setAdmin(admin);
 		crearBotones();
@@ -77,7 +75,7 @@ public class RenderizarMenu {
 	 * @param mouseY
 	 * @param admin
 	 */
-	public void procesarClickMenu(int mouseX, int mouseY, AdministradorJuego admin) {
+	public void procesarClickMenu(int mouseX, int mouseY) {
 	    if(botonJugar.contiene(mouseX, mouseY)) {
 	        admin.setEstado(EstadoJuego.MAPA_GENERAL);
 	    } else if(botonInstrucciones.contiene(mouseX, mouseY)) {
@@ -88,6 +86,7 @@ public class RenderizarMenu {
 	}
 	
 	public void renderizarMenuInstrucciones(Graphics2D g2) {
+	    g2.drawImage(recursos.getFondoMenu(), 0, 0, screenWidth, screenHeight, null);
 		g2.drawString("Jeje lol (apreta Q para salir)", screenWidth / 2 - 80, screenHeight / 2);
 
 	}	
@@ -130,7 +129,7 @@ public class RenderizarMenu {
 	 * @param mouseY
 	 * @param admin
 	 */
-	public void procesarClickMapa(int mouseX, int mouseY, AdministradorJuego admin) {
+	public void procesarClickMapa(int mouseX, int mouseY) {
 		for (NodoCiudad ciudad : ciudades) {
 	        if (ciudad.contiene(mouseX, mouseY)) {
 	            System.out.println("Ciudad " + ciudad.getId());
@@ -146,7 +145,7 @@ public class RenderizarMenu {
 	}
 	
 	
-	public void procesarClickMenuConTransicion(int mouseX, int mouseY, AdministradorJuego admin, ui.Panel panel) {
+	public void procesarClickMenuConTransicion(int mouseX, int mouseY, ui.Panel panel) {
 	    if(botonJugar.contiene(mouseX, mouseY)) {
 	        panel.iniciarTransicion(EstadoJuego.MAPA_GENERAL);
 	    } else if(botonInstrucciones.contiene(mouseX, mouseY)) {
@@ -163,14 +162,6 @@ public class RenderizarMenu {
 	}
 	
 	// SETTERS
-	private void setScreenWidth(int screenWidth) {
-		this.screenWidth = screenWidth;
-	}
-
-	private void setScreenHeight(int screenHeight) {
-		this.screenHeight = screenHeight;
-	}
-	
 	private void setRecursos(GestorRecursos recursos) {
 		this.recursos = recursos;
 	}

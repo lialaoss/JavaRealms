@@ -23,25 +23,10 @@ import minijuego.Minijuego;
 public class Panel extends JPanel implements Runnable {
 	
 	// CONSTANTES
-	
-	/**
-	 * Configuracion de pantalla:
-	 * originalTileSize : tamaño de tiles
-	 * maxScreenCol : max cantidad de columnas para nuestra ventana (ancho)
-	 * maxScreenRow : max cantidad de filas para nuestra ventana (altura)
-	 * screenWidth : ancho de pantalla
-	 * screenHeight : alto pantalla
-	 */
-	private final int originalTileSize = 16; // 16x16 tile
-	private final int scale = 3;
-	
-	public final int tileSize = originalTileSize * scale; // 48x48 tile
-	public final int maxScreenCol = 24;
-	public final int maxScreenRow = 12;
-	public final int screenWidth = tileSize * maxScreenCol; // 1152 px
-	public final int screenHeight = tileSize * maxScreenRow; // 576 px
+	public final int screenWidth = ConfiguracionPantalla.SCREEN_WIDTH;
+	public final int screenHeight = ConfiguracionPantalla.SCREEN_HEIGHT;
 
-	private final int FPS = 60; // FPS del juego dea
+	private final int FPS = ConfiguracionPantalla.FPS;
 
 	// ATRIBUTOS
 	private AdministradorJuego admin;
@@ -63,7 +48,7 @@ public class Panel extends JPanel implements Runnable {
 	public Panel(AdministradorJuego admin){
 		setAdmin(admin);
 		setRecursos(admin.getRecursos());
-		setRenderUI(new RenderizadorUI(this.screenWidth, this.screenHeight, this.recursos, this.admin));
+		setRenderUI(new RenderizadorUI(this.recursos, this.admin));
 		
 		mouseH = new MouseHandler(this.admin, this.renderUI.getRenderMenus(), this);
 		 
