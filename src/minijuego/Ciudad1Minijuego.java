@@ -290,7 +290,6 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
 	 * Pre: ninguna.
 	 * Post: si ganado es true suma los puntos al jugador y marca la ciudad como completada.
 	 */
-	
     @Override
     public void resultadoPartida() {    	
     	if(ganado) {

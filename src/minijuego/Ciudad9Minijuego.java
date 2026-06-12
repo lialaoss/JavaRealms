@@ -8,6 +8,7 @@ import entidad.Jugador;
 import modelo.ciudad9.Accion;
 import modelo.ciudad9.ControladorCombate;
 import modelo.ciudad9.VistaCombate;
+import render.FinMinijuegoPantalla;
 import utiles.ObservadorVictoria;
 
 public class Ciudad9Minijuego implements Minijuego, ObservadorVictoria {
@@ -16,6 +17,10 @@ public class Ciudad9Minijuego implements Minijuego, ObservadorVictoria {
     private Jugador jugador;
     private VistaCombate vista;
     private ControladorCombate combate;
+    
+    private boolean ganado = false;
+
+    private FinMinijuegoPantalla pantallaFinal = new FinMinijuegoPantalla();
 
     public Ciudad9Minijuego(Ciudad ciudad, Jugador jugador) {
         this.ciudad = ciudad;
@@ -68,16 +73,23 @@ public class Ciudad9Minijuego implements Minijuego, ObservadorVictoria {
         g2.drawString("Ciudad 9 - Batalla", 50, 50);
         g2.drawString("Completá el desafío en la ventana del juego.", 50, 80);
         g2.drawString("Q para volver al mapa", 50, 110);
+        
+        if(ganado) {
+			pantallaFinal.mostrarResultados(g2, ciudad);
+		}
     }
 
     @Override
     public void resultadoPartida() {
-        ciudad.setEstado(EstadoCiudad.COMPLETADA);
+    	if(ganado) {
+            ciudad.setEstado(EstadoCiudad.COMPLETADA);
+			jugador.sumarPuntos(ciudad.getPuntosDeExperiencia());
+    	}
     }
 
     @Override
     public void notificarVictoria() {
-        resultadoPartida();
+        this.ganado = true;
     }
 
     @Override

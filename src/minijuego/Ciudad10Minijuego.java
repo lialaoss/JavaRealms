@@ -8,11 +8,11 @@ import java.util.List;
 import ciudades.Ciudad;
 import ciudades.EstadoCiudad;
 import entidad.Jugador;
-import logica.KeyHandler;
 import modelo.ciudad10.EcuacionRecurrencia;
 import modelo.ciudad10.ExpansorEcuacion;
 import modelo.ciudad10.ParserEcuacion;
 import modelo.ciudad10.SolucionadorTeoremaMaestro;
+import render.FinMinijuegoPantalla;
 
 public class Ciudad10Minijuego implements Minijuego {
 
@@ -25,6 +25,8 @@ public class Ciudad10Minijuego implements Minijuego {
     private List<String> pasos = null;
     private String error = "";
     private boolean ganado = false;
+
+    private FinMinijuegoPantalla pantallaFinal = new FinMinijuegoPantalla();
 
     public Ciudad10Minijuego(Ciudad ciudad, Jugador jugador) {
         this.ciudad = ciudad;
@@ -72,9 +74,7 @@ public class Ciudad10Minijuego implements Minijuego {
         }
 
         if (ganado) {
-            g2.setColor(Color.GREEN);
-            g2.setFont(new Font("Monospaced", Font.BOLD, 18));
-            g2.drawString("¡Ciudad completada! Q para volver.", 50, 540);
+			pantallaFinal.mostrarResultados(g2, ciudad);
         } else {
             g2.setColor(Color.GRAY);
             g2.setFont(new Font("Monospaced", Font.PLAIN, 12));
@@ -138,6 +138,7 @@ public class Ciudad10Minijuego implements Minijuego {
     public void resultadoPartida() {
         if (ganado) {
             ciudad.setEstado(EstadoCiudad.COMPLETADA);
+			jugador.sumarPuntos(ciudad.getPuntosDeExperiencia());
         }
     }
     
@@ -145,7 +146,6 @@ public class Ciudad10Minijuego implements Minijuego {
      * Pre: ninguna.
      * Post: devuelve el texto ingresado por el jugador hasta el momento.
      */
-
     public String getInputUsuario() {
         return inputUsuario;
     }

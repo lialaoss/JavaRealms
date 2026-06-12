@@ -13,6 +13,7 @@ import modelo.ciudad7.AlgoritmosFlujo;
 import modelo.ciudad7.AristaFlujo;
 import modelo.ciudad7.GrafoFlujo;
 import modelo.ciudad7.SnapshotFlujo;
+import render.FinMinijuegoPantalla;
 
 public class Ciudad7Minijuego implements Minijuego {
 
@@ -24,6 +25,8 @@ public class Ciudad7Minijuego implements Minijuego {
     private List<String> aristasCargadas = new ArrayList<>();
     private String fuente = "";
     private String sumidero = "";
+
+    private FinMinijuegoPantalla pantallaFinal = new FinMinijuegoPantalla();
 
     private enum Fase { CARGA, FUENTE, SUMIDERO, RESULTADO }
     private Fase fase = Fase.CARGA;
@@ -83,6 +86,9 @@ public class Ciudad7Minijuego implements Minijuego {
             g2.setColor(Color.RED);
             g2.drawString("Error: " + error, 50, 555);
         }
+        if(ganado) {
+			pantallaFinal.mostrarResultados(g2, ciudad);
+		}
     }
 
     private void dibujarResultado(Graphics2D g2) {
@@ -132,7 +138,6 @@ public class Ciudad7Minijuego implements Minijuego {
             frameActual++;
             if (frameActual == snapshots.size() - 1) {
                 ganado = true;
-                resultadoPartida();
             }
         }
     }
@@ -191,6 +196,7 @@ public class Ciudad7Minijuego implements Minijuego {
     public void resultadoPartida() {
         if (ganado) { 
             ciudad.setEstado(EstadoCiudad.COMPLETADA);
+			jugador.sumarPuntos(ciudad.getPuntosDeExperiencia());
         }
     }
 

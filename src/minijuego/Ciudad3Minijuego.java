@@ -233,40 +233,5 @@ public class Ciudad3Minijuego implements Minijuego {
 			this.jugador.sumarPuntos(ciudad.getPuntosDeExperiencia());
 		}
 	}
-	
-	// ====================================================
-	
 
-//	private Color colorDeCelda(char c) {
-//		switch (c) {
-//		case '#':
-//			return Color.DARK_GRAY;
-//		case '.':
-//			return Color.WHITE;
-//		case 'I':
-//			return Color.GREEN;
-//		case 'F':
-//			return Color.RED;
-//		case '*':
-//			return new Color(100, 100, 255); // visitado
-//		case 'A':
-//			return Color.YELLOW; // actual
-//		case 'P':
-//			return Color.ORANGE; // camino final
-//		default:
-//			return Color.BLACK;
-//		}
-//	}
-	
-
-//	private void dibujarLaberinto(Graphics2D g2) {
-//		char[][] estado = frames.get(frameActual).estado;
-//		for (int fila = 0; fila < estado.length; fila++) {
-//			for (int col = 0; col < estado[fila].length; col++) {
-//				char celda = estado[fila][col];
-//				g2.setColor(colorDeCelda(celda));
-//				g2.fillRect(col * CELDA + 300, fila * CELDA + 15, CELDA, CELDA);
-//			}
-//		}
-//	}
 }

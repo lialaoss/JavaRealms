@@ -277,15 +277,4 @@ public class VentanaCiudad8 extends JFrame {
         area.append("======================="); 
     }
 
-    /**
-     * Hilo de ejecución principal.
-     */
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(new Runnable() {
-            @Override
-            public void run() {
-                new VentanaCiudad8().setVisible(true);
-            }
-        });
-    }
 }

@@ -10,6 +10,7 @@ import ciudades.EstadoCiudad;
 import entidad.Jugador;
 import modelo.ciudad2.Reina;
 import modelo.ciudad2.SolucionadorNReinas;
+import render.FinMinijuegoPantalla;
 
 public class Ciudad2Minijuego implements Minijuego {
 
@@ -18,6 +19,8 @@ public class Ciudad2Minijuego implements Minijuego {
 
     private enum Fase { INPUT_N, INPUT_FILA, INPUT_COLUMNA, RESOLVIENDO }
     private Fase fase = Fase.INPUT_N;
+
+    private FinMinijuegoPantalla pantallaFinal = new FinMinijuegoPantalla();
 
     private String inputActual = "";
     private String error = "";
@@ -42,7 +45,9 @@ public class Ciudad2Minijuego implements Minijuego {
      */
 
     @Override
-    public void iniciar() {}
+    public void iniciar() {
+        // No requiere inicialización adicional.
+    }
 
     @Override
     public void render(Graphics2D g2) {
@@ -81,6 +86,10 @@ public class Ciudad2Minijuego implements Minijuego {
         if (fase == Fase.RESOLVIENDO) {
             g2.drawString("ENTER = siguiente paso | Q para volver", 50, 570);
         }
+        
+        if(ganado) {
+			pantallaFinal.mostrarResultados(g2, ciudad);
+		}
     }
 
     private void dibujarTablero(Graphics2D g2) {
@@ -151,7 +160,6 @@ public class Ciudad2Minijuego implements Minijuego {
                 List<Reina> ultimo = historial.get(frameActual);
                 if (ultimo.size() == dimension) {
                     ganado = true;
-                    resultadoPartida();
                 } else {
                     sinSolucion = true;
                 }
@@ -209,9 +217,12 @@ public class Ciudad2Minijuego implements Minijuego {
     public void resultadoPartida() {
         if (ganado) { 
         	ciudad.setEstado(EstadoCiudad.COMPLETADA);
+			jugador.sumarPuntos(ciudad.getPuntosDeExperiencia());
         }
     }
 
     @Override
-    public void procesarClick(int mouseX, int mouseY) {}
+    public void procesarClick(int mouseX, int mouseY) {
+    	
+    }
 }

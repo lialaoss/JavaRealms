@@ -205,16 +205,13 @@ public class Ciudad4Minijuego implements Minijuego, ObservadorOrdenamiento {
     
     // ========================= FIN DEL JUEGO ============================
 
-    
     /**
      * Pre: ninguna.
      * Post: si completado es true desbloquea vecinos y suma puntos al jugador.
      */
-    
     @Override
     public void resultadoPartida() {
     	if(completado) {
-            this.completado = true;
             ciudad.setEstado(EstadoCiudad.COMPLETADA);
             jugador.sumarPuntos(ciudad.getPuntosDeExperiencia());
     	}

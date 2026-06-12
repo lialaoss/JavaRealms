@@ -230,7 +230,7 @@ public class VentanaCiudad6 extends JFrame {
         if (this.colisionesLogradas >= COLISIONES_REQUERIDAS && this.busquedaColisionadaExitosa) {
             this.ciudadGanada = true;
             if (this.minijuego != null) {
-                this.minijuego.resultadoPartida();
+                this.minijuego.setGanado(ciudadGanada);
             }
             this.etiquetaMision.setText("<html><font color='#2ECC71'><b>¡CIUDAD 6 GANADA! +100 PUNTOS</b><br>"
                     + "Has dominado el algoritmo de Hashing y Linear Probing de forma perfecta. El camino está libre.</font></html>");
