@@ -25,7 +25,7 @@ public class GestorRecursos {
 	private BufferedImage nodoCiudad9;
 	private BufferedImage nodoCiudad10;
 	
-	private BufferedImage piedra, piedra2, pasto, pasto2, pasto3, cofre;
+	private BufferedImage piedra, piedra2, pasto, pasto2, pasto3, cofre, madera;
 
 	
 	public GestorRecursos() {
@@ -106,6 +106,7 @@ public class GestorRecursos {
 			pasto = ImageIO.read(getClass().getResourceAsStream("/tiles/pasto.png"));
 			pasto2 = ImageIO.read(getClass().getResourceAsStream("/tiles/pasto2.png"));
 			pasto3 = ImageIO.read(getClass().getResourceAsStream("/tiles/pasto3.png"));
+			madera = ImageIO.read(getClass().getResourceAsStream("/tiles/madera.png"));
 			cofre = ImageIO.read(getClass().getResourceAsStream("/tiles/cofre.png")); // se que no es tileee
 		} catch (IOException e) {
 			e.printStackTrace();
@@ -175,6 +176,10 @@ public class GestorRecursos {
 	
 	public BufferedImage getPasto3() {
 		return pasto3;
+	}
+	
+	public BufferedImage getMadera() {
+		return madera;
 	}
 
 	public BufferedImage getCofre() {

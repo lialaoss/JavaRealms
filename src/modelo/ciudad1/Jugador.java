@@ -1,5 +1,6 @@
 package modelo.ciudad1;
 
+import logica.DireccionJugador;
 import utiles.ValidacionesUtiles;
 
 
@@ -9,7 +10,7 @@ import utiles.ValidacionesUtiles;
  */
 
 public class Jugador {
-    
+
     private String nombre;
     
     /**
@@ -47,7 +48,7 @@ public class Jugador {
         this.nombre = nombre;
     }
 
-    @Override
+	@Override
     public String toString() {
         return "Jugador: " + nombre;
     }
