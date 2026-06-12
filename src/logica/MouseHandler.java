@@ -30,6 +30,8 @@ public class MouseHandler extends MouseAdapter {
 	        case MAPA_GENERAL:
 	            menu.procesarClickMapa(mouseX, mouseY);
 	            break;
+	        case FIN_DEL_JUEGO:
+	            menu.procesarClickFinal(mouseX, mouseY);
 	        default:
 	            break;
 	    }

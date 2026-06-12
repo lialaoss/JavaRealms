@@ -42,9 +42,6 @@ public class RenderizadorUI {
 			case MENU_INSTRUCCIONES:
 				this.renderMenus.renderizarMenuInstrucciones(g2);
 				break;
-			case MENU_EN_PAUSA:
-				this.renderMenus.renderizarMenuEnPausa(g2);
-				break;
 			case MAPA_GENERAL:
 				this.renderMenus.renderizarMapaGeneral(g2);
 				break;

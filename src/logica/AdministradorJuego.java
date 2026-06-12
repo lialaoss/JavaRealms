@@ -52,9 +52,9 @@ public class AdministradorJuego {
 			this.ciudades.get(1).setEstado(EstadoCiudad.DESBLOQUEADA);
 		}
 //	    for(Ciudad c : ciudades.values()) {
-//	        c.setEstado(EstadoCisudad.DESBLOQUEADA);
+//	        c.setEstado(EstadoCiudad.COMPLETADA);
 //	    }
-	    jugador.setPuntosExperiencia(1000);
+//	    jugador.setPuntosExperiencia(1000);
 	    new Ventana(this);
 	}
 	
@@ -63,7 +63,6 @@ public class AdministradorJuego {
 	 * Si el estado no es EN_PROGRESO no realiza ninguna acción.
 	 * Si la ciudad seleccionada es accesible, crea e inicia
 	 * el minijuego correspondiente.
-	 *
 	 * Pre: Debe existir una ciudad seleccionada cuando el estado sea EN_PROGRESO.
 	 * Post:
 	 * - Si no puede accederse a la ciudad, el estado pasa a
@@ -71,6 +70,9 @@ public class AdministradorJuego {
 	 * - Si corresponde, se crea e inicia un minijuego.
 	 */
 	public void update() {
+		if(juegoCompletado()) {
+		    setEstado(EstadoJuego.FIN_DEL_JUEGO);
+		}
 	    if(estado != EstadoJuego.EN_PROGRESO) {
 	    	return; 
 	    }
@@ -97,7 +99,6 @@ public class AdministradorJuego {
 	 * @return true si puede ingresar a la ciudad.
 	 */
 	private boolean puedeEntrar() {
-//		System.out.println("puedeEntrar: estado=" + ciudadActual.getEstado());
 	    if(ciudadActual.getEstado() == EstadoCiudad.COMPLETADA) {
 	        return false;
 	    }
@@ -138,6 +139,20 @@ public class AdministradorJuego {
 	    this.juegoActual = null;
 	}
 	
+	/**
+	 * 
+	 * @return devuelve true en caso de que todas las ciudades se encuentran
+	 * completadas.
+	 */
+	public boolean juegoCompletado() {
+	    for(Ciudad ciudad : ciudades.values()) {
+	        if(ciudad.getEstado() != EstadoCiudad.COMPLETADA) {
+	            return false;
+	        }
+	    }
+	    return true;
+	}
+	
 	// ================== MANEJO DE DATOS DEL JUEGO ====================
 
 	/**
@@ -158,7 +173,7 @@ public class AdministradorJuego {
 		this.guardado.eliminarDatosDeArchivo();
 	}
 
-	// GETTERS
+	// GETTERS ==============================================
 	public AdministradorCiudades getAdminCiudades() {
 		return adminCiudades;
 	}

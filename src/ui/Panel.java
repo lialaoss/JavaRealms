@@ -33,11 +33,10 @@ public class Panel extends JPanel implements Runnable {
 	private RenderizadorUI renderUI;
 	private GestorRecursos recursos;
 	
-	private KeyHandler keyH = new KeyHandler();; // con esto detectamos el tecladoo jeje
-	private MouseHandler mouseH; // con esto detectamos el mouse...
+	private KeyHandler keyH = new KeyHandler();
+	private MouseHandler mouseH;
 	
-	private Thread gameThread; // un Thread es algo que se puede iniciar y detener
-	// Una vez se inicia, el programa sigue funcionando hasta que lo detienes o se hace algo en particular jeje
+	private Thread gameThread;
 	
 	private boolean enTransicion = false;
 	private float alpha = 0f;
@@ -62,18 +61,11 @@ public class Panel extends JPanel implements Runnable {
 	
 
 	// METODOS
-	
-	/**
-	 * instanciamos el Thread
-	 */
 	public void startGameThread() {
 		gameThread = new Thread(this);
-		gameThread.start(); // llama al metodo run
+		gameThread.start();
 	}
 	
-	/**
-	 * jeje, actualiza la logica y los "dibujos" 60 veces por segundo (fps) dea
-	 */
 	@Override
 	public void run() {
 		double drawInterval = 1000000000/FPS;
@@ -98,17 +90,13 @@ public class Panel extends JPanel implements Runnable {
 			}
 			
 			if(timer >= 1000000000) {
-				// me gusto tener esto para ver que el programa este actualizandose ahre
 				System.out.println("FPS" + drawCount);
 				drawCount = 0;
 				timer = 0;
 			}
 		}
 	}
-	
-	/**
-	 * Se encarga de dibujaaar
-	 */
+
 	@Override
 	protected void paintComponent(Graphics g) {
 	    super.paintComponent(g);
@@ -125,7 +113,6 @@ public class Panel extends JPanel implements Runnable {
 	            juego.render(g2);
 	        }
 	    } else {
-	        // ESTO FALTABA
 	        renderUI.renderizarPorEstado(estado, g2);
 	    }
 	    
@@ -139,10 +126,6 @@ public class Panel extends JPanel implements Runnable {
 	    }
 	}
 	
-	/**
-	 * podremos actualizar inforamcion del juegooo (creo q lo de abajo de admin le metere en otro lado
-	 * y le hare update desde aqui jeje)
-	 */
 	public void update() {
 		
 		admin.update();
@@ -150,7 +133,6 @@ public class Panel extends JPanel implements Runnable {
 		if(admin.getEstado() == EstadoJuego.MENU_INSTRUCCIONES ||
 				admin.getEstado() == EstadoJuego.MAPA_GENERAL) {
 			if(keyH.QPressed == true) {
-				
 					admin.setEstado(EstadoJuego.MENU_PRINCIPAL);
 					keyH.QPressed = false;
 			}

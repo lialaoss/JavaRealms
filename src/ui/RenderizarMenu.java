@@ -1,5 +1,8 @@
 package ui;
 
+import java.awt.Color;
+import java.awt.Font;
+import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
 import java.util.List;
@@ -101,15 +104,8 @@ public class RenderizarMenu {
 
 	}	
 	
-	public void renderizarMenuEnPausa(Graphics2D g2) {
-		
-	}
-	
 	// ================================ MAPA ====================================
-	
-	/**
-	 * (Despues les pongo imagenes y mejores coordenadas dea)
-	 */
+
 	public void crarCiudades() {
 		ciudades = new ArrayList<>();
 		
@@ -175,8 +171,37 @@ public class RenderizarMenu {
 	// ================================= FIN DEL JUEGO =========================================
 	
 	public void renderizarFin(Graphics2D g2) {
-		
+	    g2.setColor(Color.BLACK);
+	    g2.fillRect(0, 0, screenWidth, screenHeight);
+
+	    g2.setColor(Color.WHITE);
+	    g2.setFont(new Font("Arial", Font.BOLD, 48));
+
+	    String texto = "¡GANASTE!";
+	    FontMetrics fm = g2.getFontMetrics();
+
+	    int x = (screenWidth - fm.stringWidth(texto)) / 2;
+	    int y = screenHeight / 2;
+
+	    g2.drawString(texto, x, y);
+	    g2.setFont(new Font("Arial", Font.PLAIN, 20));
+
+	    String subtitulo = "Completaste todas las ciudades... vuelve a jugar!";
+	    int x2 = (screenWidth - g2.getFontMetrics().stringWidth(subtitulo)) / 2;
+
+	    g2.drawString(subtitulo, x2, y + 50);
+	    
+		botonBorrar.dibujar(g2);
 	}
+	
+	public void procesarClickFinal(int mouseX, int mouseY) {
+		if(botonBorrar.contiene(mouseX, mouseY)) {
+            System.out.println("Datos eliminados!!!");
+            admin.eliminarDatos();
+	        System.exit(0);
+		}
+	}
+	
 	
 	// SETTERS
 	private void setRecursos(GestorRecursos recursos) {
