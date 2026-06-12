@@ -14,11 +14,14 @@ import ui.GestorRecursos;
 import modelo.ciudad4.BubbleSort;
 import modelo.ciudad4.ObservadorOrdenamiento;
 import modelo.ciudad4.QuickSort;
+import render.FinMinijuegoPantalla;
 
 public class Ciudad4Minijuego implements Minijuego, ObservadorOrdenamiento {
 
     private Ciudad ciudad;
     private Jugador jugador;
+
+    private FinMinijuegoPantalla pantallaFinal = new FinMinijuegoPantalla();
     
     private GestorRecursos recursos;
     private Boton botonBubble, botonQuick;
@@ -74,8 +77,6 @@ public class Ciudad4Minijuego implements Minijuego, ObservadorOrdenamiento {
                 default:
                 	break;
             }
-
-            resultadoPartida();
     	});
 
         hiloOrdenamiento.start();
@@ -142,7 +143,7 @@ public class Ciudad4Minijuego implements Minijuego, ObservadorOrdenamiento {
 		);
 		if(!cargado) {
 			g2.setFont(new Font("Arial", Font.BOLD, 28));
-			g2.setColor(new Color(255, 215, 0)); // dorado igual que los botones
+			g2.setColor(new Color(255, 215, 0));
 			FontMetrics fm = g2.getFontMetrics();
 			String titulo = "Seleccione un algoritmo de ordenamiento";
 			int tx = (ConfiguracionPantalla.SCREEN_WIDTH - fm.stringWidth(titulo)) / 2;
@@ -157,6 +158,9 @@ public class Ciudad4Minijuego implements Minijuego, ObservadorOrdenamiento {
         
         renderOrdenamiento(g2);
         renderEstado(g2);
+        if(completado) {
+        	pantallaFinal.mostrarResultados(g2, ciudad);
+        }
     }
     
     public void renderOrdenamiento(Graphics2D g2) {
