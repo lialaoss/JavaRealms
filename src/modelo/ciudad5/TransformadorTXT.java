@@ -4,7 +4,24 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 
+/**
+ * Clase encargada de la lectura, limpieza y transformación de archivos
+ * para la indexación de datos en las estructuras de búsqueda.
+ */
+
 public class TransformadorTXT {
+
+	/**
+     * Lee un archivo de texto, limpia sus palabras y las guarda en el árbol y la lista.
+     * * PRE: rutaArchivo != null y debe apuntar a un archivo existente.
+     * arbol != null y lista != null (instancias creadas en memoria).
+     * POST: El archivo se lee por completo. Las palabras se pasan a minúsculas,
+     * se limpian de signos y se guardan con su línea y posición exacta.
+     * * @param rutaArchivo Dirección del archivo de texto de origen.
+     * @param arbol Estructura de tipo Árbol Binario para la Ardilla 1.
+     * @param lista Estructura de tipo Lista Dinámica para la Ardilla 2.
+     * @return boolean true si la carga fue exitosa, false si hubo algún error.
+     */
 	
 	private String textoOriginal;
 	
