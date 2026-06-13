@@ -20,10 +20,10 @@ public class Main {
             System.out.println("Archivo cargado ");
             
             int opcion = 0;
-            while (opcion != 3) {
+            while (opcion != 2) {
                 System.out.println("\n--- OPCIONES ---");
                 System.out.println("1 - Apostar por una Ardilla y Buscar Palabra");
-                System.out.println("3 - Salir");
+                System.out.println("2 - Salir");
                 System.out.print("Seleccione una opción: ");
                 
                 if (teclado.hasNextInt()) {
@@ -34,8 +34,8 @@ public class Main {
                         int eleccionArdilla = 0;
                         while (eleccionArdilla != 1 && eleccionArdilla != 2) {
                             System.out.println("\n¿Por cuál Ardilla quieres apostar?");
-                            System.out.println("1 - Ardilla Rayada (Árbol ABB - Índice)");
-                            System.out.println("2 - Ardilla Voladora (Lista Dinámica - Lineal)");
+                            System.out.println("1 - Ardilla 1 (Árbol ABB - Índice)");
+                            System.out.println("2 - Ardilla 2 (Lista Dinámica - Lineal)");
                             System.out.print("Elige tu competidora (1 o 2): ");
                             if (teclado.hasNextInt()) {
                                 eleccionArdilla = teclado.nextInt();
@@ -75,11 +75,11 @@ public class Main {
                         }
 
                         System.out.println("-----------------------------------------");
-                        System.out.println("Ardilla Rayada (Árbol ABB):");
+                        System.out.println("Ardilla 1 (Árbol ABB):");
                         System.out.println("  - Operaciones: " + pasosArbol);
                         System.out.println("  - Tiempo:      " + tiempoArbol + " ns.");
                         System.out.println("-----------------------------------------");
-                        System.out.println("Ardilla Voladora (Lista Dinámica):");
+                        System.out.println("Ardilla 2 (Lista Dinámica):");
                         System.out.println("  - Operaciones: " + pasosLista);
                         System.out.println("  - Tiempo:      " + tiempoLista + " ns.");
                         System.out.println("-----------------------------------------");
@@ -88,11 +88,11 @@ public class Main {
                         
                         if (tiempoArbol < tiempoLista) {
                             long ventaja = tiempoLista - tiempoArbol;
-                            System.out.println("¡GANÓ LA ARDILLA RAYADA (Árbol)! Fue " + ventaja + " ns más rápida.");
+                            System.out.println("¡GANÓ LA ARDILLA 1 (Árbol)! Fue " + ventaja + " ns más rápida.");
                             ardillaGanadora = 1;
                         } else if (tiempoLista < tiempoArbol) {
                             long ventaja = tiempoArbol - tiempoLista;
-                            System.out.println("¡GANÓ LA ARDILLA VOLADORA (Lista)! Fue " + ventaja + " ns más rápida.");
+                            System.out.println("¡GANÓ LA ARDILLA 2 (Lista)! Fue " + ventaja + " ns más rápida.");
                             ardillaGanadora = 2;
                         } else {
                             System.out.println("¡Empate exacto! Ambas registraron " + tiempoArbol + " ns.");
@@ -109,7 +109,7 @@ public class Main {
                         }
                         System.out.println("-----------------------------------------");
 
-                    } else if (opcion != 3) {
+                    } else if (opcion != 2) {
                         System.out.println("Esa opción no existe");
                     }
                 } else {
