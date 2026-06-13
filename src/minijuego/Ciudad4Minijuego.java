@@ -117,8 +117,8 @@ public class Ciudad4Minijuego implements Minijuego, ObservadorOrdenamiento {
 		int x = (ConfiguracionPantalla.SCREEN_WIDTH - anchoBoton) / 2;
 		int y = (ConfiguracionPantalla.SCREEN_HEIGHT - altoBoton) / 2 - 50;
 		
-		botonBubble = new Boton(recursos.getBotonMenu1(), x, y, anchoBoton, altoBoton);
-		botonQuick = new Boton(recursos.getBotonMenu1(), x, y + 150, anchoBoton, altoBoton);
+		botonBubble = new Boton(recursos.getBotonBubble(), x, y, anchoBoton, altoBoton);
+		botonQuick = new Boton(recursos.getBotonQuick(), x, y + 150, anchoBoton, altoBoton);
     }
     
     public void mostrarOpciones(Graphics2D g2) {

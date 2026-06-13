@@ -18,19 +18,13 @@ public class GestorRecursos {
 	private BufferedImage fondoMapa;
 	private BufferedImage fondoMenu;
 	
-	private BufferedImage nodoCiudad1;
-	private BufferedImage nodoCiudad2;
-	private BufferedImage nodoCiudad3;
-	private BufferedImage nodoCiudad4;
-	private BufferedImage nodoCiudad5;
-	private BufferedImage nodoCiudad6;
-	private BufferedImage nodoCiudad7;
-	private BufferedImage nodoCiudad8;
-	private BufferedImage nodoCiudad9;
-	private BufferedImage nodoCiudad10;
+	private BufferedImage nodoCiudad1, nodoCiudad2, nodoCiudad3, nodoCiudad4, nodoCiudad5;
+	private BufferedImage nodoCiudad6, nodoCiudad7, nodoCiudad8, nodoCiudad9, nodoCiudad10;
 	
 	private BufferedImage piedra, piedra2, pasto, pasto2, pasto3, cofre, madera;
 
+	private BufferedImage iconoBorrar, iconoGuardar;
+	private BufferedImage botonBubble, botonQuick, botonBFS, botonDFS;
 	
 	public GestorRecursos() {
 		cargarSpritesMenu();
@@ -39,6 +33,7 @@ public class GestorRecursos {
 		cargarTiles();
 		cargarFondoMapa();
 		cargarBotonesArdillas();
+		cargarBotonesAdicionales();
 	}
 	
 	
@@ -125,6 +120,52 @@ public class GestorRecursos {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void cargarBotonesAdicionales() {
+		try {
+			botonBubble = ImageIO.read(getClass().getResourceAsStream("/sprites/botones/BotonBubbleSort.png"));
+			botonQuick = ImageIO.read(getClass().getResourceAsStream("/sprites/botones/BotonQuickSort.png"));
+
+			botonBFS = ImageIO.read(getClass().getResourceAsStream("/sprites/botones/BotonBusquedaBFS.png"));
+			botonDFS = ImageIO.read(getClass().getResourceAsStream("/sprites/botones/BotonBusquedaDFS.png"));
+
+			iconoBorrar = ImageIO.read(getClass().getResourceAsStream("/sprites/botones/IconoEliminarDatos.png"));
+			iconoGuardar = ImageIO.read(getClass().getResourceAsStream("/sprites/botones/IconoMaquinaDeEscribir.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	
+
+	public BufferedImage getIconoBorrar() {
+		return iconoBorrar;
+	}
+
+
+	public BufferedImage getIconoGuardar() {
+		return iconoGuardar;
+	}
+
+
+	public BufferedImage getBotonBubble() {
+		return botonBubble;
+	}
+
+
+	public BufferedImage getBotonQuick() {
+		return botonQuick;
+	}
+
+
+	public BufferedImage getBotonBFS() {
+		return botonBFS;
+	}
+
+
+	public BufferedImage getBotonDFS() {
+		return botonDFS;
 	}
 
 	public BufferedImage getBotonMenu1() {

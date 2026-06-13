@@ -37,24 +37,24 @@ public class RenderizarMenu {
 	// ============================== MENU =======================================
 	
 	public void crearBotonGuardado() {
-		int anchoBoton = 48;
-		int altoBoton = 48;
+		int anchoBoton = 100;
+		int altoBoton = 60;
 		
-		int x = 50;
-		int y = 50;
+		int x = 0;
+		int y = 10;
 		
-		botonGuardado = new Boton(recursos.getBotonMenu1(),
+		botonGuardado = new Boton(recursos.getIconoGuardar(),
 				x, y, anchoBoton, altoBoton);
 	}
 	
 	public void crearBotonBorrarDatos() {
-		int anchoBoton = 48;
-		int altoBoton = 48;
+		int anchoBoton = 100;
+		int altoBoton = 60;
 		
-		int x = 50;
-		int y = 100;
+		int x = 0;
+		int y = 60;
 		
-		botonBorrar = new Boton(recursos.getBotonMenu1(),
+		botonBorrar = new Boton(recursos.getIconoBorrar(),
 				x, y, anchoBoton, altoBoton);
 	}
 	

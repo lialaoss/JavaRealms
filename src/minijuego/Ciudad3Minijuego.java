@@ -86,8 +86,8 @@ public class Ciudad3Minijuego implements Minijuego {
 		int x = (ConfiguracionPantalla.SCREEN_WIDTH - anchoBoton) / 2;
 		int y = (ConfiguracionPantalla.SCREEN_HEIGHT - altoBoton) / 2 - 50;
 		
-		bfsBoton = new Boton(recursos.getBotonMenu1(), x, y, anchoBoton, altoBoton);
-		dfsBoton = new Boton(recursos.getBotonMenu1(), x, y + 150, anchoBoton, altoBoton);
+		bfsBoton = new Boton(recursos.getBotonBFS(), x, y, anchoBoton, altoBoton);
+		dfsBoton = new Boton(recursos.getBotonDFS(), x, y + 150, anchoBoton, altoBoton);
 	}
 	
 	private void mostrarOpciones(Graphics2D g2) {
