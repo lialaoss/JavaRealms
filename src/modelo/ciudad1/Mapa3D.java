@@ -72,7 +72,6 @@ public class Mapa3D implements MapaLectura {
 	  * Post: marca como 'reveladas' las celdas dentro del radio de visión en el nivel (Z) actual.
 	  */
 	 public void actualizarNiebla(int px, int py, int pz, int radio) {
-	    System.out.println(px + " " + py + " " + pz + " " + radio);
 		 for (int i = px - radio; i <= px + radio; i++) {
 			 for (int j = py - radio; j <= py + radio; j++) {
 				 if (esCoordenadaValida(i, j, pz)) {

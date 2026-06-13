@@ -143,7 +143,6 @@ public class Panel extends JPanel implements Runnable {
 		        keyH.enterPressed = false;
 		        admin.getJuegoActual().resultadoPartida();
 		        if(admin.getCiudadActual().getEstado() == EstadoCiudad.COMPLETADA) {
-		        	System.out.println("Se completo la ciudad: " + admin.getCiudadActual().getNombre());
 		        	admin.desbloquearVecinos(admin.getCiudadActual());
 		        }
 		        admin.limpiarJuegoActual();
