@@ -34,14 +34,18 @@ public class Ciudad2Minijuego implements Minijuego {
     private boolean ganado = false;
     private boolean sinSolucion = false;
 
+    /* 
+     * Pre: La ciudad y el jugador ya deben estar inicializados (no pueden ser nulos).
+     * Post: Crea el minijuego guardando la referencia de ambos para poder usar sus datos después.
+     */
     public Ciudad2Minijuego(Ciudad ciudad, Jugador jugador) {
         this.ciudad = ciudad;
         this.jugador = jugador;
     }
     
-    /**
-     * Pre: ciudad y jugador no son nulos.
-     * Post: no requiere inicialización — el estado inicial es INPUT_N.
+    /* 
+     * Pre: Ninguna.
+     * Post: Método requerido por la interfaz Minijuego. Queda vacío porque este juego arranca automáticamente pidiendo el primer dato (fase INPUT_N).
      */
 
     @Override
@@ -49,6 +53,10 @@ public class Ciudad2Minijuego implements Minijuego {
 
     }
 
+    /* 
+     * Pre: El motor gráfico de Java (Graphics2D) debe estar listo para dibujar.
+     * Post: Dibuja toda la pantalla negra y, dependiendo de en qué fase estemos, muestra los textos pidiendo que el jugador escriba el tamaño del tablero, o dibuja el tablero con las reinas si ya se está resolviendo. Si hay error o victoria, muestra el mensaje correspondiente.
+     */
     @Override
     public void render(Graphics2D g2) {
         g2.setColor(Color.BLACK);
@@ -92,6 +100,10 @@ public class Ciudad2Minijuego implements Minijuego {
 		}
     }
 
+    /* 
+     * Pre: La fase actual del juego debe ser RESOLVIENDO y el historial de pasos ya debe estar creado.
+     * Post: Dibuja en pantalla la cuadrícula del tablero de ajedrez y coloca la letra "Q" roja en los casilleros donde hay una reina en el momento exacto (frame) que estamos viendo.
+     */
     private void dibujarTablero(Graphics2D g2) {
         if (historial == null || historial.isEmpty()) { return; }
 
@@ -128,10 +140,9 @@ public class Ciudad2Minijuego implements Minijuego {
         }
     }
     
-    /**
-     * Pre: c es un carácter válido de teclado.
-     * Post: si c es ENTER procesa el input actual, si es BACKSPACE borra el último carácter,
-     *       si es otro carácter lo agrega al input.
+    /* 
+     * Pre: El usuario presiona una tecla válida en su teclado mientras le piden ingresar datos.
+     * Post: Si toca ENTER, avanza de fase guardando el dato. Si toca BACKSPACE, borra el último número que escribió. Si toca cualquier otra cosa, la suma al texto que se muestra en pantalla.
      */
 
     public void procesarCaracter(char c) {
@@ -147,12 +158,10 @@ public class Ciudad2Minijuego implements Minijuego {
         }
     }
     
-    /**
-     * Pre: ninguna.
-     * Post: si hay historial disponible avanza un frame. Al llegar al último frame
-     *       determina si hay solución o no y llama resultadoPartida si ganó.
+    /* 
+     * Pre: La fase tiene que ser RESOLVIENDO y el jugador tiene que haber presionado ENTER.
+     * Post: Mueve la animación del tablero al siguiente paso. Si llega al final y se lograron poner todas las reinas, marca el juego como ganado. Si no, avisa que esa combinación no tiene solución.
      */
-
     public void avanzarFrame() {
         if (fase == Fase.RESOLVIENDO && historial != null && frameActual < historial.size() - 1) {
             frameActual++;
@@ -167,6 +176,10 @@ public class Ciudad2Minijuego implements Minijuego {
         }
     }
 
+    /* 
+     * Pre: El jugador tocó ENTER mientras estaba en la etapa de escribir datos numéricos.
+     * Post: Intenta convertir lo que escribió el jugador a un número. Si es válido y está dentro de los límites del tablero, avanza a pedir el siguiente dato (de N -> Fila -> Columna). Si escribe letras o números que no van, tira error.
+     */
     private void procesarEnter() {
         String input = inputActual.trim();
         inputActual = "";
@@ -191,11 +204,10 @@ public class Ciudad2Minijuego implements Minijuego {
         }
     }
     
-    /**
-     * Pre: dimension >= 4, filaInicial y columnaInicial dentro del rango del tablero.
-     * Post: genera el historial de pasos del backtracking y cambia la fase a RESOLVIENDO.
+    /* 
+     * Pre: El jugador ya ingresó bien el tamaño del tablero (N>=4) y la fila/columna de la primera reina.
+     * Post: Llama al solucionador de Backtracking para que intente ubicar todas las reinas. Guarda todos los pasos que hizo la computadora (historial) y pasa a la fase RESOLVIENDO para que se empiecen a dibujar.
      */
-
     private void resolver() {
         try {
             SolucionadorNReinas solucionador = new SolucionadorNReinas();
@@ -208,11 +220,10 @@ public class Ciudad2Minijuego implements Minijuego {
         }
     }
     
-    /**
-     * Pre: ninguna.
-     * Post: si ganado es true desbloquea vecinos y marca la ciudad como completada.
+    /* 
+     * Pre: La animación de resolución llegó hasta el final.
+     * Post: Si el algoritmo encontró una solución válida (ganado == true), cambia el estado de esta ciudad a COMPLETADA y le suma los puntos de experiencia al jugador.
      */
-
     @Override
     public void resultadoPartida() {
         if (ganado) { 
@@ -221,6 +232,10 @@ public class Ciudad2Minijuego implements Minijuego {
         }
     }
 
+    /* 
+     * Pre: El usuario hace un click con el ratón.
+     * Post: No hace nada. Este juego se controla solo por teclado. Se deja vacío para cumplir con la interfaz Minijuego.
+     */
     @Override
     public void procesarClick(int mouseX, int mouseY) {
     	

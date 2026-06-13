@@ -22,14 +22,10 @@ public class AdministradorCiudades {
 	private ConexionesCiudades grafo;
 
 	// CONSTRUCTOR
-	/**
-	 * Crea el administrador de ciudades, cargando las ciudades
-	 * y sus conexiones desde los archivos correspondientes.
-	 * Pre: Los archivos de ciudades y vecinos deben existir.
-	 * Post:
-	 * - Las ciudades son cargadas en memoria.
-	 * - El grafo de conexiones queda inicializado.
-	 * - Las relaciones de vecindad quedan establecidas.
+	
+	/*
+	 *  Pre: Los archivos de texto de ciudades y vecinos deben existir en la carpeta correcta del proyecto.
+	 * Post: Crea el administrador, lee los archivos de texto, guarda las ciudades en la memoria y arma el grafo con todos los caminos conectados.
 	 */
 	public AdministradorCiudades() {
 		cargarDatosCiudades();
@@ -39,16 +35,9 @@ public class AdministradorCiudades {
 	
 	// ========================= CARGA DE CIUDADES =========================
 	
-	/**
-	 *
-	 * Carga las ciudades desde el archivo de datos.
-	 * Pre: El archivo de ciudades debe existir y respetar
-	 * el formato establecido.
-	 * Post: Todas las ciudades del archivo son agregadas a
-	 * la colección de ciudades.
-	 * 
-	 * formato linea:
-	 * NombreCiudad;Puntos;ID
+	/*
+	 *  Pre: El archivo de ciudades debe existir y cada renglón debe respetar el formato (NombreCiudad;Puntos;ID).
+	 * Post: Lee el archivo línea por línea y guarda todas las ciudades encontradas en la colección del juego.
 	 */
 	private void cargarDatosCiudades() {
 		
@@ -67,14 +56,9 @@ public class AdministradorCiudades {
 
 	}
 	
-	/**
-	 * Crea una ciudad a partir de los datos recibidos y la
-	 * agrega a la colección de ciudades.
-	 * Pre: 
-	 *  - datos != null
-	 *  - datos debe contener nombre, experiencia e id.
-	 * Post: La ciudad creada queda almacenada en la colección.
-	 * @param datos información de la ciudad.
+	/*
+	 *  Pre: El arreglo "datos" no puede ser nulo y debe tener justo el nombre, los puntos y el ID de la ciudad.
+	 * Post: Construye el objeto Ciudad con esa información y lo guarda en el mapa de ciudades usando su ID como clave.
 	 */
 	private void agregarCiudad(String[] datos) {
 		Validaciones.esDistintoDeNull(datos, "datos");
@@ -88,16 +72,9 @@ public class AdministradorCiudades {
 	
 	// ========================= CARGA DE VECINOS =========================
 	
-
-	/**
-	 * Carga las conexiones entre ciudades desde el archivo
-	 * de vecinos.
-	 * Pre: El archivo de vecinos debe existir y respetar
-	 * el formato establecido.
-	 * Post: Todas las conexiones definidas son agregadas al grafo.
-	 * 
-	 * formato linea:
-	 * NombreCiudad;PesoArista;IDVecino
+	/*
+	 *  Pre: El archivo de vecinos debe existir y cada renglón debe respetar el formato (ID_Ciudad;PesoArista;ID_Vecino).
+	 * Post: Lee el archivo y va creando en el grafo los caminos que unen a las ciudades.
 	 */
 	private void cargarDatosVecinos() {
 	    try (BufferedReader br = abrirArchivo(RUTA_VECINOS)) {
@@ -114,16 +91,9 @@ public class AdministradorCiudades {
 	    }
 	}
 	
-	/**
-	 * Agrega una conexión entre dos ciudades en el grafo, indicando el
-	 * costo necesario para acceder a ella.
-	 * Pre:
-	 * - datos != null.
-	 * - Las ciudades indicadas deben existir.
-	 * - datos debe contener idCiudad, peso e idVecino.
-	 * Post:
-	 * - Se crea una conexión entre ambas ciudades con el peso especificado.
-	 * @param datos: información de la conexión.
+	/*
+	 *  Pre: El arreglo "datos" no puede ser nulo, y las dos ciudades indicadas en los datos ya deben existir en el juego.
+	 * Post: Busca las dos ciudades y crea un camino entre ellas en el grafo, indicando cuántos puntos cuesta cruzarlo (el peso).
 	 */
 	private void agregarVecino(String[] datos) {
 		Validaciones.esDistintoDeNull(datos, "datos");
@@ -145,16 +115,9 @@ public class AdministradorCiudades {
 
     // ========================= UTIL =========================
 
-	/**
-	 * Abre un archivo de recursos y devuelve un lector
-	 * para acceder a su contenido.
-	 * Pre:
-	 * - ruta != null.
-	 * - El archivo debe existir en la ruta indicada.
-	 * Post: Se devuelve un BufferedReader asociado al archivo.
-	 *
-	 * @param ruta ubicación del archivo.
-	 * @return lector para acceder al contenido.
+	/* 
+	 * Pre: La ruta ingresada no puede ser nula y el archivo tiene que estar en ese lugar.
+	 * Post: Abre el archivo y devuelve una herramienta (BufferedReader) lista para que el programa pueda leer sus textos.
 	 */
     private BufferedReader abrirArchivo(String ruta) {
     	Validaciones.esDistintoDeNull(ruta, "ruta");
