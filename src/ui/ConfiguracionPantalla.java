@@ -1,7 +1,7 @@
 package ui;
 
 public final class ConfiguracionPantalla {
-	/**
+	/*
 	 * Configuracion de pantalla:
 	 * originalTileSize : tamaño de tiles
 	 * maxScreenCol : max cantidad de columnas para nuestra ventana (ancho)

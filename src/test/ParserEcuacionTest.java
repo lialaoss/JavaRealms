@@ -8,7 +8,7 @@ import modelo.ciudad10.ParserEcuacion;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
+/*
  * Clase de testeo unitario para la clase funcional ParserEcuacion.
  */
 public class ParserEcuacionTest {

@@ -2,6 +2,10 @@ package modelo.ciudad5;
 import java.util.Scanner;
 
 public class Main {
+	/*
+     * Pre: El archivo de texto que se va a ingresar debe existir en la ruta indicada y tener un formato legible.
+     * Post: Inicia el programa de simulación "Árbol vs Lista", carga los datos del texto y permite al usuario apostar de forma interactiva por una de las dos estructuras (ardillas) para ver cuál busca una palabra en menos tiempo y con menos operaciones.
+     */
     public static void main(String[] args) {
         Scanner teclado = new Scanner(System.in);
         ArbolABB miArbol = new ArbolABB(); //

@@ -7,7 +7,7 @@ import modelo.ciudad10.EcuacionRecurrencia;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
+/*
  * Clase de testeo unitario para el TDA EcuacionRecurrencia.
  */
 public class EcuacionRecurrenciaTest {

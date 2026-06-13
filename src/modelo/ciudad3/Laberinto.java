@@ -12,7 +12,7 @@ public class Laberinto {
     private Nodo fin;
 
 //CONSTRUCTORES ----------------------------------------------------------------------------------------------------------------------------------------------------------
-    /**
+    /*
      * Representa un laberinto cargado desde un archivo de texto.
      *
      * Formato:
@@ -77,7 +77,7 @@ public class Laberinto {
     }
 
 //METODOS -----------------------------------------------------------------------------------------------------------------------------------------------------------------
-    /**
+    /*
      * Muestra el laberinto por consola.
      *
      * Precondiciones:
@@ -97,7 +97,7 @@ public class Laberinto {
         }
     }
 
-    /**
+    /*
      * Verifica que todas las filas del archivo tengan la misma longitud.
      *
      * Precondiciones:
@@ -121,7 +121,7 @@ public class Laberinto {
         }
     }
     
-    /**
+    /*
      * Verifica que exista exactamente un inicio y un fin.
      *
      * Precondiciones:
@@ -185,14 +185,14 @@ public class Laberinto {
     }
 
 //GETTERS -----------------------------------------------------------------------------------------------------------------------------------------------------------------
-    /**
+    /*
      * Devuelve el nodo de inicio del laberinto.
      */
     public Nodo getInicio() {
         return this.inicio;
     }
 
-    /**
+    /*
      * Devuelve el nodo final del laberinto.
      */
     public Nodo getFin() {

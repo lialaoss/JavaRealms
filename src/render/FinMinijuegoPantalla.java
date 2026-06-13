@@ -10,6 +10,10 @@ import ui.ConfiguracionPantalla;
 
 public class FinMinijuegoPantalla {
 	
+	/*
+	 * Pre: El motor gráfico 'g2' y el objeto 'ciudad' no deben ser nulos. La configuración de pantalla debe tener cargados los tamaños de ancho y alto.
+	 * Post: Dibuja un fondo negro semitransparente sobre toda la pantalla y muestra un cartel blanco centrado con los puntos de experiencia que el jugador ganó en esa ciudad.
+	 */
 	public void mostrarResultados(Graphics2D g2, Ciudad ciudad) {
 		g2.setColor(new Color(0, 0, 0, 180));
 		g2.fillRect(

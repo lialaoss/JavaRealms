@@ -12,7 +12,7 @@ import modelo.*;
 import utiles.RecoleccionException;
 
 
-/**
+/*
  * Suite de pruebas para la logica de la Ciudad 1.
  * Post: valida el movimiento, la recoleccion polimorfica y el diseño defensivo.
  */
@@ -31,7 +31,7 @@ class RecoleccionTest {
     }
     
     
-    /**
+    /*
      * Post: verifica que el jugador se desplace correctamente y actualice coordenadas.
      */
     
@@ -42,7 +42,7 @@ class RecoleccionTest {
         assertEquals(1, partida.getY(), "La posicion Y deberia ser 1");
     }
     
-    /**
+    /*
      * Post: asegura que el sistema lance una excepcion si se intenta salir del mapa [7, 8].
      */
     
@@ -54,7 +54,7 @@ class RecoleccionTest {
     }
     
     
-    /**
+    /*
      * Clase interna para simular la interfaz sin necesidad de Swing.
      */
     private class ObservadorSilencioso implements ObservadorRecoleccion {

@@ -5,6 +5,10 @@ import java.io.IOException;
 import java.util.List;
 
 public class RenderizadorBMP {
+	/*
+     * Pre: La lista de 'frames' no debe ser nula y debe contener los estados del laberinto.
+     * Post: Recorre todos los snapshots y genera un archivo físico de imagen con formato .bmp para cada uno de ellos, numerados secuencialmente.
+     */
 	public static void generar(List<Snapshot> frames) throws IOException {
 
         for (int i = 0; i < frames.size(); i++) {
@@ -12,6 +16,10 @@ public class RenderizadorBMP {
         }
     }
 	
+	/*
+     * Pre: La matriz de caracteres 'mapa' debe estar correctamente inicializada y el 'nombre' del archivo no debe estar vacío.
+     * Post: Crea un archivo de imagen BMP en el disco, escribe su encabezado correspondiente y traduce cada caracter del mapa en píxeles de colores de abajo hacia arriba, aplicando el relleno (padding) necesario para cumplir con el formato BMP.
+     */
 	public static void escribirBMP(char[][] mapa, String nombre) throws IOException {
 
 	    int ancho = mapa[0].length;
@@ -44,7 +52,10 @@ public class RenderizadorBMP {
 	    fos.close();
 	}
 	
-	
+	/*
+     * Pre: Ninguna.
+     * Post: Devuelve un arreglo de 3 bytes (formato RGB) que representa el color asignado a cada caracter especial del mapa (como paredes, caminos, inicio, fin o visitados).
+     */
 	private static byte[] colorDe(char c) {
 
 	    switch (c) {
@@ -67,6 +78,10 @@ public class RenderizadorBMP {
 	    }
 	}
 	
+	/*
+     * Pre: 'fileSize', 'width' (ancho) y 'height' (alto) deben ser valores mayores a cero y coherentes con la imagen a crear.
+     * Post: Construye y devuelve un arreglo de 54 bytes con la estructura de cabecera obligatoria que requiere cualquier archivo BMP de 24 bits para que la computadora pueda leerlo como una imagen válida.
+     */
 	private static byte[] crearHeader(int fileSize, int width, int height) {
 
 	    byte[] header = new byte[54];
@@ -87,6 +102,10 @@ public class RenderizadorBMP {
 	    return header;
 	}
 	
+	/*
+     * Pre: El arreglo 'arr' debe estar inicializado y tener el tamaño suficiente para soportar la escritura a partir de la posición 'offset'.
+     * Post: Descompone un número entero de 32 bits en 4 bytes individuales usando operaciones de desplazamiento de bits (shifting) y los guarda en el orden correspondiente (Little Endian).
+     */
 	private static void intToBytes(int value, byte[] arr, int offset) {
 
 	    arr[offset] = (byte)(value);

@@ -7,6 +7,10 @@ import java.util.Scanner;
 
 public class Principal {
 
+	/*
+     * Pre: Debe existir una carpeta llamada 'laberintos' con el archivo 'lab2.txt' adentro, configurado de manera correcta (con un inicio y un fin válidos).
+     * Post: Ejecuta el simulador del laberinto, limpia los archivos viejos de imágenes, le permite al usuario elegir entre BFS o DFS para buscar la salida y muestra el resultado en pantalla mediante una animación automática o paso a paso generando archivos BMP.
+     */
     public static void main(String[] args) throws IOException, InterruptedException {
 
         // limpia frames anteriores

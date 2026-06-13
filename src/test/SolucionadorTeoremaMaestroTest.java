@@ -7,7 +7,7 @@ import modelo.ciudad10.SolucionadorTeoremaMaestro;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
+/*
  * Clase de testeo unitario para verificar la precisión matemática del Teorema Maestro.
  */
 public class SolucionadorTeoremaMaestroTest {
