@@ -5,7 +5,16 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class TransformadorTXT {
+	
+	private String textoOriginal;
+	
+	public String getTextoOriginal() {
+	    return textoOriginal;
+	}
+	
     public boolean cargarDatos(String rutaArchivo, ArbolABB arbol, ListaDinamica lista) {
+    	StringBuilder textoCompleto = new StringBuilder();
+    	
         boolean exito = true;
 
         FileReader fileReader = null;
@@ -19,6 +28,9 @@ public class TransformadorTXT {
             int numeroLinea = 1;
 
             while ((lineaTexto = bufferedReader.readLine()) != null) {
+            	textoCompleto.append(lineaTexto);
+                textoCompleto.append("\n");
+                
                 String[] palabrasDeLaLinea = lineaTexto.split("\\s+");
                 int posicionPalabra = 1;
 
@@ -49,6 +61,8 @@ public class TransformadorTXT {
                 System.out.println("No se pudieron cerrar los flujos del archivo" + e.getMessage());
             }
         }
+        textoOriginal = textoCompleto.toString();
+        
         return exito;
     }
 }

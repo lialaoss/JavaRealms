@@ -8,7 +8,3 @@ información más rápido. Un día decidieron organizar una carrera de búsqueda
 La primera prueba consistía en encontrar la palabra árbol dentro de un gran texto.
 La ardilla rayada utilizó un árbol binario de búsqueda para recorrer los datos.
 La ardilla voladora utilizó una lista dinámica y revisó cada elemento uno por uno.
-
-Mientras la ardilla rayada saltaba de árbol en árbol,
-la ardilla voladora avanzaba cuidadosamente por la lista.
-Ambas buscaban la palabra árbol, árbol, árbol y más árbol.

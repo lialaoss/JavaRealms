@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
+import java.util.Random;
 
 import ciudades.Ciudad;
 import ciudades.EstadoCiudad;
@@ -21,7 +22,11 @@ import ui.ConfiguracionPantalla;
 import ui.GestorRecursos;
 
 public class Ciudad5Minijuego implements Minijuego{
+
+    private final String RUTA_ARCHIVO = "assets/busquedaArchivos/Busquedas1.txt";
 	
+    private String[] palabras = {"árbol", "ardillas", "búsqueda", "elemento", "binario"};
+    private String palabraBuscada;
     private Ciudad ciudad;
     private Jugador jugador;
     
@@ -38,10 +43,9 @@ public class Ciudad5Minijuego implements Minijuego{
     private GanadorCarrera ganador;
 
     private boolean datosCargados = false;
-
-    private String palabraBuscada = "arbol";
-
     private boolean eleccionArbol = true;
+    
+    private String textoMostrado;
     
     private int pasosArbol, pasosLista;
     private NodoLista resultadoLista;
@@ -67,21 +71,28 @@ public class Ciudad5Minijuego implements Minijuego{
 	    miLista = new ListaDinamica();
 	    transformador = new TransformadorTXT();
 
-	    String rutaArchivo = "assets/busquedaArchivos/Busquedas1.txt";
-
-	    datosCargados = transformador.cargarDatos(rutaArchivo, miArbol, miLista);
+	    datosCargados = transformador.cargarDatos(RUTA_ARCHIVO, miArbol, miLista);
+	    textoMostrado = transformador.getTextoOriginal();
+	    
+	    elegirPalabraAleatoria();
 	}
 	
-	private void ejecutarBusqueda(String palabra) {
+	private void elegirPalabraAleatoria() {
+		Random random = new Random();
+		
+		palabraBuscada = palabras[random.nextInt(palabras.length)];
+	}
+	
+	private void ejecutarBusqueda() {
 		if(!datosCargados) {
 			throw new RuntimeException("No se pudieron cargar los datos.");
 		}
 	    long inicioLista = System.nanoTime();
-	    resultadoLista = miLista.buscarLineal(palabra);
+	    resultadoLista = miLista.buscarLineal(palabraBuscada);
 	    long finLista = System.nanoTime();
 
 	    long inicioArbol = System.nanoTime();
-	    resultadoArbol = miArbol.buscar(palabra);
+	    resultadoArbol = miArbol.buscar(palabraBuscada);
 	    long finArbol = System.nanoTime();
 	    
 	    pasosArbol = miArbol.getOperacionesUltimaBusqueda();
@@ -103,15 +114,25 @@ public class Ciudad5Minijuego implements Minijuego{
 	// ========================== RENDER ====================================
 	
     private void crearBotones() {
-    	int anchoBoton = 300;
-		int altoBoton = 100;
+	    int anchoBoton = 300;
+	    int altoBoton = 100;
 
-		int x = (ConfiguracionPantalla.SCREEN_WIDTH - anchoBoton) / 2;
-		int y = (ConfiguracionPantalla.SCREEN_HEIGHT - altoBoton) / 2 - 100;
+	    int centroX = (ConfiguracionPantalla.SCREEN_WIDTH - anchoBoton) / 2;
+	    int centroY = (ConfiguracionPantalla.SCREEN_HEIGHT - altoBoton) / 2 - 100;
 		
-		botonBuscar = new Boton(recursos.getBotonMenu1(), x, y, anchoBoton, altoBoton);
-		botonArbol = new Boton(recursos.getBotonArbol(), x, y + 150, anchoBoton, altoBoton);
-		botonLista = new Boton(recursos.getBotonLista(), x, y + 300, anchoBoton, altoBoton);
+		botonBuscar = new Boton(recursos.getBotonMenu1(), centroX, centroY, anchoBoton, altoBoton);
+		
+		int separacion = 50;
+
+	    int anchoTotal = anchoBoton * 2 + separacion;
+	    int inicialX = (ConfiguracionPantalla.SCREEN_WIDTH - anchoTotal) / 2;
+
+	    int botonesY = ConfiguracionPantalla.SCREEN_HEIGHT - 150;
+
+	    botonArbol = new Boton(recursos.getBotonArbol(), inicialX, botonesY, anchoBoton, altoBoton);
+
+	    botonLista = new Boton(recursos.getBotonLista(), inicialX + anchoBoton + separacion, botonesY,
+	        anchoBoton, altoBoton);
     }
 
     @Override
@@ -151,6 +172,18 @@ public class Ciudad5Minijuego implements Minijuego{
     
     private void renderApuesta(Graphics2D g2) {
         dibujarTitulo(g2, "¿Por cuál Ardilla quieres apostar?");
+
+        g2.drawString("Palabra a buscar: " + palabraBuscada, 50, 120);
+
+        int y = 160;
+
+        String[] lineas = textoMostrado.split("\n");
+
+        for (String linea : lineas) {
+            g2.drawString(linea, 50, y);
+            y += 25;
+        }
+
         botonArbol.dibujar(g2);
         botonLista.dibujar(g2);
     }
@@ -249,12 +282,12 @@ public class Ciudad5Minijuego implements Minijuego{
         if (estado == EstadoMinijuego5.APUESTA) {
             if (botonArbol.contiene(mouseX, mouseY)) {
                 eleccionArbol = true;
-                ejecutarBusqueda(palabraBuscada);
+                ejecutarBusqueda();
                 estado = EstadoMinijuego5.RESULTADOS;
             }
             if (botonLista.contiene(mouseX, mouseY)) {
                 eleccionArbol = false;
-                ejecutarBusqueda(palabraBuscada);
+                ejecutarBusqueda();
                 estado = EstadoMinijuego5.RESULTADOS;
             }
         }
