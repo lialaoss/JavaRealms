@@ -12,11 +12,20 @@ public class MouseHandler extends MouseAdapter {
 	private RenderizarMenu menu;
 	private ui.Panel panel;
 	
+	/*
+	 * Pre: El administrador del juego, el menú y el panel deben estar inicializados (no ser nulos).
+	 * Post: Crea el "escuchador" de mouse y guarda las referencias para poder interactuar con las pantallas y la lógica del juego.
+	 */
 	public MouseHandler(AdministradorJuego admin, RenderizarMenu menu, Panel panel) {
 	    this.admin = admin;
 	    this.menu = menu;
 	    this.panel = panel;
 	}
+	
+	/*
+	 * Pre: El usuario hace un click con el mouse en alguna parte de la ventana.
+	 * Post: Captura en qué posición exacta (X, Y) se hizo el click y, dependiendo de en qué pantalla estemos (menú, mapa o algún minijuego específico de la ciudad 3, 4 o 5), le avisa a la clase correspondiente para que active la acción.
+	 */
 	@Override
 	public void mousePressed(MouseEvent e) {
 
@@ -36,7 +45,6 @@ public class MouseHandler extends MouseAdapter {
 	            break;
 	    }
 	    
-	    // Diria que podemos agregar en este switch solo aquellas ciudades q necesiten al cursor
 	    if(admin.getJuegoActual() != null) {
 		    switch (admin.getCiudadActual().getId()) {
 		    	case 3:

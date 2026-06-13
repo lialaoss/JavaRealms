@@ -39,13 +39,9 @@ public class AdministradorJuego {
 	
 	// =========================== LOGICA JUEGO ====================================
 	
-	/**
-	 * Inicializa el juego y configura sus valores iniciales.
-	 * Pre: Debe existir una ciudad con id 1.
-	 * Post:
-	 * - La ciudad 1 queda desbloqueada si no estaba completada.
-	 * - El jugador recibe la experiencia inicial.
-	 * - Se crea la ventana principal del juego.
+	/*
+	 * Pre: El juego debe tener al menos la ciudad inicial (ID 1) cargada en la memoria.
+	 * Post: Desbloquea la primera ciudad (si es que no estaba completada de antes) y arranca la ventana principal para empezar a jugar.
 	 */
 	public void iniciarJuego() {
 		if(this.ciudades.get(1).getEstado() != EstadoCiudad.COMPLETADA) {
@@ -54,16 +50,9 @@ public class AdministradorJuego {
 	    new Ventana(this);
 	}
 	
-	/**
-	 * Actualiza el estado actual del juego.
-	 * Si el estado no es EN_PROGRESO no realiza ninguna acción.
-	 * Si la ciudad seleccionada es accesible, crea e inicia
-	 * el minijuego correspondiente.
-	 * Pre: Debe existir una ciudad seleccionada cuando el estado sea EN_PROGRESO.
-	 * Post:
-	 * - Si no puede accederse a la ciudad, el estado pasa a
-	 *   MAPA_GENERAL.
-	 * - Si corresponde, se crea e inicia un minijuego.
+	/*
+	 * Pre: Ninguna.
+	 * Post: Chequea si ganaste el juego. Si el jugador intenta entrar a una ciudad, verifica si cumple los requisitos; si no, lo devuelve al mapa. Si todo está bien, crea y arranca el minijuego de esa ciudad.
 	 */
 	public void update() {
 		if(juegoCompletado()) {
@@ -85,14 +74,9 @@ public class AdministradorJuego {
 	    }
 	}
 
-	/**
-	 * Verifica si el jugador puede ingresar a la ciudad actual.
-	 * Pre: ciudadActual != null.
-	 * Post: 
-	 * - Devuelve true si la ciudad no está bloqueada ni completada
-	 *   y el jugador posee los requisitos necesarios para acceder.
-	 * - No modifica el estado de ningún objeto.
-	 * @return true si puede ingresar a la ciudad.
+	/* 
+	 * Pre: Tiene que haber una ciudad seleccionada (ciudadActual no puede ser nula).
+	 * Post: Devuelve true si la ciudad está disponible (no está bloqueada ni ya la pasaste) y si te alcanzan los puntos de experiencia para llegar hasta ahí. Si no, devuelve false.
 	 */
 	private boolean puedeEntrar() {
 	    if(ciudadActual.getEstado() == EstadoCiudad.COMPLETADA) {
@@ -104,41 +88,34 @@ public class AdministradorJuego {
 	    return adminCiudades.getGrafo().verificarCamino(ciudadActual, jugador.getPuntosExperiencia());
 	}
 	
-	/**
-	 * Cambia la ciudad actual seleccionada por el jugador,
-	 * Pre: ciudades.containsKey(idCiudad), donde idCiudad > 0, 
-	 * y debe existir una ciudad asociada al identificador.
-	 * Post: ciudadActual referencia a la ciudad indicada.
-	 * @param idCiudad: identificador de la ciudad.
+	/*
+	 *  Pre: El ID ingresado tiene que ser mayor a cero y la ciudad debe existir en nuestro mapa de ciudades.
+	 * Post: Actualiza la variable ciudadActual para que apunte a la ciudad que el jugador acaba de elegir en el mapa.
 	 */
 	public void cambiarDeCiudad(int idCiudad) {
 		Validaciones.validarMayorACero(idCiudad, "idCiudad");
 		setCiudadActual(ciudades.get(idCiudad));
 	}
 	
-	/**
-	 * Desbloquea las ciudades vecinas de la ciudad indicada.
-	 * Pre: ciudad != null.
-	 * Post: Las ciudades vecinas quedan desbloqueadas según las
-	 * reglas definidas por el grafo de ciudades.
-	 * @param ciudad: ciudad desde la cual se desbloquean vecinos.
+	/*
+	 *  Pre: La ciudad que le pasamos no puede ser nula y debe estar en el grafo.
+	 * Post: Le avisa al administrador del mapa que cambie a DESBLOQUEADA todas las ciudades que estén conectadas directamente a la que acabamos de pasar.
 	 */
 	public void desbloquearVecinos(Ciudad ciudad) {
 		adminCiudades.getGrafo().desbloquearVecinos(ciudad);
 	}
 	
-	/**
-	 * Elimina la referencia al minijuego actual.
-	 * Post: juegoActual == null.
+	/*
+	 *  Pre: Ninguna.
+	 * Post: Borra el minijuego que se estaba jugando (lo deja en null) para limpiar la memoria y estar listos para la siguiente ciudad.
 	 */
 	public void limpiarJuegoActual() {
 	    this.juegoActual = null;
 	}
 	
-	/**
-	 * 
-	 * @return devuelve true en caso de que todas las ciudades se encuentran
-	 * completadas.
+	/*
+	 *  Pre: El mapa de ciudades tiene que estar inicializado.
+	 * Post: Recorre todas las ciudades del juego. Si absolutamente todas están en estado COMPLETADA, devuelve true (ganaste la partida). Si falta alguna, devuelve false.
 	 */
 	public boolean juegoCompletado() {
 	    for(Ciudad ciudad : ciudades.values()) {
@@ -151,19 +128,17 @@ public class AdministradorJuego {
 	
 	// ================== MANEJO DE DATOS DEL JUEGO ====================
 
-	/**
-	 * Guarda el estado actual del juego en el archivo de datos.
-	 * Pre: El sistema de persistencia debe estar inicializado.
-	 * Post: Los datos actuales del juego quedan almacenados.
+	/*
+	 *  Pre: El sistema de guardado (CargaDeDatos) tiene que estar funcionando.
+	 * Post: Agarra todo el progreso actual del jugador y lo guarda en el archivo de texto para no perder la partida si cerramos el programa.
 	 */
 	public void actualizarDatos() {
 		this.guardado.actualizarArchivoDeDatos();
 	}
 	
-	/**
-	 * Elimina los datos almacenados del juego al sobreescribir
-	 * el archivo de datos.
-	 * Post: Los datos guardados son eliminados.
+	/*
+	 * Pre: Ninguna.
+	 * Post: Borra el archivo de guardado o lo sobreescribe para reiniciar el progreso de la partida (ideal para cuando el usuario toca "Nueva Partida").
 	 */
 	public void eliminarDatos() {
 		this.guardado.eliminarDatosDeArchivo();

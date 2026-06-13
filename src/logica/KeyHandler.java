@@ -12,12 +12,20 @@ public class KeyHandler implements KeyListener {
 	public char ultimoCaracter = 0;
 	public boolean enterPressed = false;
 
+	/* 
+	 * Pre: El usuario presiona y suelta una tecla que genera un texto o símbolo.
+	 * Post: Guarda en la variable el último carácter exacto que se tecleó.
+	 */
 	@Override
 	public void keyTyped(KeyEvent e) {
 		ultimoCaracter = e.getKeyChar();
 		
 	}
 
+	/*
+	 * Pre: El usuario presiona una tecla del teclado.
+	 * Post: Identifica si la tecla apretada es W, A, S, D, Q o Enter, y pone su respectiva variable en true para que el juego sepa que la acción está activa.
+	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
 		int code = e.getKeyCode();
@@ -41,6 +49,10 @@ public class KeyHandler implements KeyListener {
 		}
 	}
 
+	/* 
+	 * Pre: El usuario suelta una tecla que estaba apretando.
+	 * Post: Identifica qué tecla se soltó y vuelve a poner su variable en false, avisando al juego que se detenga el movimiento o la acción.
+	 */
 	@Override
 	public void keyReleased(KeyEvent e) {
 		int code = e.getKeyCode();

@@ -11,7 +11,7 @@ public class Jugador {
 	public int contadorSprite = 0;
 	public int numeroDeSprite = 1;
 	
-	/**
+	/*
      * Pre: puntosASumar >= 0.
      * Post: los puntos de experiencia del jugador se incrementan en puntosASumar.
      */
@@ -20,7 +20,7 @@ public class Jugador {
 		setPuntosExperiencia(this.puntosExperiencia + puntosASumar);
 	}
 	
-	/**
+	/*
      * Pre: ninguna.
      * Post: devuelve los puntos de experiencia actuales del jugador.
      */
@@ -29,7 +29,7 @@ public class Jugador {
 		return puntosExperiencia;
 	}
 	
-	/**
+	/*
      * Pre: puntosExperiencia >= 0.
      * Post: los puntos de experiencia del jugador quedan establecidos en el valor indicado.
      */
@@ -38,7 +38,7 @@ public class Jugador {
 		this.puntosExperiencia = puntosExperiencia;
 	}
 	
-	/**
+	/*
      * Pre: ninguna.
      * Post: devuelve la dirección actual del jugador.
      */
@@ -48,7 +48,7 @@ public class Jugador {
 	}
     
     
-    /**
+    /*
      * Pre: direccion no es nula.
      * Post: la dirección del jugador queda establecida en el valor indicado.
      */

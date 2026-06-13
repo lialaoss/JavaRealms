@@ -43,6 +43,10 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
     private String mensajeRadar = "";
     private String mensajeRecoleccion = "";
 
+    /*
+     * Pre: La ciudad, el jugador y los recursos gráficos no pueden ser nulos.
+     * Post: Crea el minijuego de recolección y prepara el dibujante del personaje.
+     */
     public Ciudad1Minijuego(Ciudad ciudad, Jugador jugador, GestorRecursos recursos) {
         this.ciudad = ciudad;
         this.jugador = jugador;
@@ -53,9 +57,9 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
 
 	// ===================== JUEGO ========================
 
-    /**
-     * Pre: ciudad, jugador y recursos no son nulos.
-     * Post: inicializa la partida con un mapa 20x10x3 y coloca los tres elementos en posiciones fijas.
+    /*
+     * Pre: Las variables base de la clase deben estar cargadas.
+     * Post: Arranca el nivel creando un mapa de 20x10 baldosas y 3 pisos (niveles Z) de alto, y esconde la antorcha, el radar y la bengala en lugares fijos.
      */
     
     @Override
@@ -79,19 +83,18 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
         elementosRender.add(new RenderElementos(19, 1, 2, bengala));
     }
     
-    /**
-     * Pre: partida no es nula.
-     * Post: actualiza el estado actual que usa render() para dibujar el mapa.
+    /*
+     * Pre: La partida recibida no puede ser nula.
+     * Post: Toma una "foto" del estado actual del juego (dónde está el jugador, qué agarró, etc.) para que la pantalla sepa qué dibujar.
      */
-
     @Override
     public void actualizarVista(PartidaLectura partida) {
         this.estadoActual = partida;
     }
     
-    /**
-     * Pre: mensaje no es nulo.
-     * Post: establece el mensaje del radar que se muestra en el HUD.
+    /* 
+     * Pre: El mensaje recibido no puede ser nulo.
+     * Post: Guarda el texto que nos avisa si estamos cerca de un objeto (frío, tibio, caliente) para mostrarlo en pantalla.
      */
 
     @Override
@@ -99,9 +102,9 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
         this.mensajeRadar = mensaje;
     }
     
-    /**
-     * Pre: item no es nulo.
-     * Post: sube el nivel Z del jugador, marca el elemento como encontrado y actualiza el mensaje de recolección.
+    /*
+     * Pre: El ítem no puede ser nulo y el jugador debe haberlo pisado.
+     * Post: Avisa en pantalla qué objeto se agarró, lo oculta del mapa y sube al jugador al siguiente piso del juego.
      */
 
     @Override
@@ -115,6 +118,10 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
         this.mensajeRecoleccion = "Recolectaste: " + item.getClass().getSimpleName();
     }
     
+    /* 
+     * Pre: La partida tiene que estar inicializada.
+     * Post: Aumenta en 1 el nivel de profundidad (piso Z). Si con este cambio ya se cumplió el objetivo de victoria, marca el juego como ganado.
+     */
     private void subirNivel() {
     	if(this.partida == null) {
     		return;
@@ -125,6 +132,10 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
     	}
     }
     
+    /* 
+     * Pre: La partida tiene que estar inicializada.
+     * Post: Devuelve true si el jugador ya guardó 3 objetos en su mochila.
+     */
 	public boolean ganado() {
 		int cantidadElementosVictoria = 3;
 		return this.partida.getCantidadElementosMochila() >= cantidadElementosVictoria;
@@ -156,6 +167,10 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
 		}
     }
     
+    /* 
+     * Pre: El motor gráfico y el punto central de dibujo deben ser válidos.
+     * Post: Dibuja en pantalla únicamente los elementos que estén en el mismo nivel Z (piso) que el jugador y que todavía no hayan sido recolectados.
+     */
     public void dibujarElementos(Graphics2D g2, int centroX, int centroY) {
     	for (RenderElementos elemento : elementosRender) {
     	    if (elemento.getZ() == estadoActual.getZ() && !elemento.getEncontrado()) {
@@ -165,11 +180,9 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
     }
     
     
-    /**
-     * 
-     * @param g2
-     * @param centroX
-     * @param centroY
+    /* 
+     * Pre: El motor gráfico y las coordenadas de inicio de dibujo deben ser válidas.
+     * Post: Calcula el campo de visión del jugador. Dibuja cuadrados negros sólidos sobre todas las baldosas del mapa que estén más lejos de lo que el personaje puede ver, haciendo un efecto de oscuridad.
      */
     public void renderVision(Graphics2D g2, int centroX, int centroY) {
         int radio = estadoActual.getRadioVision();
@@ -197,6 +210,10 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
         }
     }
     
+    /* 
+     * Pre: El motor gráfico debe estar listo.
+     * Post: Dibuja las texturas de madera repetidas como un patrón para armar todo el piso del mapa.
+     */
     private void renderMapa(Graphics2D g2, int centroX, int centroY) {
 
         for (int x = 0; x < estadoActual.getMapa().getAncho(); x++) {
@@ -217,7 +234,10 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
         }
     }
     
-    
+    /* 
+     * Pre: El motor gráfico debe estar funcionando.
+     * Post: Escribe en la parte superior de la pantalla un panel (HUD) transparente con datos útiles: coordenadas, radio de luz y lo que detecta el radar.
+     */
     public void renderHUD(Graphics2D g2, int centroX) {
 	    g2.setColor(Color.WHITE);
 
@@ -243,6 +263,10 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
 	    }
 	}
     
+    /* 
+     * Pre: El motor gráfico debe ser válido.
+     * Post: Escribe en la parte inferior de la pantalla la lista con los nombres de los objetos que el jugador ya encontró y metió en su mochila.
+     */
     public void mostrarMochila(Graphics2D g2) {
         g2.setColor(Color.GRAY);
         String texto = "Objetos recolectados:";
@@ -265,17 +289,20 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
 
     // ================= EVENTOS ========================
     
-    /**
-     * Pre: ninguna.
-     * Post: si la partida está inicializada, delega el movimiento al modelo.
+    /* 
+     * Pre: El jugador intenta desplazarse usando el teclado.
+     * Post: Si la partida existe, le avisa a la lógica interna que mueva al jugador sumándole las direcciones en X, Y y Z.
      */
-    
     public void mover(int dx, int dy, int dz) {
         if (partida != null) {
             partida.mover(dx, dy, dz);
         }
     }
 
+    /* 
+     * Pre: El usuario hace un click con su ratón.
+     * Post: No hace nada porque este minijuego en particular se juega solo con teclado. Está para cumplir la regla de la interfaz.
+     */
 	@Override
 	public void procesarClick(int mouseX, int mouseY) {
 		
@@ -283,10 +310,10 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
 
 	// =============== FIN DEL JUEGO =======================
 	
-	/**
-	 * Pre: ninguna.
-	 * Post: si ganado es true suma los puntos al jugador y marca la ciudad como completada.
-	 */
+	/* 
+	 * Pre: El usuario hace un click con su ratón.
+     * Post: No hace nada porque este minijuego en particular se juega solo con teclado. Está para cumplir la regla de la interfaz.
+     */
     @Override
     public void resultadoPartida() {    	
     	if(ganado) {

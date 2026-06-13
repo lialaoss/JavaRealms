@@ -18,7 +18,6 @@ public class Ciudad10Minijuego implements Minijuego {
 
     private Ciudad ciudad;
     private Jugador jugador;
-
     private String inputUsuario = "";
     private String resultado = "";
     private List<String> pasos = null;
@@ -27,15 +26,27 @@ public class Ciudad10Minijuego implements Minijuego {
 
     private FinMinijuegoPantalla pantallaFinal = new FinMinijuegoPantalla();
 
+    /*
+     * Pre: La ciudad y el jugador ya deben estar creados y no ser nulos.
+     * Post: Crea el minijuego de la Ciudad 10 guardando los datos para usarlos cuando el jugador gane.
+     */
     public Ciudad10Minijuego(Ciudad ciudad, Jugador jugador) {
         this.ciudad = ciudad;
         this.jugador = jugador;
     }
 
+    /*
+     * Pre: Ninguna.
+     * Post: Método requerido por la interfaz Minijuego. Acá arranca vacío porque este juego en particular se maneja a medida que el jugador tipea.
+     */
     @Override
     public void iniciar() {
     }
 
+    /* 
+     * Pre: El motor gráfico de Java (Graphics2D) debe estar inicializado.
+     * Post: Dibuja toda la pantalla negra, las instrucciones en blanco, y va mostrando en tiempo real lo que el jugador escribe. Si gana, dibuja la pantalla de victoria.
+     */
     @Override
     public void render(Graphics2D g2) {
         g2.setColor(Color.BLACK);
@@ -80,10 +91,9 @@ public class Ciudad10Minijuego implements Minijuego {
         }
     }
 
-    /**
-     * Pre: c es un carácter válido de teclado.
-     * Post: si c es ENTER resuelve la ecuación, si es BACKSPACE borra el último carácter,
-     *       si es otro carácter lo agrega al input actual.
+    /* 
+     * Pre: El usuario presiona una tecla válida en su teclado.
+     * Post: Si toca ENTER, manda a resolver la ecuación. Si toca BACKSPACE, borra la última letra. Si toca cualquier otra cosa, la suma al texto que aparece en pantalla.
      */
     public void procesarCaracter(char c) {
         if (c == '\n' || c == '\r') {
@@ -97,13 +107,10 @@ public class Ciudad10Minijuego implements Minijuego {
         }
     }
     
-    
-    /**
-     * Pre: inputUsuario no es nulo.
-     * Post: si la ecuación es válida establece el resultado, la expansión y marca ganado como true.
-     *       Si la ecuación es inválida establece el mensaje de error.
+    /* 
+     * Pre: El jugador tiene que haber apretado ENTER después de escribir algo.
+     * Post: Intenta traducir la ecuación que escribió el jugador y la resuelve con el Teorema Maestro. Si está todo bien, muestra los pasos y le da la victoria. Si escribió cualquier cosa, tira un error en pantalla.
      */
-
     private void resolver() {
         error = "";
         resultado = "";
@@ -127,11 +134,10 @@ public class Ciudad10Minijuego implements Minijuego {
         }
     }
     
-    /**
-     * Pre: ninguna.
-     * Post: si ganado es true marca la ciudad como completada y desbloquea vecinos.
+    /* 
+     * Pre: El jugador resolvió bien la ecuación.
+     * Post: Si la variable ganado es true, cambia el estado de la ciudad a COMPLETADA y le regala los puntos de experiencia al jugador.
      */
-
     @Override
     public void resultadoPartida() {
         if (ganado) {
@@ -140,14 +146,18 @@ public class Ciudad10Minijuego implements Minijuego {
         }
     }
     
-    /**
-     * Pre: ninguna.
-     * Post: devuelve el texto ingresado por el jugador hasta el momento.
+    /* 
+     * Pre: Ninguna.
+     * Post: Devuelve el texto exacto que el jugador lleva escrito hasta el momento.
      */
     public String getInputUsuario() {
         return inputUsuario;
     }
 
+    /* 
+     * Pre: El usuario hace click en la pantalla.
+     * Post: Por ahora no hace nada, porque este minijuego específico se maneja 100% con el teclado. Queda vacío para cumplir con la interfaz.
+     */
 	@Override
 	public void procesarClick(int mouseX, int mouseY) {
 		// TODO Auto-generated method stub
