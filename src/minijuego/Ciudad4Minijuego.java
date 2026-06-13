@@ -36,6 +36,10 @@ public class Ciudad4Minijuego implements Minijuego, ObservadorOrdenamiento {
     
     private String algoritmoSeleccionado = "Seleccion de Algoritmo";
 
+    /* 
+     * Pre: La ciudad, el jugador y los recursos gráficos no pueden ser nulos.
+     * Post: Inicializa el minijuego de ordenamiento y prepara los botones para elegir el algoritmo.
+     */
     public Ciudad4Minijuego(Ciudad ciudad, Jugador jugador, GestorRecursos recursos) {
         this.ciudad = ciudad;
         this.jugador = jugador;
@@ -45,9 +49,9 @@ public class Ciudad4Minijuego implements Minijuego, ObservadorOrdenamiento {
     
     // ======================= LOGICA JUEGO ==========================
     
-    /**
-     * Pre: ciudad, jugador y recursos no son nulos.
-     * Post: reinicia el estado del minijuego y carga el vector inicial.
+    /*
+     * Pre: Ninguna.
+     * Post: Reinicia el estado del minijuego (por si se vuelve a jugar) y carga el vector de números desordenados que se va a usar en la prueba.
      */
 
     @Override
@@ -58,9 +62,9 @@ public class Ciudad4Minijuego implements Minijuego, ObservadorOrdenamiento {
         this.vectorActual = new int[]{34, 12, 5, 89, 56, 21, 7};
     }
     
-    /**
-     * Pre: algoritmoSeleccionado es "Bubble Sort" o "Quick Sort". vectorActual no es nulo.
-     * Post: corre el algoritmo seleccionado en un hilo separado notificando cada cambio al observador.
+    /* 
+     * Pre: El usuario tiene que haber elegido "Bubble Sort" o "Quick Sort" y el vector actual debe estar cargado.
+     * Post: Arranca el algoritmo elegido en un proceso paralelo (hilo/Thread) para que vaya ordenando los números y avisando cada vez que hace un cambio sin congelar la pantalla.
      */
     
     public void ejecutarOrdenamiento() {
@@ -88,9 +92,9 @@ public class Ciudad4Minijuego implements Minijuego, ObservadorOrdenamiento {
     }
     
     
-    /**
-     * Pre: vector no es nulo.
-     * Post: actualiza el estado visual del vector y genera una pausa de 500ms para la animación.
+    /* 
+     * Pre: El vector recibido no es nulo y la lógica de ordenamiento hizo un movimiento.
+     * Post: Actualiza los datos visuales (cómo quedó el vector, qué posiciones se están comparando y cuál es el pivote) y frena el proceso medio segundo (500ms) para que el jugador llegue a ver la animación en pantalla.
      */
 
     @Override
@@ -110,6 +114,10 @@ public class Ciudad4Minijuego implements Minijuego, ObservadorOrdenamiento {
     
     // =============================== RENDER ===================================
     
+    /* 
+     * Pre: El gestor de recursos debe tener cargada la imagen de los botones.
+     * Post: Crea y posiciona los botones de "Bubble Sort" y "Quick Sort" en el centro de la pantalla.
+     */
     public void crearBotones() {
     	int anchoBoton = 300;
 		int altoBoton = 70;
@@ -121,11 +129,19 @@ public class Ciudad4Minijuego implements Minijuego, ObservadorOrdenamiento {
 		botonQuick = new Boton(recursos.getBotonMenu1(), x, y + 150, anchoBoton, altoBoton);
     }
     
+    /* 
+     * Pre: Los botones deben estar creados y el motor gráfico inicializado.
+     * Post: Dibuja los botones en la pantalla para que el jugador elija.
+     */
     public void mostrarOpciones(Graphics2D g2) {
     	botonBubble.dibujar(g2);
     	botonQuick.dibujar(g2);
     }
     
+    /* 
+     * Pre: El usuario hace un click con el ratón.
+     * Post: Si todavía no arrancó la animación, revisa si el jugador clickeó alguno de los botones. Si es así, guarda qué algoritmo eligió y arranca el proceso de ordenamiento.
+     */
 	@Override
 	public void procesarClick(int mouseX, int mouseY) {
 		if(!cargado) {
@@ -143,6 +159,10 @@ public class Ciudad4Minijuego implements Minijuego, ObservadorOrdenamiento {
 		}
 	}
 
+	/* 
+	 * Pre: El motor gráfico de Java debe estar listo.
+     * Post: Dibuja el fondo y, si no se eligió algoritmo, muestra el menú. Si ya se eligió, muestra el título, la animación de los números ordenándose en vivo, y el mensaje final si ya terminó.
+     */
     @Override
     public void render(Graphics2D g2) {
 		g2.setColor(new Color(160, 120, 80));
@@ -174,6 +194,10 @@ public class Ciudad4Minijuego implements Minijuego, ObservadorOrdenamiento {
         }
     }
     
+    /* 
+     * Pre: El vector numérico tiene que estar cargado.
+     * Post: Dibuja una caja por cada número del vector. Pinta de verde el número que funciona de pivote y de rojo los dos números que se están comparando o cambiando de lugar.
+     */
     public void renderOrdenamiento(Graphics2D g2) {
         if (vectorActual != null) {
             for (int i = 0; i < vectorActual.length; i++) {
@@ -192,6 +216,10 @@ public class Ciudad4Minijuego implements Minijuego, ObservadorOrdenamiento {
         }
     }
     
+    /* 
+     * Pre: El motor gráfico debe estar listo.
+     * Post: Escribe en pantalla si la computadora sigue haciendo los cálculos o si ya terminó de ordenar el vector.
+     */
     public void renderEstado(Graphics2D g2) {
         g2.setColor(Color.WHITE);
         if (completado) {
@@ -205,9 +233,9 @@ public class Ciudad4Minijuego implements Minijuego, ObservadorOrdenamiento {
     
     // ========================= FIN DEL JUEGO ============================
 
-    /**
-     * Pre: ninguna.
-     * Post: si completado es true desbloquea vecinos y suma puntos al jugador.
+    /* 
+     * Pre: La animación de ordenamiento llegó a su fin.
+     * Post: Si la variable completado es true, le suma los puntos de experiencia al jugador y marca la ciudad como completada en el mapa general.
      */
     @Override
     public void resultadoPartida() {
@@ -217,11 +245,10 @@ public class Ciudad4Minijuego implements Minijuego, ObservadorOrdenamiento {
     	}
     }
     
-    /**
-     * Pre: nombre no es nulo.
-     * Post: establece el algoritmo a ejecutar en el siguiente ordenamiento.
+    /* 
+     * Pre: El nombre del algoritmo ingresado debe ser válido ("Bubble Sort" o "Quick Sort").
+     * Post: Guarda en una variable qué algoritmo eligió el jugador para mostrarlo en pantalla y usarlo en la ejecución.
      */
-    
     public void setAlgoritmoSeleccionado(String nombre) {
         this.algoritmoSeleccionado = nombre;
     }

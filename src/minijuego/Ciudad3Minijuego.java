@@ -47,7 +47,10 @@ public class Ciudad3Minijuego implements Minijuego {
 
 	private boolean usarBFS = true;
 
-	// CONSTRUCTOR
+	/* 
+	 * Pre: La ciudad, el jugador y los recursos gráficos no pueden ser nulos.
+	 * Post: Inicializa el minijuego guardando los datos y crea los botones para que el jugador elija el algoritmo a usar.
+	 */
 	public Ciudad3Minijuego(Ciudad ciudad, Jugador jugador, GestorRecursos recursos) {
 		this.ciudad = ciudad;
 		this.jugador = jugador;
@@ -57,6 +60,10 @@ public class Ciudad3Minijuego implements Minijuego {
 	
 	// ===================== JUEGO ========================
 
+	/* 
+	 * Pre: Ninguna.
+	 * Post: Intenta buscar y cargar el archivo de texto "lab2.txt" para armar el mapa del laberinto. Si el archivo no existe o hay un problema, guarda el mensaje de error.
+	 */
 	@Override
 	public void iniciar() {
 		try {
@@ -69,6 +76,10 @@ public class Ciudad3Minijuego implements Minijuego {
 		}
 	}
 	
+	/* 
+	 * Pre: El laberinto debe estar cargado correctamente.
+	 * Post: Ejecuta el algoritmo elegido (BFS o DFS) para buscar la salida y guarda en la lista "frames" el paso a paso de cómo la computadora lo fue resolviendo.
+	 */
 	private void empezarLaberinto() {
 		if (usarBFS) {
 			frames = new BFS().buscar(lab);
@@ -79,6 +90,10 @@ public class Ciudad3Minijuego implements Minijuego {
 
 	// ======================== RENDER ========================
 	
+	/* 
+	 * Pre: El gestor de recursos debe tener las imágenes de los botones.
+	 * Post: Crea y ubica geométricamente los botones en el centro de la pantalla.
+	 */
 	private void crearBotones() {
 		int anchoBoton = 300;
 		int altoBoton = 70;
@@ -90,11 +105,19 @@ public class Ciudad3Minijuego implements Minijuego {
 		dfsBoton = new Boton(recursos.getBotonMenu1(), x, y + 150, anchoBoton, altoBoton);
 	}
 	
+	/* 
+	 * Pre: Los botones deben estar creados y el motor gráfico inicializado.
+	 * Post: Dibuja los dos botones en la pantalla para que el usuario pueda hacerles click.
+	 */
 	private void mostrarOpciones(Graphics2D g2) {
 		bfsBoton.dibujar(g2);
 		dfsBoton.dibujar(g2);
 	}
 
+	/* 
+	 * Pre: El usuario hace un click con el ratón.
+	 * Post: Si el laberinto todavía no empezó a resolverse y se hace click en alguno de los botones, guarda qué algoritmo se eligió y manda a resolver el laberinto.
+	 */
 	@Override
 	public void procesarClick(int mouseX, int mouseY) {
 		if(!cargado) {
@@ -109,6 +132,10 @@ public class Ciudad3Minijuego implements Minijuego {
 	    }
 	}
 
+	/* 
+	 * Pre: El motor gráfico de Java debe estar listo.
+	 * Post: Si todavía no se eligió algoritmo, dibuja el menú de selección. Si hay error, lo escribe. Si ya se eligió, va dibujando la animación paso a paso del laberinto resolviéndose. Cuando termina, muestra la victoria.
+	 */
 	@Override
 	public void render(Graphics2D g2) {
 		g2.setColor(new Color(120, 123, 33));
@@ -141,6 +168,10 @@ public class Ciudad3Minijuego implements Minijuego {
 		}
 	}
 
+	/* 
+	 * Pre: Los "frames" (pasos de resolución) tienen que estar calculados.
+	 * Post: Controla el reloj del juego. Cada 100 milisegundos avanza un cuadro en la animación. Si llega al último cuadro, avisa que el nivel está ganado.
+	 */
 	private void actualizarAnimacion() {
 		long ahora = System.currentTimeMillis();
 		if (ahora - ultimoTick >= MS_POR_FRAME && frameActual < frames.size() - 1) {
@@ -152,6 +183,10 @@ public class Ciudad3Minijuego implements Minijuego {
 		}
 	}
 	
+	/* 
+	 * Pre: El frame actual tiene que ser válido.
+	 * Post: Lee la cuadrícula de texto del paso actual y dibuja la textura correspondiente (pared, pasto, jugador, etc.) centrando todo el laberinto en el medio de la pantalla.
+	 */
 	private void dibujarLaberinto(Graphics2D g2) {
 	    char[][] estado = frames.get(frameActual).estado;
 
@@ -181,6 +216,10 @@ public class Ciudad3Minijuego implements Minijuego {
 	    }
 	}
 	
+	/* 
+	 * Pre: El motor gráfico g2 está inicializado.
+	 * Post: Dibuja el botón para volver atrás en la esquina superior derecha y un mensaje de éxito cuando el laberinto se resuelve por completo.
+	 */
 	private void renderHUD(Graphics2D g2) {
 	    int bx = ConfiguracionPantalla.SCREEN_WIDTH - 220;
 	    int by = 10;
@@ -198,10 +237,9 @@ public class Ciudad3Minijuego implements Minijuego {
 	    }
 	}
 	
-	/**
-	 * Se que los sprites estan pobres lo dejo para lo ultimo BYE
-	 * @param c
-	 * @return
+	/* 
+	 * Pre: Recibe un carácter que representa lo que hay en una casilla del laberinto.
+	 * Post: Devuelve la imagen exacta (sprite) que hay que dibujar en pantalla para ese símbolo.
 	 */
 	private Image imagenDeCelda(char c) {
 		switch (c) {
@@ -226,6 +264,10 @@ public class Ciudad3Minijuego implements Minijuego {
 
 	// =============== FIN DEL JUEGO =======================
 	
+	/* 
+	 * Pre: La animación terminó de correr completa.
+	 * Post: Si el jugador vio toda la resolución, cambia la ciudad a COMPLETADA y le da los puntos.
+	 */
 	@Override
 	public void resultadoPartida() {
 		if (ganado) {
