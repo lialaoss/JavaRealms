@@ -19,10 +19,12 @@ public class CargaDeDatos {
 	
 	// ATRIBUTOS
 	private AdministradorJuego admin;
+	private Map<Integer, Ciudad> ciudades;
 	
 	// CONSTRUCTOR
 	public CargaDeDatos(AdministradorJuego admin) {
 		this.admin = admin;
+		this.ciudades = admin.getAdminCiudades().getCiudades();
 		cargarDatosJuego();
 	}
 	
@@ -59,7 +61,6 @@ public class CargaDeDatos {
 
 	        bw.write(String.valueOf(admin.getJugador().getPuntosExperiencia()));
 	        bw.newLine();
-	        Map<Integer, Ciudad> ciudades = admin.getAdminCiudades().getCiudades();
 	        for (Integer id : ciudades.keySet()) {
 	        	
 	        	if(ciudades.get(id).getEstado() == EstadoCiudad.COMPLETADA) {
@@ -82,5 +83,16 @@ public class CargaDeDatos {
 	        e.printStackTrace();
 	    }
 	}
+
+	// ============= RESTAURAR ULTIMOS DATOS DEL JUEGO ==================
 	
+	public void restaurarUltimosDatos() {
+        for (Integer id : ciudades.keySet()) {
+        	ciudades.get(id).setEstado(EstadoCiudad.BLOQUEADA);
+        }
+        cargarDatosJuego();
+        if(this.ciudades.get(1).getEstado() != EstadoCiudad.COMPLETADA) {
+			this.ciudades.get(1).setEstado(EstadoCiudad.DESBLOQUEADA);
+		}
+	}
 }

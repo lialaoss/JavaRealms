@@ -23,7 +23,7 @@ public class GestorRecursos {
 	
 	private BufferedImage piedra, piedra2, pasto, pasto2, pasto3, cofre, madera;
 
-	private BufferedImage iconoBorrar, iconoGuardar;
+	private BufferedImage iconoBorrar, iconoGuardar, iconoTester;
 	private BufferedImage botonBubble, botonQuick, botonBFS, botonDFS;
 	
 	public GestorRecursos() {
@@ -131,7 +131,8 @@ public class GestorRecursos {
 			botonDFS = ImageIO.read(getClass().getResourceAsStream("/sprites/botones/BotonBusquedaDFS.png"));
 
 			iconoBorrar = ImageIO.read(getClass().getResourceAsStream("/sprites/botones/IconoEliminarDatos.png"));
-			iconoGuardar = ImageIO.read(getClass().getResourceAsStream("/sprites/botones/IconoMaquinaDeEscribir.png"));
+			iconoGuardar = ImageIO.read(getClass().getResourceAsStream("/sprites/botones/IconoGuardarDatos.png"));
+			iconoTester = ImageIO.read(getClass().getResourceAsStream("/sprites/botones/IconoTester.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -148,6 +149,9 @@ public class GestorRecursos {
 		return iconoGuardar;
 	}
 
+	public BufferedImage getIconoTester() {
+		return iconoTester;
+	}
 
 	public BufferedImage getBotonBubble() {
 		return botonBubble;

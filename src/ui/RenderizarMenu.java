@@ -16,11 +16,12 @@ public class RenderizarMenu {
 	private AdministradorJuego admin;
 	private GestorRecursos recursos;
 	
+	private int tileSize = ConfiguracionPantalla.TILE_SIZE;
 	private int screenWidth = ConfiguracionPantalla.SCREEN_WIDTH;
 	private int screenHeight = ConfiguracionPantalla.SCREEN_HEIGHT;
 	
 	private Boton botonJugar, botonSalir, botonInstrucciones;
-	private Boton botonGuardado, botonBorrar;
+	private Boton botonGuardado, botonBorrar, botonTester;
 	
 	private List<NodoCiudad> ciudades;
 	
@@ -29,32 +30,44 @@ public class RenderizarMenu {
 		setRecursos(recursos);
 		setAdmin(admin);
 		crearBotones();
-		crarCiudades();
+		crearCiudades();
 		crearBotonGuardado();
 		crearBotonBorrarDatos();
+		crearBotonTester();
 	}
 	
 	// ============================== MENU =======================================
 	
 	public void crearBotonGuardado() {
-		int anchoBoton = 100;
-		int altoBoton = 60;
+		int anchoBoton = tileSize;
+		int altoBoton = tileSize;
 		
-		int x = 0;
-		int y = 10;
+		int x = tileSize / 2;
+		int y = (tileSize / 2);
 		
 		botonGuardado = new Boton(recursos.getIconoGuardar(),
 				x, y, anchoBoton, altoBoton);
 	}
 	
 	public void crearBotonBorrarDatos() {
-		int anchoBoton = 100;
-		int altoBoton = 60;
+		int anchoBoton = tileSize;
+		int altoBoton = tileSize;
 		
-		int x = 0;
-		int y = 60;
+		int x = tileSize / 2;
+		int y = (tileSize * 2) - (tileSize / 2);
 		
 		botonBorrar = new Boton(recursos.getIconoBorrar(),
+				x, y, anchoBoton, altoBoton);
+	}
+	
+	public void crearBotonTester() {
+		int anchoBoton = tileSize;
+		int altoBoton = tileSize;
+		
+		int x = tileSize / 2;
+		int y = (tileSize * 3) - (tileSize / 2) + 2;
+		
+		botonTester = new Boton(recursos.getIconoTester(),
 				x, y, anchoBoton, altoBoton);
 	}
 	
@@ -106,7 +119,7 @@ public class RenderizarMenu {
 	
 	// ================================ MAPA ====================================
 
-	public void crarCiudades() {
+	public void crearCiudades() {
 		ciudades = new ArrayList<>();
 		
 		ciudades.add(new NodoCiudad(80,  80,  1,  recursos.getNodoCiudad1(),  "Recolección"));
@@ -125,6 +138,7 @@ public class RenderizarMenu {
 	    g2.drawImage(recursos.getFondoMapa(), 0, 0, screenWidth, screenHeight, null);
 	    botonGuardado.dibujar(g2);
 	    botonBorrar.dibujar(g2);
+	    botonTester.dibujar(g2);
 	    for(NodoCiudad ciudad : ciudades) {
 	        ciudad.dibujar(g2);
 	    }
@@ -151,6 +165,9 @@ public class RenderizarMenu {
 		if(botonBorrar.contiene(mouseX, mouseY)) {
             admin.eliminarDatos();
 	        System.exit(0);
+		}
+		if(botonTester.contiene(mouseX, mouseY)) {
+			admin.habilitarModoTester();
 		}
 	}
 	

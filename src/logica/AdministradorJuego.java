@@ -26,6 +26,9 @@ public class AdministradorJuego {
 	
 	private GestorRecursos recursos;
 	private CargaDeDatos guardado;
+	private ModoTester tester;
+	
+	private boolean modoTesterActivo = false;
 	
 	// CONSTRUCTOR
 	public AdministradorJuego() {
@@ -35,6 +38,8 @@ public class AdministradorJuego {
 	    this.jugador = new Jugador();
 	    this.recursos = new GestorRecursos();
 	    this.guardado = new CargaDeDatos(this);
+	    this.tester = new ModoTester(ciudades, jugador);
+	    
 	}
 	
 	// =========================== LOGICA JUEGO ====================================
@@ -143,8 +148,22 @@ public class AdministradorJuego {
 	public void eliminarDatos() {
 		this.guardado.eliminarDatosDeArchivo();
 	}
+	
+	// ================== TESTER MODE ====================
+	
+	public void habilitarModoTester() {
+		if(!modoTesterActivo) {
+			this.tester.habilitarModo();
+			modoTesterActivo = true;
+			System.out.println("================ MODO TESTER ACTIVADO ================");
+		} else {
+			this.guardado.restaurarUltimosDatos();
+			modoTesterActivo = false;
+			System.out.println("=============== MODO TESTER DESACTIVADO ==============");
+		}
+	}
 
-	// GETTERS ==============================================
+	// GETTERS
 	public AdministradorCiudades getAdminCiudades() {
 		return adminCiudades;
 	}
