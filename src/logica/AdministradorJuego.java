@@ -131,6 +131,16 @@ public class AdministradorJuego {
 	    return true;
 	}
 	
+	public int cantidadCiudadesCompletadas() {
+		int total = 0;
+		for(Ciudad ciudad : ciudades.values()) {
+	        if(ciudad.getEstado() == EstadoCiudad.COMPLETADA) {
+	            total++;
+	        }
+	    }
+		return total;
+	}
+	
 	// ================== MANEJO DE DATOS DEL JUEGO ====================
 
 	/*
@@ -155,12 +165,14 @@ public class AdministradorJuego {
 		if(!modoTesterActivo) {
 			this.tester.habilitarModo();
 			modoTesterActivo = true;
-			System.out.println("================ MODO TESTER ACTIVADO ================");
 		} else {
 			this.guardado.restaurarUltimosDatos();
 			modoTesterActivo = false;
-			System.out.println("=============== MODO TESTER DESACTIVADO ==============");
 		}
+	}
+	
+	public boolean testerActivo() {
+		return modoTesterActivo;
 	}
 
 	// GETTERS
@@ -188,7 +200,10 @@ public class AdministradorJuego {
 		return this.recursos;
 	}
 	
-	
+	public Map<Integer, Ciudad> getCiudades() {
+		return ciudades;
+	}
+
 	// SETTERS
 	public void setEstado(EstadoJuego estado) {
 		Validaciones.validarRangoDeEnum(estado, EstadoJuego.values());

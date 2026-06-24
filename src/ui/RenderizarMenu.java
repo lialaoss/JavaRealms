@@ -43,7 +43,7 @@ public class RenderizarMenu {
 		int altoBoton = tileSize;
 		
 		int x = tileSize / 2;
-		int y = (tileSize / 2);
+		int y = (tileSize / 2) + 20;
 		
 		botonGuardado = new Boton(recursos.getIconoGuardar(),
 				x, y, anchoBoton, altoBoton);
@@ -54,7 +54,7 @@ public class RenderizarMenu {
 		int altoBoton = tileSize;
 		
 		int x = tileSize / 2;
-		int y = (tileSize * 2) - (tileSize / 2);
+		int y = (tileSize * 2) - (tileSize / 2) + 20;
 		
 		botonBorrar = new Boton(recursos.getIconoBorrar(),
 				x, y, anchoBoton, altoBoton);
@@ -65,7 +65,7 @@ public class RenderizarMenu {
 		int altoBoton = tileSize;
 		
 		int x = tileSize / 2;
-		int y = (tileSize * 3) - (tileSize / 2) + 2;
+		int y = (tileSize * 3) - (tileSize / 2) + 22;
 		
 		botonTester = new Boton(recursos.getIconoTester(),
 				x, y, anchoBoton, altoBoton);
@@ -113,7 +113,7 @@ public class RenderizarMenu {
 	
 	public void renderizarMenuInstrucciones(Graphics2D g2) {
 	    g2.drawImage(recursos.getFondoMenu(), 0, 0, screenWidth, screenHeight, null);
-		g2.drawString("Jeje lol (apreta Q para salir)", screenWidth / 2 - 80, screenHeight / 2);
+		g2.drawString("Apreta Q para salir)", screenWidth / 2 - 80, screenHeight / 2);
 
 	}	
 	
@@ -122,16 +122,16 @@ public class RenderizarMenu {
 	public void crearCiudades() {
 		ciudades = new ArrayList<>();
 		
-		ciudades.add(new NodoCiudad(80,  80,  1,  recursos.getNodoCiudad1(),  "Recolección"));
-		ciudades.add(new NodoCiudad(220, 60,  2,  recursos.getNodoCiudad2(),  "N-Reinas"));
-		ciudades.add(new NodoCiudad(370, 100, 3,  recursos.getNodoCiudad3(),  "Laberinto"));
-		ciudades.add(new NodoCiudad(500, 60,  4,  recursos.getNodoCiudad4(),  "Ordenamiento"));
-		ciudades.add(new NodoCiudad(650, 100, 5,  recursos.getNodoCiudad5(),  "Búsqueda"));
-		ciudades.add(new NodoCiudad(800, 60,  6,  recursos.getNodoCiudad6(),  "Hashing"));
-		ciudades.add(new NodoCiudad(900, 200, 7,  recursos.getNodoCiudad7(),  "Grafos"));
-		ciudades.add(new NodoCiudad(750, 350, 8,  recursos.getNodoCiudad8(),  "Hanoi"));
-		ciudades.add(new NodoCiudad(550, 420, 9,  recursos.getNodoCiudad9(),  "Batalla"));
-		ciudades.add(new NodoCiudad(350, 380, 10, recursos.getNodoCiudad10(), "Complejidad"));
+		ciudades.add(new NodoCiudad(80,  80, recursos.getNodoCiudad1(), admin.getCiudades().get(1)));
+		ciudades.add(new NodoCiudad(220, 60, recursos.getNodoCiudad2(), admin.getCiudades().get(2)));
+		ciudades.add(new NodoCiudad(370, 100, recursos.getNodoCiudad3(), admin.getCiudades().get(3)));
+		ciudades.add(new NodoCiudad(500, 60, recursos.getNodoCiudad4(), admin.getCiudades().get(4)));
+		ciudades.add(new NodoCiudad(650, 100, recursos.getNodoCiudad5(), admin.getCiudades().get(5)));
+		ciudades.add(new NodoCiudad(800, 60, recursos.getNodoCiudad6(), admin.getCiudades().get(6)));
+		ciudades.add(new NodoCiudad(900, 200, recursos.getNodoCiudad7(),admin.getCiudades().get(7)));
+		ciudades.add(new NodoCiudad(750, 350, recursos.getNodoCiudad8(), admin.getCiudades().get(8)));
+		ciudades.add(new NodoCiudad(550, 420, recursos.getNodoCiudad9(), admin.getCiudades().get(9)));
+		ciudades.add(new NodoCiudad(350, 380, recursos.getNodoCiudad10(), admin.getCiudades().get(10)));
 	}
 	
 	public void renderizarMapaGeneral(Graphics2D g2) {
@@ -171,7 +171,6 @@ public class RenderizarMenu {
 		}
 	}
 	
-	
 	public void procesarClickMenuConTransicion(int mouseX, int mouseY, ui.Panel panel) {
 	    if(botonJugar.contiene(mouseX, mouseY)) {
 	        panel.iniciarTransicion(EstadoJuego.MAPA_GENERAL);
@@ -180,6 +179,31 @@ public class RenderizarMenu {
 	    } else if(botonSalir.contiene(mouseX, mouseY)) {
 	        System.exit(0);
 	    }
+	}
+	
+	public void mostrarHudMapa(Graphics2D g2) {
+		g2.setColor(new Color(0, 0, 0, 180));
+		g2.fillRect(0, 0, ConfiguracionPantalla.SCREEN_WIDTH, 40);
+		
+		String modoTester = "Desactivado";
+		
+		if(admin.testerActivo()) {
+			modoTester = "Activado";
+		}
+		
+		String texto =  "Tester: " + modoTester +
+				"    Ciudades completadas: " + admin.cantidadCiudadesCompletadas() +
+				"    Puntos: " + admin.getJugador().getPuntosExperiencia();
+
+		g2.setColor(Color.WHITE);
+		g2.setFont(new Font("Arial", Font.PLAIN, 15));
+
+		FontMetrics fm = g2.getFontMetrics();
+
+		int x = (ConfiguracionPantalla.SCREEN_WIDTH - fm.stringWidth(texto)) / 2;
+		int y = 30;
+
+		g2.drawString(texto, x, y);
 	}
 	                         
 	// ================================= FIN DEL JUEGO =========================================

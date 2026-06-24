@@ -44,6 +44,7 @@ public class RenderizadorUI {
 				break;
 			case MAPA_GENERAL:
 				this.renderMenus.renderizarMapaGeneral(g2);
+				this.renderMenus.mostrarHudMapa(g2);
 				break;
 			case FIN_DEL_JUEGO:
 				this.renderMenus.renderizarFin(g2);
