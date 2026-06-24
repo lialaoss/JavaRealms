@@ -15,8 +15,7 @@ public class GestorRecursos {
 	private BufferedImage[] jugadorLeft;
 	private BufferedImage[] jugadorRight;
 	
-	private BufferedImage fondoMapa;
-	private BufferedImage fondoMenu;
+	private BufferedImage fondoMapa, fondoMenu;
 	
 	private BufferedImage nodoCiudad1, nodoCiudad2, nodoCiudad3, nodoCiudad4, nodoCiudad5;
 	private BufferedImage nodoCiudad6, nodoCiudad7, nodoCiudad8, nodoCiudad9, nodoCiudad10;
@@ -26,6 +25,8 @@ public class GestorRecursos {
 	private BufferedImage iconoBorrar, iconoGuardar, iconoTester;
 	private BufferedImage botonBubble, botonQuick, botonBFS, botonDFS;
 	
+	private BufferedImage radar, antorcha, bengala;
+	
 	public GestorRecursos() {
 		cargarSpritesMenu();
 		cargarSpritesJugador();
@@ -34,6 +35,7 @@ public class GestorRecursos {
 		cargarFondoMapa();
 		cargarBotonesArdillas();
 		cargarBotonesAdicionales();
+		cargarItemsMatrices();
 	}
 	
 	
@@ -81,6 +83,7 @@ public class GestorRecursos {
 	public void cargarFondoMapa() {
 	    try {
 	        fondoMapa = ImageIO.read(getClass().getResourceAsStream("/sprites/mapa/fondo.png"));
+	        
 	        nodoCiudad1 = ImageIO.read(getClass().getResourceAsStream("/sprites/mapa/ciudad1.png"));
 	        nodoCiudad2 = ImageIO.read(getClass().getResourceAsStream("/sprites/mapa/ciudad2.png"));
 	        nodoCiudad3 = ImageIO.read(getClass().getResourceAsStream("/sprites/mapa/ciudad3.png"));
@@ -138,7 +141,33 @@ public class GestorRecursos {
 		}
 	}
 	
+	private void cargarItemsMatrices() {
+		try {
+			
+			radar = ImageIO.read(getClass().getResourceAsStream("/sprites/matrices/Radar.png"));
+			antorcha = ImageIO.read(getClass().getResourceAsStream("/sprites/matrices/Antorcha.png"));
+			bengala = ImageIO.read(getClass().getResourceAsStream("/sprites/matrices/Bengala.png"));
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
 	
+	// ========================================= GETTERS ==============================================
+
+	public BufferedImage getRadar() {
+		return radar;
+	}
+
+
+	public BufferedImage getAntorcha() {
+		return antorcha;
+	}
+
+
+	public BufferedImage getBengala() {
+		return bengala;
+	}
 
 	public BufferedImage getIconoBorrar() {
 		return iconoBorrar;
@@ -203,7 +232,6 @@ public class GestorRecursos {
 	public BufferedImage getFondoMenu() {
 	    return fondoMenu;
 	}
-
 
 	public BufferedImage[] getJugadorLeft() {
 		return jugadorLeft;

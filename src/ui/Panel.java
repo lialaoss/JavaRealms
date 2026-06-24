@@ -1,5 +1,6 @@
 package ui;
 
+import java.awt.AlphaComposite;
 import java.awt.Color;
 
 import java.awt.Dimension;
@@ -23,12 +24,12 @@ import minijuego.Minijuego;
 public class Panel extends JPanel implements Runnable {
 	
 	// CONSTANTES
-	public final int screenWidth = ConfiguracionPantalla.SCREEN_WIDTH;
-	public final int screenHeight = ConfiguracionPantalla.SCREEN_HEIGHT;
-
 	private final int FPS = ConfiguracionPantalla.FPS;
 
 	// ATRIBUTOS
+	public int screenWidth = ConfiguracionPantalla.SCREEN_WIDTH;
+	public int screenHeight = ConfiguracionPantalla.SCREEN_HEIGHT;
+	
 	private AdministradorJuego admin;
 	private RenderizadorUI renderUI;
 	private GestorRecursos recursos;
@@ -113,12 +114,12 @@ public class Panel extends JPanel implements Runnable {
 	    }
 	    
 	    if (enTransicion) {
-	        g2.setComposite(java.awt.AlphaComposite.getInstance(
-	            java.awt.AlphaComposite.SRC_OVER, alpha));
-	        g2.setColor(java.awt.Color.BLACK);
+	        g2.setComposite(AlphaComposite.getInstance(
+	            AlphaComposite.SRC_OVER, alpha));
+	        g2.setColor(Color.BLACK);
 	        g2.fillRect(0, 0, screenWidth, screenHeight);
-	        g2.setComposite(java.awt.AlphaComposite.getInstance(
-	            java.awt.AlphaComposite.SRC_OVER, 1f));
+	        g2.setComposite(AlphaComposite.getInstance(
+	            AlphaComposite.SRC_OVER, 1f));
 	    }
 	}
 	

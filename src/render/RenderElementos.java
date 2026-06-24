@@ -2,6 +2,7 @@ package render;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
 
 import modelo.ciudad1.Elemento;
 import ui.ConfiguracionPantalla;
@@ -11,27 +12,26 @@ public class RenderElementos {
     private int x, y, z;
     private Elemento elemento;
     private boolean recolectado;
+    private Image imagen;
     
-    /**
-     * @param x
-     * @param y
-     * @param elemento
-     */
-    public RenderElementos(int x, int y, int z, Elemento elemento) {
+    public RenderElementos(int x, int y, int z, Elemento elemento, Image imagen) {
     	this.x = x;
     	this.y = y;
     	this.z = z;
     	setElemento(elemento);
+    	setImagen(imagen);
     	this.recolectado = false;
     }
 
     public void dibujar(Graphics2D g2, int centroX, int centroY) {
-		g2.setColor(Color.BLUE);
-		
-		int pantallaX = centroX + x * TILE_SIZE;
-        int pantallaY = centroY + y * TILE_SIZE;
-
-        g2.fillRect(pantallaX, pantallaY, TILE_SIZE, TILE_SIZE);
+    	if (imagen != null) {
+    		int pantallaX = centroX + x * TILE_SIZE;
+            int pantallaY = centroY + y * TILE_SIZE;
+            g2.drawImage(imagen, pantallaX, pantallaY, TILE_SIZE, TILE_SIZE, null);
+        } else {
+            g2.setColor(Color.GRAY);
+            g2.fillRect(x, y, 80, 80);
+        }
     }
     
     public void elementoEncontrado() {
@@ -44,6 +44,10 @@ public class RenderElementos {
 
 	public Elemento getElemento() {
 		return elemento;
+	}
+	
+	private void setImagen(Image imagen) {
+		this.imagen = imagen;
 	}
 
 	public void setElemento(Elemento elemento) {

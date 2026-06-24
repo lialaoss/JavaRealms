@@ -25,6 +25,9 @@ public class RenderizarMenu {
 	
 	private List<NodoCiudad> ciudades;
 	
+	private String mensajeTemporal = "";
+	private long tiempoFinMensaje = 0;
+	
 	// CONSTRUCTOR
 	public RenderizarMenu(GestorRecursos recursos, AdministradorJuego admin) {
 		setRecursos(recursos);
@@ -117,21 +120,36 @@ public class RenderizarMenu {
 
 	}	
 	
+	public void procesarClickMenuConTransicion(int mouseX, int mouseY, ui.Panel panel) {
+	    if(botonJugar.contiene(mouseX, mouseY)) {
+	        panel.iniciarTransicion(EstadoJuego.MAPA_GENERAL);
+	    } else if(botonInstrucciones.contiene(mouseX, mouseY)) {
+	        admin.setEstado(EstadoJuego.MENU_INSTRUCCIONES);
+	    } else if(botonSalir.contiene(mouseX, mouseY)) {
+	        System.exit(0);
+	    }
+	}
+	
 	// ================================ MAPA ====================================
 
 	public void crearCiudades() {
 		ciudades = new ArrayList<>();
 		
-		ciudades.add(new NodoCiudad(80,  80, recursos.getNodoCiudad1(), admin.getCiudades().get(1)));
-		ciudades.add(new NodoCiudad(220, 60, recursos.getNodoCiudad2(), admin.getCiudades().get(2)));
-		ciudades.add(new NodoCiudad(370, 100, recursos.getNodoCiudad3(), admin.getCiudades().get(3)));
-		ciudades.add(new NodoCiudad(500, 60, recursos.getNodoCiudad4(), admin.getCiudades().get(4)));
-		ciudades.add(new NodoCiudad(650, 100, recursos.getNodoCiudad5(), admin.getCiudades().get(5)));
-		ciudades.add(new NodoCiudad(800, 60, recursos.getNodoCiudad6(), admin.getCiudades().get(6)));
-		ciudades.add(new NodoCiudad(900, 200, recursos.getNodoCiudad7(),admin.getCiudades().get(7)));
-		ciudades.add(new NodoCiudad(750, 350, recursos.getNodoCiudad8(), admin.getCiudades().get(8)));
-		ciudades.add(new NodoCiudad(550, 420, recursos.getNodoCiudad9(), admin.getCiudades().get(9)));
-		ciudades.add(new NodoCiudad(350, 380, recursos.getNodoCiudad10(), admin.getCiudades().get(10)));
+		ciudades.add(new NodoCiudad(150,  80, recursos.getNodoCiudad1(), admin.getCiudades().get(1)));
+		
+		ciudades.add(new NodoCiudad(130, 300, recursos.getNodoCiudad2(), admin.getCiudades().get(2)));
+		ciudades.add(new NodoCiudad(330, 250, recursos.getNodoCiudad3(), admin.getCiudades().get(3)));
+		ciudades.add(new NodoCiudad(350, 80, recursos.getNodoCiudad4(), admin.getCiudades().get(4)));
+		
+		ciudades.add(new NodoCiudad(350, 410, recursos.getNodoCiudad5(), admin.getCiudades().get(5)));
+		ciudades.add(new NodoCiudad(525, 210, recursos.getNodoCiudad6(), admin.getCiudades().get(6)));
+		
+		ciudades.add(new NodoCiudad(653, 380, recursos.getNodoCiudad7(),admin.getCiudades().get(7)));
+		
+		ciudades.add(new NodoCiudad(731, 130, recursos.getNodoCiudad8(), admin.getCiudades().get(8)));
+		ciudades.add(new NodoCiudad(933, 280, recursos.getNodoCiudad9(), admin.getCiudades().get(9)));
+		
+		ciudades.add(new NodoCiudad(962, 80, recursos.getNodoCiudad10(), admin.getCiudades().get(10)));
 	}
 	
 	public void renderizarMapaGeneral(Graphics2D g2) {
@@ -142,6 +160,29 @@ public class RenderizarMenu {
 	    for(NodoCiudad ciudad : ciudades) {
 	        ciudad.dibujar(g2);
 	    }
+	    mostrarHudMapa(g2);
+	    dibujarMensajeTemporal(g2);
+	}
+	
+	private void dibujarMensajeTemporal(Graphics2D g2) {
+	    if (mensajeTemporal.isEmpty()) {
+	        return;
+	    }
+	    
+
+	    if (System.currentTimeMillis() > tiempoFinMensaje) {
+	        mensajeTemporal = "";
+	        return;
+	    }
+
+	    g2.setFont(new Font("Arial", Font.PLAIN, 12));
+	    g2.setColor(Color.WHITE);
+	    g2.drawString(mensajeTemporal, 80, 70);
+	}
+	
+	private void mostrarMensajeTemporal(String mensaje, int duracionMs) {
+	    mensajeTemporal = mensaje;
+	    tiempoFinMensaje = System.currentTimeMillis() + duracionMs;
 	}
 	
 	/**
@@ -160,6 +201,7 @@ public class RenderizarMenu {
 	    }
 		if(botonGuardado.contiene(mouseX, mouseY)) {
 			admin.actualizarDatos();
+	        mostrarMensajeTemporal("¡Guardado con éxito!", 2000);
 		}
 
 		if(botonBorrar.contiene(mouseX, mouseY)) {
@@ -169,16 +211,6 @@ public class RenderizarMenu {
 		if(botonTester.contiene(mouseX, mouseY)) {
 			admin.habilitarModoTester();
 		}
-	}
-	
-	public void procesarClickMenuConTransicion(int mouseX, int mouseY, ui.Panel panel) {
-	    if(botonJugar.contiene(mouseX, mouseY)) {
-	        panel.iniciarTransicion(EstadoJuego.MAPA_GENERAL);
-	    } else if(botonInstrucciones.contiene(mouseX, mouseY)) {
-	        admin.setEstado(EstadoJuego.MENU_INSTRUCCIONES);
-	    } else if(botonSalir.contiene(mouseX, mouseY)) {
-	        System.exit(0);
-	    }
 	}
 	
 	public void mostrarHudMapa(Graphics2D g2) {
