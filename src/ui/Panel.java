@@ -20,6 +20,7 @@ import minijuego.Ciudad1Minijuego;
 import minijuego.Ciudad2Minijuego;
 import minijuego.Ciudad7Minijuego;
 import minijuego.Minijuego;
+import minijuego.MinijuegoTexto;
 
 public class Panel extends JPanel implements Runnable {
 	
@@ -59,9 +60,9 @@ public class Panel extends JPanel implements Runnable {
 		this.addMouseListener(mouseH);
 		this.setFocusable(true);
 	}
-	
 
-	// METODOS
+	// ========================== METODOS ================================
+	
 	public void startGameThread() {
 		gameThread = new Thread(this);
 		gameThread.start();
@@ -123,115 +124,152 @@ public class Panel extends JPanel implements Runnable {
 	    }
 	}
 	
-	public void update() {
-		
-		admin.update();
-		
-		if(admin.getEstado() == EstadoJuego.MENU_INSTRUCCIONES ||
-				admin.getEstado() == EstadoJuego.MAPA_GENERAL) {
-			if(keyH.QPressed == true) {
-					admin.setEstado(EstadoJuego.MENU_PRINCIPAL);
-					keyH.QPressed = false;
-			}
-		}
-		
-		
-		if(admin.getEstado() == EstadoJuego.EN_PROGRESO) {
-		    if(keyH.QPressed == true) {
-		        admin.setEstado(EstadoJuego.MAPA_GENERAL);
-		        keyH.QPressed = false;
-		        keyH.ultimoCaracter = 0;
-		        keyH.enterPressed = false;
-		        admin.getJuegoActual().resultadoPartida();
-		        if(admin.getCiudadActual().getEstado() == EstadoCiudad.COMPLETADA) {
-		        	admin.desbloquearVecinos(admin.getCiudadActual());
-		        }
-		        admin.limpiarJuegoActual();
-		    }
-		}
-		
-		if (enTransicion) {
-		    alpha += 0.05f;
-		    if (alpha >= 1f) {
-		        admin.setEstado(estadoDestino);
-		        alpha = 0f;
-		        enTransicion = false;
-		    }
-		    return;
-		}
-		
-	    Minijuego juego = admin.getJuegoActual();
-	        if(juego instanceof Ciudad1Minijuego) {
-	            Ciudad1Minijuego c1 = (Ciudad1Minijuego) juego;
-	            if(keyH.upPressed == true || keyH.downPressed == true 
-	    				|| keyH.leftPressed == true || keyH.rightPressed == true) {
-		            if(keyH.upPressed)    {
-		            	c1.mover(0, -1, 0);
-		            	admin.getJugador().setDireccion(DireccionJugador.UP);
-		            	keyH.upPressed = false;
-		            }
-		            if(keyH.downPressed)  {
-		            	c1.mover(0,  1, 0);
-		            	admin.getJugador().setDireccion(DireccionJugador.DOWN);
-		            	keyH.downPressed = false;
-		            }
-		            if(keyH.leftPressed)  {
-		            	c1.mover(-1, 0, 0);
-		            	admin.getJugador().setDireccion(DireccionJugador.LEFT);
-		            	keyH.leftPressed = false;
-		            }
-		            if(keyH.rightPressed) {
-		            	c1.mover( 1, 0, 0);
-		            	admin.getJugador().setDireccion(DireccionJugador.RIGHT);
-		            	keyH.rightPressed = false;
-		            }
-		            
-					admin.getJugador().contadorSprite++;
-					
-					if(admin.getJugador().numeroDeSprite == 1) {
-						admin.getJugador().numeroDeSprite = 2;
-					} else if (admin.getJugador().numeroDeSprite == 2) {
-						admin.getJugador().numeroDeSprite = 1;
-					}
-					admin.getJugador().contadorSprite = 0;
-					
-	            }
-
-	        }
-	        
-	        if(juego instanceof Ciudad10Minijuego) {
-	    	    Ciudad10Minijuego c10 = (Ciudad10Minijuego) juego;
-	    	    if(keyH.ultimoCaracter != 0) {
-	    	        c10.procesarCaracter(keyH.ultimoCaracter);
-	    	        keyH.ultimoCaracter = 0;
-	    	    }
-	    	}
-	        
-	        if(juego instanceof Ciudad2Minijuego) {
-	            Ciudad2Minijuego c2 = (Ciudad2Minijuego) juego;
-	            if(keyH.ultimoCaracter != 0) {
-	                c2.procesarCaracter(keyH.ultimoCaracter);
-	                keyH.ultimoCaracter = 0;
-	            }
-	            if(keyH.enterPressed) {
-	                c2.avanzarFrame();
-	                keyH.enterPressed = false;
-	            }
-	        }
-	        
-	        if(juego instanceof Ciudad7Minijuego) {
-	            Ciudad7Minijuego c7 = (Ciudad7Minijuego) juego;
-	            if(keyH.ultimoCaracter != 0) {
-	                c7.procesarCaracter(keyH.ultimoCaracter);
-	                keyH.ultimoCaracter = 0;
-	            }
-	            if(keyH.enterPressed) {
-	                c7.avanzarFrame();
-	                keyH.enterPressed = false;
-	            }
-	        }
-	    }
+	// ======================== UPDATE ========================
 	
+	public void update() {
+	    admin.update();
+	    salidaConQ();
+
+	    if (transicion()) {
+	    	return;
+	    }
+
+	    actualizarMinijuegoActual();
+	}
+
+	// -----------------------------------------------------
+	
+	private void salidaConQ() {
+	    if (!keyH.QPressed) {
+	    	return;
+	    }
+
+	    if (admin.getEstado() == EstadoJuego.MENU_INSTRUCCIONES ||
+	        admin.getEstado() == EstadoJuego.MAPA_GENERAL) {
+	        admin.setEstado(EstadoJuego.MENU_PRINCIPAL);
+	        keyH.QPressed = false;
+	        return;
+	    }
+
+	    if (admin.getEstado() == EstadoJuego.EN_PROGRESO) {
+	        salirDeMinijuego();
+	        keyH.QPressed = false;
+	    }
+	}
+	
+	private void salirDeMinijuego() {
+	    admin.setEstado(EstadoJuego.MAPA_GENERAL);
+	    keyH.ultimoCaracter = 0;
+	    keyH.enterPressed = false;
+
+	    admin.getJuegoActual().resultadoPartida();
+
+	    if (admin.getCiudadActual().getEstado() == EstadoCiudad.COMPLETADA) {
+	        admin.desbloquearVecinos(admin.getCiudadActual());
+	    }
+
+	    admin.limpiarJuegoActual();
+	}
+	
+	// -----------------------------------------------------
+	
+	private boolean transicion() {
+	    if (!enTransicion) return false;
+
+	    alpha += 0.05f;
+	    if (alpha >= 1f) {
+	        admin.setEstado(estadoDestino);
+	        alpha = 0f;
+	        enTransicion = false;
+	    }
+	    return true;
+	}
+
+	// -----------------------------------------------------
+	
+	private void actualizarMinijuegoActual() {
+	    Minijuego juego = admin.getJuegoActual();
+	    if (juego == null) return;
+
+	    if (juego instanceof Ciudad1Minijuego) {
+	        actualizarCiudad1((Ciudad1Minijuego) juego);
+	    } else if (juego instanceof Ciudad2Minijuego) {
+	        actualizarCiudadConTextoYEnter((Ciudad2Minijuego) juego);
+	    } else if (juego instanceof Ciudad7Minijuego) {
+	        actualizarCiudadConTextoYEnter((Ciudad7Minijuego) juego);
+	    } else if (juego instanceof Ciudad10Minijuego) {
+	        actualizarCiudad10((Ciudad10Minijuego) juego);
+	    }
+	}
+	
+	private void actualizarCiudadConTextoYEnter(MinijuegoTexto juego) {
+	    if (keyH.ultimoCaracter != 0) {
+	        juego.procesarCaracter(keyH.ultimoCaracter);
+	        keyH.ultimoCaracter = 0;
+	    }
+
+	    if (keyH.enterPressed) {
+	        juego.avanzarFrame();
+	        keyH.enterPressed = false;
+	    }
+	}
+	
+	private void actualizarCiudad10(Ciudad10Minijuego c10) {
+	    if (keyH.ultimoCaracter != 0) {
+	        c10.procesarCaracter(keyH.ultimoCaracter);
+	        keyH.ultimoCaracter = 0;
+	    }
+	}
+	
+	private void actualizarCiudad1(Ciudad1Minijuego c1) {
+	    boolean enMovimiento = false;
+
+	    if (keyH.upPressed) {
+	        c1.mover(0, -1, 0);
+	        admin.getJugador().setDireccion(DireccionJugador.UP);
+	        keyH.upPressed = false;
+	        enMovimiento = true;
+	    }
+
+	    if (keyH.downPressed) {
+	        c1.mover(0, 1, 0);
+	        admin.getJugador().setDireccion(DireccionJugador.DOWN);
+	        keyH.downPressed = false;
+	        enMovimiento = true;
+	    }
+
+	    if (keyH.leftPressed) {
+	        c1.mover(-1, 0, 0);
+	        admin.getJugador().setDireccion(DireccionJugador.LEFT);
+	        keyH.leftPressed = false;
+	        enMovimiento = true;
+	    }
+
+	    if (keyH.rightPressed) {
+	        c1.mover(1, 0, 0);
+	        admin.getJugador().setDireccion(DireccionJugador.RIGHT);
+	        keyH.rightPressed = false;
+	        enMovimiento = true;
+	    }
+
+	    if (enMovimiento) {
+	        animarJugador();
+	    }
+	}
+	
+	private void animarJugador() {
+	    admin.getJugador().contadorSprite++;
+
+	    if (admin.getJugador().numeroDeSprite == 1) {
+	        admin.getJugador().numeroDeSprite = 2;
+	    } else {
+	        admin.getJugador().numeroDeSprite = 1;
+	    }
+
+	    admin.getJugador().contadorSprite = 0;
+	}
+	
+	// ==========================================================================
 	
 	public void iniciarTransicion(EstadoJuego destino) {
 	    this.estadoDestino = destino;

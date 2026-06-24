@@ -15,7 +15,7 @@ import modelo.ciudad7.GrafoFlujo;
 import modelo.ciudad7.SnapshotFlujo;
 import render.FinMinijuegoPantalla;
 
-public class Ciudad7Minijuego implements Minijuego {
+public class Ciudad7Minijuego implements Minijuego, MinijuegoTexto {
 
     private Ciudad ciudad;
     private Jugador jugador;

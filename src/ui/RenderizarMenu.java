@@ -169,7 +169,6 @@ public class RenderizarMenu {
 	        return;
 	    }
 	    
-
 	    if (System.currentTimeMillis() > tiempoFinMensaje) {
 	        mensajeTemporal = "";
 	        return;
