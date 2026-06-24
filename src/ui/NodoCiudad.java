@@ -7,6 +7,7 @@ import java.awt.Image;
 import java.awt.Graphics2D;
 
 import ciudades.Ciudad;
+import utiles.ValidacionesUtiles;
 
 public class NodoCiudad {
     private int x, y;
@@ -19,8 +20,8 @@ public class NodoCiudad {
     public NodoCiudad(int x, int y, Image imagen, Ciudad ciudad) {
         this.x = x;
         this.y = y;
-        this.imagen = imagen;
-        this.id = ciudad.getId();
+        setImagen(imagen);
+        setId(ciudad.getId());
         this.nombre = ciudad.getNombre();
     }
 
@@ -70,9 +71,13 @@ public class NodoCiudad {
 		return id;
 	}
 
-	public void setId(int id) {
+	private void setId(int id) {
+		ValidacionesUtiles.validarMayorACero(id, "id");
 		this.id = id;
 	}
     
-    
+    private void setImagen(Image imagen) {
+    	ValidacionesUtiles.validarNoNulo(imagen, "imagen");
+    	this.imagen = imagen;
+    }
 }

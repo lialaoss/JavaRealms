@@ -55,8 +55,6 @@ public class CargaDeDatos {
 	// ========== ACTUALIZACION DE DATOS DEL JUEGO ==============
 	
 	public void actualizarArchivoDeDatos() {
-		System.out.println(new File(RUTA_DATOS).getAbsolutePath());
-		System.out.println(new File(RUTA_DATOS).exists());
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(RUTA_DATOS))) {
 
 	        bw.write(String.valueOf(admin.getJugador().getPuntosExperiencia()));

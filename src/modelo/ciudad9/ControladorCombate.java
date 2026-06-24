@@ -1,7 +1,6 @@
 package modelo.ciudad9;
 
 import java.util.Vector;
-
 import utiles.ValidacionesUtiles;
 
 /*

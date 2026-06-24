@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.net.URL;
 import java.util.List;
 
 import ciudades.Ciudad;
@@ -60,7 +61,7 @@ public class Ciudad3Minijuego implements Minijuego {
 	@Override
 	public void iniciar() {
 		try {
-			java.net.URL url = getClass().getResource("/laberintos/lab2.txt");
+			URL url = getClass().getResource("/laberintos/lab2.txt");
 			String ruta = new java.io.File(url.toURI()).getAbsolutePath();
 			this.lab = new Laberinto(ruta);
 		} catch (Exception e) {

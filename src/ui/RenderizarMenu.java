@@ -41,7 +41,7 @@ public class RenderizarMenu {
 	
 	// ============================== MENU =======================================
 	
-	public void crearBotonGuardado() {
+	private void crearBotonGuardado() {
 		int anchoBoton = tileSize;
 		int altoBoton = tileSize;
 		
@@ -52,7 +52,7 @@ public class RenderizarMenu {
 				x, y, anchoBoton, altoBoton);
 	}
 	
-	public void crearBotonBorrarDatos() {
+	private void crearBotonBorrarDatos() {
 		int anchoBoton = tileSize;
 		int altoBoton = tileSize;
 		
@@ -63,7 +63,7 @@ public class RenderizarMenu {
 				x, y, anchoBoton, altoBoton);
 	}
 	
-	public void crearBotonTester() {
+	private void crearBotonTester() {
 		int anchoBoton = tileSize;
 		int altoBoton = tileSize;
 		
@@ -74,7 +74,7 @@ public class RenderizarMenu {
 				x, y, anchoBoton, altoBoton);
 	}
 	
-	public void crearBotones() {
+	private void crearBotones() {
 		int anchoBoton = 300;
 		int altoBoton = 70;
 
@@ -212,7 +212,7 @@ public class RenderizarMenu {
 		}
 	}
 	
-	public void mostrarHudMapa(Graphics2D g2) {
+	private void mostrarHudMapa(Graphics2D g2) {
 		g2.setColor(new Color(0, 0, 0, 180));
 		g2.fillRect(0, 0, ConfiguracionPantalla.SCREEN_WIDTH, 40);
 		

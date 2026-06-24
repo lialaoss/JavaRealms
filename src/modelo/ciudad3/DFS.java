@@ -53,10 +53,6 @@ public class DFS {
             List<Nodo> camino =
                 reconstruirCamino(encontrado, padre);
 
-            System.out.println(
-                "Movimientos DFS: " + (camino.size() - 1)
-            );
-
             frames.add(
                 crearSnapshotCamino(
                     lab,

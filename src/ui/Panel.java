@@ -189,7 +189,9 @@ public class Panel extends JPanel implements Runnable {
 	
 	private void actualizarMinijuegoActual() {
 	    Minijuego juego = admin.getJuegoActual();
-	    if (juego == null) return;
+	    if (juego == null) {
+	    	return;
+	    }
 
 	    if (juego instanceof Ciudad1Minijuego) {
 	        actualizarCiudad1((Ciudad1Minijuego) juego);
@@ -276,7 +278,6 @@ public class Panel extends JPanel implements Runnable {
 	    this.enTransicion = true;
 	    this.alpha = 0f;
 	}
-	
 
 	//SETTERS
 	private void setAdmin(AdministradorJuego admin) {
