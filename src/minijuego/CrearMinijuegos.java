@@ -27,7 +27,7 @@ public class CrearMinijuegos {
             case 6:
             	return new Ciudad6Minijuego(ciudad, jugador);
             case 7:
-            	return new Ciudad7Minijuego(ciudad, jugador);
+            	return new Ciudad7Minijuego(ciudad, jugador, recursos);
             case 8:
             	return new Ciudad8Minijuego(ciudad, jugador);
             case 9:
