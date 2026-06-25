@@ -99,7 +99,7 @@ public class AlgoritmosFlujo {
     private List<AristaFlujo> copiarAristas(GrafoFlujo grafo) {
         List<AristaFlujo> copia = new ArrayList<>();
         for (AristaFlujo a : grafo.getTodasLasAristas()) {
-            AristaFlujo c = new AristaFlujo(a.getOrigen(), a.getDestino(), a.getCapacidad());
+            AristaFlujo c = new AristaFlujo(a.getOrigen(), a.getDestino(), a.getCapacidad(), true);
             c.agregarFlujo(a.getFlujo());
             copia.add(c);
         }

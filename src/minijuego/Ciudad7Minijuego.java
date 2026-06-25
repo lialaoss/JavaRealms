@@ -154,13 +154,13 @@ public class Ciudad7Minijuego implements Minijuego, MinijuegoTexto {
         dibujarNodos(g2, snap);
 
         g2.setFont(new Font("Monospaced", Font.PLAIN, 13));
-        String textoPaso = "Paso " + (frameActual + 1) + "/" + snapshots.size() + ": " + snap.descripcion;
-        String textoCamino = "Camino minimo: " + (caminoMinimo != null ? caminoMinimo.toString() : "No encontrado");
-        String textoAyuda = "ENTER = siguiente paso | Q para volver";
+        dibujarTextoConFondo(g2, "Paso " + (frameActual + 1) + "/" + snapshots.size() + ": " + snap.descripcion, 50, 55, Color.CYAN);
+        dibujarTextoConFondo(g2, "Camino minimo: " + (caminoMinimo != null ? caminoMinimo.toString() : "No encontrado"), 50, 72, Color.WHITE);
+        dibujarTextoConFondo(g2, "ENTER = siguiente paso | Q para volver", 50, 560, Color.GRAY);
 
-        dibujarTextoConFondo(g2, textoPaso, 50, 55, Color.CYAN);
-        dibujarTextoConFondo(g2, textoCamino, 50, 72, Color.WHITE);
-        dibujarTextoConFondo(g2, textoAyuda, 50, 560, Color.GRAY);
+        if (ganado) {
+            pantallaFinal.mostrarResultados(g2, ciudad);
+        }
     }
 
     private void dibujarAristas(Graphics2D g2, SnapshotFlujo snap) {
