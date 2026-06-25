@@ -62,6 +62,7 @@ public class Ciudad6Minijuego implements Minijuego {
     public Ciudad6Minijuego(Ciudad ciudad, Jugador jugador, GestorRecursos recursos) {
         this.ciudad = ciudad;
         this.jugador = jugador;
+        this.pantallaFinal.setFondoVictoria(recursos.getFondoVictoria());
     }
 
     @Override
@@ -250,24 +251,9 @@ public class Ciudad6Minijuego implements Minijuego {
         dibujarTablaVisual(g2);
         dibujarConsola(g2);
         
-        // --- CARTEL INTERMEDIO DE VICTORIA (ESTILO CIUDAD 1) ---
+     // --- CARTEL INTERMEDIO DE VICTORIA  ---
         if (mostrandoCartelVictoria) {
-            // Fondo semi-transparente que cubre la totalidad de la pantalla
-            g2.setColor(new Color(0, 0, 0, 180));
-            g2.fillRect(0, 0, ConfiguracionPantalla.SCREEN_WIDTH, ConfiguracionPantalla.SCREEN_HEIGHT);
-
-            // Configuramos la tipografía idéntica a la Ciudad 1
-            g2.setFont(new Font("Arial", Font.BOLD, 32));
-            g2.setColor(Color.WHITE);
-
-            String mensajeVictoria = "Puntos de experiencia ganados : " + ciudad.getPuntosDeExperiencia() + " ptos !!!";
-            FontMetrics fm = g2.getFontMetrics();
-            
-            // Centrado dinámico adaptado a cualquier resolución de pantalla
-            int mensajeX = (ConfiguracionPantalla.SCREEN_WIDTH - fm.stringWidth(mensajeVictoria)) / 2;
-            int mensajeY = (ConfiguracionPantalla.SCREEN_HEIGHT / 2) + (fm.getAscent() / 2);
-
-            g2.drawString(mensajeVictoria, mensajeX, mensajeY);
+            this.pantallaFinal.mostrarResultados(g2, this.ciudad);
         }
     }
 
@@ -358,9 +344,14 @@ public class Ciudad6Minijuego implements Minijuego {
 
     @Override
     public void resultadoPartida() {
-        if (ganado) {
+        // Solo sumamos los puntos si el juego está ganado Y la ciudad NO figura como completada todavía
+        if (ganado && this.ciudad.getEstado() != EstadoCiudad.COMPLETADA) {
             this.ciudad.setEstado(EstadoCiudad.COMPLETADA);
             this.jugador.sumarPuntos(ciudad.getPuntosDeExperiencia());
+            
+            // ¡LA CLAVE ACÁ! Reseteamos las banderas para que el próximo clic no vuelva a entrar a este IF
+            this.ganado = false;
+            this.mostrandoCartelVictoria = false;
         }
     }
 }
