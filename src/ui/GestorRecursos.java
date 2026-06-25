@@ -36,6 +36,8 @@ public class GestorRecursos {
 	private BufferedImage[] librosOrdenamiento;
 	private BufferedImage[] gemasNodos;
 	
+	private BufferedImage demon, dragon, jinn, fondoBatalla, ataque;
+	
 	public GestorRecursos() {
 		cargarSpritesMenu();
 		cargarSpritesJugador();
@@ -54,6 +56,13 @@ public class GestorRecursos {
 	 * Post: Carga desde el disco las imágenes para los botones del menú principal y el botón de regresar. Si ocurre un error al leer los archivos, imprime el rastro del error.
 	 */
 	public void cargarSpritesMenu() {
+
+		cargarSpritesCiudad9();
+	}
+	
+	
+	private void cargarSpritesMenu() {
+
 		try {
 			botonMenu1 = ImageIO.read(getClass().getResourceAsStream("/sprites/menu/boton1.png"));
 			botonMenu2 = ImageIO.read(getClass().getResourceAsStream("/sprites/menu/boton2.png"));
@@ -67,12 +76,16 @@ public class GestorRecursos {
 	}
 	
 
+
 	/*
 	 * Pre: Ninguna.
 	 * Post: Inicializa los vectores de animación para el jugador en las cuatro direcciones básicas y carga los dos cuadros (sprites) de movimiento correspondientes a cada una.
 	 */
 
 	public void cargarSpritesJugador() {
+
+	private void cargarSpritesJugador() {
+
 		
 		jugadorUp = new BufferedImage[2];
 		jugadorDown = new BufferedImage[2];
@@ -99,6 +112,7 @@ public class GestorRecursos {
 	}
 	
 
+
 	/*
 	 * Pre: Ninguna.
 	 * Post: Reservado para futuras cargas de fondos generales si fuera necesario.
@@ -113,6 +127,9 @@ public class GestorRecursos {
 	 */
 
 	public void cargarFondoMapa() {
+
+	private void cargarFondoMapa() {
+
 	    try {
 	        fondoMapa = ImageIO.read(getClass().getResourceAsStream("/sprites/mapa/fondo.png"));
 	        
@@ -223,12 +240,51 @@ public class GestorRecursos {
 		}
 	}
 	
+	private void cargarSpritesCiudad9() {
+		try {
+			demon = ImageIO.read(getClass().getResourceAsStream("/sprites/ciudad9/demon.png"));
+			dragon = ImageIO.read(getClass().getResourceAsStream("/sprites/ciudad9/dragon.png"));
+			jinn = ImageIO.read(getClass().getResourceAsStream("/sprites/ciudad9/jinn.png"));
+			fondoBatalla = ImageIO.read(getClass().getResourceAsStream("/sprites/ciudad9/fondoBatalla.png"));
+			
+			ataque = ImageIO.read(getClass().getResourceAsStream("/sprites/ciudad9/ataque.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	// ========================================= GETTERS ==============================================
+	
+	
 	
 	public BufferedImage getTitulo() {
 		return titulo;
 	}
 	
+	public BufferedImage getDemon() {
+		return demon;
+	}
+
+
+	public BufferedImage getDragon() {
+		return dragon;
+	}
+
+
+	public BufferedImage getJinn() {
+		return jinn;
+	}
+
+
+	public BufferedImage getFondoBatalla() {
+		return fondoBatalla;
+	}
+
+
+	public BufferedImage getAtaque() {
+		return ataque;
+	}
+
 	public BufferedImage getInstrucciones() {
 		return instrucciones;
 	}
