@@ -4,6 +4,7 @@ import java.awt.AlphaComposite;
 import java.awt.Color;
 
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 
@@ -107,12 +108,20 @@ public class Panel extends JPanel implements Runnable {
 		EstadoJuego estado = admin.getEstado();
 
 		if (estado == EstadoJuego.EN_PROGRESO) {
-			Minijuego juego = admin.getJuegoActual();
-			if (juego != null) {
-				juego.render(g2);
-			}
+		    Minijuego juego = admin.getJuegoActual();
+		    if (juego != null) {
+		    	juego.render(g2);
+		    	int bw = 40;
+		    	int bh = 40;
+		    	int bx = screenWidth - 160;
+		    	int by = 10;
+		    	g2.drawImage(recursos.getBotonVolver(), bx, by, bw, bh, null);
+		    	g2.setColor(Color.WHITE);
+		    	g2.setFont(new Font("Arial", Font.BOLD, 13));
+		    	g2.drawString("Volver", bx + bw + 8, by + bh / 2 + 5);
+		    }
 		} else {
-			renderUI.renderizarPorEstado(estado, g2);
+		    renderUI.renderizarPorEstado(estado, g2);
 		}
 
 		if (enTransicion) {

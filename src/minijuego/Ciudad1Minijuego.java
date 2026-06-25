@@ -52,6 +52,7 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
         this.jugador = jugador;
         this.recursos = recursos;
         this.renderJugador = new RenderJugador(recursos,  this.jugador);
+        this.pantallaFinal.setFondoVictoria(recursos.getFondoVictoria());
     }
     
 

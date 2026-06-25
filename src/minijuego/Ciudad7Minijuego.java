@@ -56,6 +56,7 @@ public class Ciudad7Minijuego implements Minijuego, MinijuegoTexto {
         this.ciudad = ciudad;
         this.jugador = jugador;
         this.gemas = recursos.getGemasNodos();
+        this.pantallaFinal.setFondoVictoria(recursos.getFondoVictoria());
     }
 
     @Override

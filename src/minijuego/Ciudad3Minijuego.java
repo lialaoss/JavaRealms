@@ -53,6 +53,7 @@ public class Ciudad3Minijuego implements Minijuego {
 		this.ciudad = ciudad;
 		this.jugador = jugador;
 		this.recursos = recursos;
+		this.pantallaFinal.setFondoVictoria(recursos.getFondoVictoria());
 		crearBotones();
 	}
 	
@@ -136,7 +137,6 @@ public class Ciudad3Minijuego implements Minijuego {
 		}
 		actualizarAnimacion();
 		dibujarLaberinto(g2);
-		renderHUD(g2);
 		if(ganado) {
 			pantallaFinal.mostrarResultados(g2, ciudad);
 		}

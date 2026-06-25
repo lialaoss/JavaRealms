@@ -41,6 +41,7 @@ public class Ciudad2Minijuego implements Minijuego, MinijuegoTexto {
     public Ciudad2Minijuego(Ciudad ciudad, Jugador jugador) {
         this.ciudad = ciudad;
         this.jugador = jugador;
+        
     }
     
     /* 

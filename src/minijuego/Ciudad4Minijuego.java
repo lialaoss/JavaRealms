@@ -52,6 +52,7 @@ public class Ciudad4Minijuego implements Minijuego, ObservadorOrdenamiento {
         this.jugador = jugador;
         this.recursos = recursos;
         this.libros = recursos.getLibrosOrdenamiento();
+        this.pantallaFinal.setFondoVictoria(recursos.getFondoVictoria());
         crearBotones();
     }
 
