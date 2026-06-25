@@ -60,18 +60,23 @@ public class Ciudad9Minijuego implements Minijuego, ObservadorVictoria {
     private void correrCombate() {
         while (!combate.victoria() && !combate.derrota()) {
             
-            if (combate.esTurnoJugador()) {
+        	if (combate.esTurnoJugador()) {
                 int accionesRequeridas = combate.isComboDisponible() ? 2 : 1;
+                boolean requiereObjetivo = false; // Bandera para saber si se eligió atacar
                 
                 for (int i = 0; i < accionesRequeridas; i++) {
                     mensajeActual = "Turno del Héroe [" + (i+1) + "/" + accionesRequeridas + "]. ¡Elige sabiamente!";
                     faseActual = "ACCION";
                     pausarHastaClic();
                     combate.agregarAccionJugador(accionSeleccionada);
+                    
+                    if (accionSeleccionada.equals(Accion.ATAQUE)) {
+                        requiereObjetivo = true;
+                    }
                 }
                 
                 java.util.List<Personaje> enemigosVivos = combate.getListaEnemigos().obtenerEnemigos();
-                if (enemigosVivos.size() > 1) {
+                if (requiereObjetivo && enemigosVivos.size() > 1) {
                     mensajeActual = "Selecciona tu objetivo de ataque:";
                     faseActual = "OBJETIVO";
                     pausarHastaClic();
