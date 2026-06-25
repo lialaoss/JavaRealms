@@ -10,7 +10,7 @@ public class MouseHandler extends MouseAdapter {
 	
 	private AdministradorJuego admin;
 	private RenderizarMenu menu;
-	private ui.Panel panel;
+	private Panel panel;
 	
 	/*
 	 * Pre: El administrador del juego, el menú y el panel deben estar inicializados (no ser nulos).
