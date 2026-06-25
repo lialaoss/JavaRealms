@@ -358,9 +358,14 @@ public class Ciudad6Minijuego implements Minijuego {
 
     @Override
     public void resultadoPartida() {
-        if (ganado) {
+        // Solo sumamos los puntos si el juego está ganado Y la ciudad NO figura como completada todavía
+        if (ganado && this.ciudad.getEstado() != EstadoCiudad.COMPLETADA) {
             this.ciudad.setEstado(EstadoCiudad.COMPLETADA);
             this.jugador.sumarPuntos(ciudad.getPuntosDeExperiencia());
+            
+            // ¡LA CLAVE ACÁ! Reseteamos las banderas para que el próximo clic no vuelva a entrar a este IF
+            this.ganado = false;
+            this.mostrandoCartelVictoria = false;
         }
     }
 }
