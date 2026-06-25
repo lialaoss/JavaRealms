@@ -160,7 +160,7 @@ public class VentanaCiudad6 extends JFrame {
             
             // CONTAR COLISIONES: Revisamos los pasos impresos buscando la palabra "[COLISIÓN]"
             for (String paso : pasos) {
-                if (paso.contains("[COLISIÓN]")) {
+            	if (paso.toUpperCase().contains("COLISION")) {
                     this.colisionesLogradas++;
                 }
             }
