@@ -40,9 +40,9 @@ public class ControladorCombate {
      Post: Se crean los enemigos y se encolan junto al jugador en la Cola de Turnos.
      */
     private void inicializarCombate() {
-        Personaje tanque = new Personaje("Tanque", 100, 8, false);
-        Personaje guerrero = new Personaje("Guerrero", 70, 12, false);
-        Personaje mago = new Personaje("Mago", 45, 20, false);
+        Personaje tanque = new Personaje("Dragon", 100, 8, false);
+        Personaje guerrero = new Personaje("Demonio", 70, 12, false);
+        Personaje mago = new Personaje("Genio", 45, 20, false);
 
         listaEnemigos.agregarEnemigo(tanque);
         listaEnemigos.agregarEnemigo(guerrero);
