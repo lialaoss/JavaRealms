@@ -93,6 +93,9 @@ public class RenderizarMenu {
 	
 	public void renderizarMenuPrincipal(Graphics2D g2) {
 	    g2.drawImage(recursos.getFondoMenu(), 0, 0, screenWidth, screenHeight, null);
+	    int ancho = 400;
+	    int alto = 110;
+	    g2.drawImage(recursos.getTitulo(), (screenWidth - ancho)/2, 70, ancho, alto, null);
 	    botonJugar.dibujar(g2);
 	    botonInstrucciones.dibujar(g2);
 	    botonSalir.dibujar(g2);
@@ -112,12 +115,6 @@ public class RenderizarMenu {
 	    } else if(botonSalir.contiene(mouseX, mouseY)) {
 	        System.exit(0);
 	    }
-	}
-	
-	public void renderizarMenuInstrucciones(Graphics2D g2) {
-	    g2.drawImage(recursos.getFondoMenu(), 0, 0, screenWidth, screenHeight, null);
-		g2.drawString("Apreta Q para salir)", screenWidth / 2 - 80, screenHeight / 2);
-
 	}	
 	
 	public void procesarClickMenuConTransicion(int mouseX, int mouseY, ui.Panel panel) {
@@ -128,6 +125,16 @@ public class RenderizarMenu {
 	    } else if(botonSalir.contiene(mouseX, mouseY)) {
 	        System.exit(0);
 	    }
+	}
+
+	// =========================== INSTRUCCIONES =================================
+	
+	public void renderizarMenuInstrucciones(Graphics2D g2) {
+	    g2.drawImage(recursos.getFondoMenu(), 0, 0, screenWidth, screenHeight, null);
+	    
+		g2.setColor(new Color(0,0,0,87));
+
+        g2.drawImage(recursos.getInstrucciones(), 50, 50, screenWidth - 100, screenHeight - 100, null);
 	}
 	
 	// ================================ MAPA ====================================

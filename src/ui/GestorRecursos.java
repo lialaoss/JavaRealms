@@ -15,7 +15,7 @@ public class GestorRecursos {
 	private BufferedImage[] jugadorLeft;
 	private BufferedImage[] jugadorRight;
 	
-	private BufferedImage fondoMapa, fondoMenu;
+	private BufferedImage fondoMapa, fondoMenu, titulo;
 	
 	private BufferedImage nodoCiudad1, nodoCiudad2, nodoCiudad3, nodoCiudad4, nodoCiudad5;
 	private BufferedImage nodoCiudad6, nodoCiudad7, nodoCiudad8, nodoCiudad9, nodoCiudad10;
@@ -26,16 +26,17 @@ public class GestorRecursos {
 	private BufferedImage botonBubble, botonQuick, botonBFS, botonDFS;
 	
 	private BufferedImage radar, antorcha, bengala;
+	private BufferedImage instrucciones;
 	
 	public GestorRecursos() {
 		cargarSpritesMenu();
 		cargarSpritesJugador();
-		cargarFondos();
 		cargarTiles();
 		cargarFondoMapa();
 		cargarBotonesArdillas();
 		cargarBotonesAdicionales();
 		cargarItemsMatrices();
+		cargarInstrucciones();
 	}
 	
 	
@@ -45,6 +46,7 @@ public class GestorRecursos {
 			botonMenu2 = ImageIO.read(getClass().getResourceAsStream("/sprites/menu/boton2.png"));
 			botonMenu3 = ImageIO.read(getClass().getResourceAsStream("/sprites/menu/boton3.png"));
 			botonVolver = ImageIO.read(getClass().getResourceAsStream("/sprites/menu/botonVolver.png"));
+			titulo = ImageIO.read(getClass().getResourceAsStream("/sprites/menu/titulo.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
@@ -74,10 +76,6 @@ public class GestorRecursos {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	public void cargarFondos() {
-		
 	}
 	
 	public void cargarFondoMapa() {
@@ -153,17 +151,31 @@ public class GestorRecursos {
 		}
 	}
 	
+	private void cargarInstrucciones() {
+		try {
+			instrucciones = ImageIO.read(getClass().getResourceAsStream("/sprites./instrucciones/Instrucciones.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	// ========================================= GETTERS ==============================================
-
+	
+	public BufferedImage getTitulo() {
+		return titulo;
+	}
+	
+	public BufferedImage getInstrucciones() {
+		return instrucciones;
+	}
+	
 	public BufferedImage getRadar() {
 		return radar;
 	}
 
-
 	public BufferedImage getAntorcha() {
 		return antorcha;
 	}
-
 
 	public BufferedImage getBengala() {
 		return bengala;
