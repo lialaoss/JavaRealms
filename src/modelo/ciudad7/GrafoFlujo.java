@@ -24,8 +24,14 @@ public class GrafoFlujo {
         adyacencias.get(origen).add(new AristaFlujo(origen, destino, capacidad));
         adyacencias.get(destino).add(new AristaFlujo(destino, origen, 0, true));
     }
+    
+    public int getCantidadDeNodos() {
+    	return nodos.size();
+    }
 
-    public List<String> getNodos() { return nodos; }
+    public List<String> getNodos() { 
+    	return nodos; 
+    }
     public List<AristaFlujo> getAdyacentes(String nodo) { return adyacencias.get(nodo); }
 
     public List<AristaFlujo> getTodasLasAristas() {

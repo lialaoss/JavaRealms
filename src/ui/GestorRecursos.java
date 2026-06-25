@@ -27,6 +27,8 @@ public class GestorRecursos {
 	
 	private BufferedImage radar, antorcha, bengala;
 	private BufferedImage instrucciones;
+	private BufferedImage[] librosOrdenamiento;
+	private BufferedImage[] gemasNodos;
 	
 	public GestorRecursos() {
 		cargarSpritesMenu();
@@ -37,6 +39,8 @@ public class GestorRecursos {
 		cargarBotonesAdicionales();
 		cargarItemsMatrices();
 		cargarInstrucciones();
+		cargarLibrosOrdenamiento();
+		cargarGemasNodos();
 	}
 	
 	
@@ -51,6 +55,7 @@ public class GestorRecursos {
 			e.printStackTrace();
 		}
 	}
+	
 	
 	public void cargarSpritesJugador() {
 		
@@ -137,6 +142,29 @@ public class GestorRecursos {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	private void cargarLibrosOrdenamiento() {
+	    librosOrdenamiento = new BufferedImage[10];
+	    try {
+	        for (int i = 0; i < 10; i++) {
+	        	librosOrdenamiento[i] = ImageIO.read(getClass().getResourceAsStream("/ciudad4/libro" + i + ".png"));
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	private void cargarGemasNodos() {
+	    gemasNodos = new BufferedImage[8];
+	    String[] colores = {"turquoise", "lightgreen", "blue", "purple", "lilac", "red", "gold", "darkblue"};
+	    try {
+	        for (int i = 0; i < colores.length; i++) {
+	            gemasNodos[i] = ImageIO.read(getClass().getResourceAsStream("/ciudad7/gema_" + colores[i] + ".png"));
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
 	}
 	
 	private void cargarItemsMatrices() {
@@ -332,5 +360,13 @@ public class GestorRecursos {
 	
 	public BufferedImage getNodoCiudad10() {
 	    return nodoCiudad10;
+	}
+	
+	public BufferedImage[] getLibrosOrdenamiento() {
+	    return librosOrdenamiento;
+	}
+	
+	public BufferedImage[] getGemasNodos() {
+	    return gemasNodos;
 	}
 }
