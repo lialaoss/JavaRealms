@@ -15,33 +15,38 @@ public class GestorRecursos {
 	private BufferedImage[] jugadorLeft;
 	private BufferedImage[] jugadorRight;
 	
-	private BufferedImage fondoMapa;
-	private BufferedImage fondoMenu;
+	private BufferedImage fondoMapa, fondoMenu, titulo, fondoVictoria;
 	
-	private BufferedImage nodoCiudad1;
-	private BufferedImage nodoCiudad2;
-	private BufferedImage nodoCiudad3;
-	private BufferedImage nodoCiudad4;
-	private BufferedImage nodoCiudad5;
-	private BufferedImage nodoCiudad6;
-	private BufferedImage nodoCiudad7;
-	private BufferedImage nodoCiudad8;
-	private BufferedImage nodoCiudad9;
-	private BufferedImage nodoCiudad10;
+	private BufferedImage nodoCiudad1, nodoCiudad2, nodoCiudad3, nodoCiudad4, nodoCiudad5;
+	private BufferedImage nodoCiudad6, nodoCiudad7, nodoCiudad8, nodoCiudad9, nodoCiudad10;
 	
 	private BufferedImage piedra, piedra2, pasto, pasto2, pasto3, cofre, madera;
+
 
 	/*
 	 * Pre: Los archivos de imagen requeridos deben existir dentro de las carpetas de recursos del proyecto con sus nombres correctos.
 	 * Post: Crea el gestor y gatilla de manera secuencial la lectura de todas las imágenes del juego (menús, jugador, mapas, terrenos y botones de minijuegos) para tenerlas listas en memoria.
 	 */
+
+	private BufferedImage iconoBorrar, iconoGuardar, iconoTester;
+	private BufferedImage botonBubble, botonQuick, botonBFS, botonDFS;
+	
+	private BufferedImage radar, antorcha, bengala;
+	private BufferedImage instrucciones;
+	private BufferedImage[] librosOrdenamiento;
+	private BufferedImage[] gemasNodos;
+	
 	public GestorRecursos() {
 		cargarSpritesMenu();
 		cargarSpritesJugador();
-		cargarFondos();
 		cargarTiles();
 		cargarFondoMapa();
 		cargarBotonesArdillas();
+		cargarBotonesAdicionales();
+		cargarItemsMatrices();
+		cargarInstrucciones();
+		cargarLibrosOrdenamiento();
+		cargarGemasNodos();
 	}
 	
 	/*
@@ -54,15 +59,19 @@ public class GestorRecursos {
 			botonMenu2 = ImageIO.read(getClass().getResourceAsStream("/sprites/menu/boton2.png"));
 			botonMenu3 = ImageIO.read(getClass().getResourceAsStream("/sprites/menu/boton3.png"));
 			botonVolver = ImageIO.read(getClass().getResourceAsStream("/sprites/menu/botonVolver.png"));
+			fondoVictoria = ImageIO.read(getClass().getResourceAsStream("/sprites/menu/Victoria.png"));
+			titulo = ImageIO.read(getClass().getResourceAsStream("/sprites/menu/titulo.png"));
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
+
 	/*
 	 * Pre: Ninguna.
 	 * Post: Inicializa los vectores de animación para el jugador en las cuatro direcciones básicas y carga los dos cuadros (sprites) de movimiento correspondientes a cada una.
 	 */
+
 	public void cargarSpritesJugador() {
 		
 		jugadorUp = new BufferedImage[2];
@@ -89,6 +98,7 @@ public class GestorRecursos {
 		}
 	}
 	
+
 	/*
 	 * Pre: Ninguna.
 	 * Post: Reservado para futuras cargas de fondos generales si fuera necesario.
@@ -101,9 +111,11 @@ public class GestorRecursos {
 	 * Pre: Ninguna.
 	 * Post: Carga la imagen de fondo para el mapa global del juego, las ilustraciones de los íconos (nodos) de las 10 ciudades y el fondo del menú inicial.
 	 */
+
 	public void cargarFondoMapa() {
 	    try {
 	        fondoMapa = ImageIO.read(getClass().getResourceAsStream("/sprites/mapa/fondo.png"));
+	        
 	        nodoCiudad1 = ImageIO.read(getClass().getResourceAsStream("/sprites/mapa/ciudad1.png"));
 	        nodoCiudad2 = ImageIO.read(getClass().getResourceAsStream("/sprites/mapa/ciudad2.png"));
 	        nodoCiudad3 = ImageIO.read(getClass().getResourceAsStream("/sprites/mapa/ciudad3.png"));
@@ -151,6 +163,119 @@ public class GestorRecursos {
 			e.printStackTrace();
 		}
 	}
+	
+	private void cargarBotonesAdicionales() {
+		try {
+			botonBubble = ImageIO.read(getClass().getResourceAsStream("/sprites/botones/BotonBubbleSort.png"));
+			botonQuick = ImageIO.read(getClass().getResourceAsStream("/sprites/botones/BotonQuickSort.png"));
+
+			botonBFS = ImageIO.read(getClass().getResourceAsStream("/sprites/botones/BotonBusquedaBFS.png"));
+			botonDFS = ImageIO.read(getClass().getResourceAsStream("/sprites/botones/BotonBusquedaDFS.png"));
+
+			iconoBorrar = ImageIO.read(getClass().getResourceAsStream("/sprites/botones/IconoEliminarDatos.png"));
+			iconoGuardar = ImageIO.read(getClass().getResourceAsStream("/sprites/botones/IconoGuardarDatos.png"));
+			iconoTester = ImageIO.read(getClass().getResourceAsStream("/sprites/botones/IconoTester.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void cargarLibrosOrdenamiento() {
+	    librosOrdenamiento = new BufferedImage[10];
+	    try {
+	        for (int i = 0; i < 10; i++) {
+	        	librosOrdenamiento[i] = ImageIO.read(getClass().getResourceAsStream("/ciudad4/libro" + i + ".png"));
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	private void cargarGemasNodos() {
+	    gemasNodos = new BufferedImage[8];
+	    String[] colores = {"turquoise", "lightgreen", "blue", "purple", "lilac", "red", "gold", "darkblue"};
+	    try {
+	        for (int i = 0; i < colores.length; i++) {
+	            gemasNodos[i] = ImageIO.read(getClass().getResourceAsStream("/ciudad7/gema_" + colores[i] + ".png"));
+	        }
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+	}
+	
+	private void cargarItemsMatrices() {
+		try {
+			
+			radar = ImageIO.read(getClass().getResourceAsStream("/sprites/matrices/Radar.png"));
+			antorcha = ImageIO.read(getClass().getResourceAsStream("/sprites/matrices/Antorcha.png"));
+			bengala = ImageIO.read(getClass().getResourceAsStream("/sprites/matrices/Bengala.png"));
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	private void cargarInstrucciones() {
+		try {
+			instrucciones = ImageIO.read(getClass().getResourceAsStream("/sprites./instrucciones/Instrucciones.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
+	// ========================================= GETTERS ==============================================
+	
+	public BufferedImage getTitulo() {
+		return titulo;
+	}
+	
+	public BufferedImage getInstrucciones() {
+		return instrucciones;
+	}
+	
+	public BufferedImage getRadar() {
+		return radar;
+	}
+
+	public BufferedImage getAntorcha() {
+		return antorcha;
+	}
+
+	public BufferedImage getBengala() {
+		return bengala;
+	}
+
+	public BufferedImage getIconoBorrar() {
+		return iconoBorrar;
+	}
+
+
+	public BufferedImage getIconoGuardar() {
+		return iconoGuardar;
+	}
+
+	public BufferedImage getIconoTester() {
+		return iconoTester;
+	}
+
+	public BufferedImage getBotonBubble() {
+		return botonBubble;
+	}
+
+
+	public BufferedImage getBotonQuick() {
+		return botonQuick;
+	}
+
+
+	public BufferedImage getBotonBFS() {
+		return botonBFS;
+	}
+
+
+	public BufferedImage getBotonDFS() {
+		return botonDFS;
+	}
 
 	/* Pre: Ninguna. Post: Devuelve la imagen del botón 1 del menú. */
 	public BufferedImage getBotonMenu1() {
@@ -165,6 +290,10 @@ public class GestorRecursos {
 	/* Pre: Ninguna. Post: Devuelve la imagen del botón volver. */
 	public BufferedImage getBotonVolver() {
 	    return botonVolver;
+	}
+	
+	public BufferedImage getFondoVictoria() {
+	    return fondoVictoria;
 	}
 
 	/* Pre: Ninguna. Post: Devuelve la imagen del botón 3 del menú. */
@@ -192,7 +321,9 @@ public class GestorRecursos {
 	    return fondoMenu;
 	}
 
+
 	/* Pre: Ninguna. Post: Devuelve el arreglo con los sprites del jugador moviéndose hacia la izquierda. */
+
 	public BufferedImage[] getJugadorLeft() {
 		return jugadorLeft;
 	}
@@ -295,5 +426,13 @@ public class GestorRecursos {
 	/* Pre: Ninguna. Post: Devuelve el ícono de la ciudad 10. */
 	public BufferedImage getNodoCiudad10() {
 	    return nodoCiudad10;
+	}
+	
+	public BufferedImage[] getLibrosOrdenamiento() {
+	    return librosOrdenamiento;
+	}
+	
+	public BufferedImage[] getGemasNodos() {
+	    return gemasNodos;
 	}
 }

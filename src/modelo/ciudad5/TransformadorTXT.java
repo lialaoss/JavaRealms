@@ -5,7 +5,6 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class TransformadorTXT {
-	
 	private String textoOriginal;
 	
 	/*

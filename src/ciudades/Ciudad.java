@@ -2,6 +2,8 @@ package ciudades;
 
 import java.util.Objects;
 
+import utiles.Validaciones;
+
 public class Ciudad {
 	
 	// ATRIBUTOS
@@ -47,7 +49,7 @@ public class Ciudad {
 
 	// GETTERS
 	/*
-	 *  Pre: La ciudad debe estar creada.
+	 * Pre: La ciudad debe estar creada.
 	 * Post: Devuelve el número de identificación (ID) de la ciudad.
 	 */
 	public int getId() {
@@ -84,6 +86,7 @@ public class Ciudad {
 	 * Post: Reemplaza el ID de la ciudad por el nuevo valor.
 	 */
 	private void setId(int id) {
+		Validaciones.validarMayorACero(id, "id ciudad");
 		this.id = id;
 	}
 
@@ -92,6 +95,7 @@ public class Ciudad {
 	 * Post: Actualiza los puntos de experiencia que tiene la ciudad.
 	 */
 	private void setPuntosDeExperiencia(int puntosDeExperiencia) {
+		Validaciones.validarMayorACero(puntosDeExperiencia, "puntos de experiencia");
 		this.puntosDeExperiencia = puntosDeExperiencia;
 	}
 	
@@ -100,6 +104,7 @@ public class Ciudad {
 	 * Post: Actualiza el estado de la ciudad (ideal para cuando el jugador la descubre o la pasa).
 	 */
 	public void setEstado(EstadoCiudad estado) {
+		Validaciones.esDistintoDeNull(estado, "estado ciudad");
 		this.estado = estado;
 	}
 
@@ -108,6 +113,7 @@ public class Ciudad {
 	 * Post: Cambia el nombre de la ciudad por el texto nuevo.
 	 */
 	private void setNombre(String nombre) {
+		Validaciones.esDistintoDeNull(nombre, "nombre de la ciudad");
 		this.nombre = nombre;
 	}
 }

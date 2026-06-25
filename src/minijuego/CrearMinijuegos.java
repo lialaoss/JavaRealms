@@ -7,13 +7,12 @@ import ui.GestorRecursos;
 public class CrearMinijuegos {
 	
 	/**
-	 * 
+	 * Crea un minijuego en base al id de la ciudad a la que se entra
 	 * @param ciudad
 	 * @param jugador
 	 * @return
 	 */
 	public static Minijuego crear(Ciudad ciudad, Jugador jugador, GestorRecursos recursos) {
-		System.out.println(ciudad.getNombre());
         switch (ciudad.getId()) {
             case 1:
                 return new Ciudad1Minijuego(ciudad, jugador, recursos);
@@ -26,9 +25,9 @@ public class CrearMinijuegos {
             case 5:
             	return new Ciudad5Minijuego(ciudad, jugador, recursos);
             case 6:
-            	return new Ciudad6Minijuego(ciudad, jugador);
+            	return new Ciudad6Minijuego(ciudad, jugador, recursos);
             case 7:
-            	return new Ciudad7Minijuego(ciudad, jugador);
+            	return new Ciudad7Minijuego(ciudad, jugador, recursos);
             case 8:
             	return new Ciudad8Minijuego(ciudad, jugador);
             case 9:

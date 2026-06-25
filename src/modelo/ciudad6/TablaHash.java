@@ -66,7 +66,7 @@ public class TablaHash {
                 return pasos;
             }
             
-            pasos.add("[COLISIÓN DETECTADA] La posición " + indiceActual + " ya está ocupada por '" + this.tabla[indiceActual].getClave() + "'.");
+            pasos.add("[COLISION DETECTADA] La posición " + indiceActual + " ya está ocupada por '" + this.tabla[indiceActual].getClave() + "'.");
             intento++;
             
             if (intento >= TAMANIO_INICIAL) {

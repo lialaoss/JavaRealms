@@ -22,7 +22,7 @@ public class ListaDinamica {
         nuevoVagon.siguiente = cabeza;
         cabeza = nuevoVagon;
     }
-
+    
     public NodoLista buscarLineal(String palabraBuscada) {
         operacionesUltimaBusqueda = 0;
 

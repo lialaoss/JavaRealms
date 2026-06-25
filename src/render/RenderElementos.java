@@ -2,6 +2,7 @@ package render;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Image;
 
 import modelo.ciudad1.Elemento;
 import ui.ConfiguracionPantalla;
@@ -11,16 +12,22 @@ public class RenderElementos {
     private int x, y, z;
     private Elemento elemento;
     private boolean recolectado;
+    private Image imagen;
     
+
     /*
      * Pre: Las coordenadas 'x', 'y', 'z' deben ser posiciones válidas en el mapa. El 'elemento' lógico no debe ser nulo.
      * Post: Crea el objeto visual en las coordenadas indicadas, lo vincula con su elemento lógico correspondiente y lo marca inicialmente como no recolectado.
      */
     public RenderElementos(int x, int y, int z, Elemento elemento) {
+
+    public RenderElementos(int x, int y, int z, Elemento elemento, Image imagen) {
+
     	this.x = x;
     	this.y = y;
     	this.z = z;
     	setElemento(elemento);
+    	setImagen(imagen);
     	this.recolectado = false;
     }
 
@@ -29,12 +36,14 @@ public class RenderElementos {
      * Post: Calcula la posición exacta en la pantalla basándose en el tamaño de los azulejos (tiles) y dibuja el elemento como un cuadrado de color azul.
      */
     public void dibujar(Graphics2D g2, int centroX, int centroY) {
-		g2.setColor(Color.BLUE);
-		
-		int pantallaX = centroX + x * TILE_SIZE;
-        int pantallaY = centroY + y * TILE_SIZE;
-
-        g2.fillRect(pantallaX, pantallaY, TILE_SIZE, TILE_SIZE);
+    	if (imagen != null) {
+    		int pantallaX = centroX + x * TILE_SIZE;
+            int pantallaY = centroY + y * TILE_SIZE;
+            g2.drawImage(imagen, pantallaX, pantallaY, TILE_SIZE, TILE_SIZE, null);
+        } else {
+            g2.setColor(Color.GRAY);
+            g2.fillRect(x, y, 80, 80);
+        }
     }
     
     /*
@@ -59,6 +68,10 @@ public class RenderElementos {
      */
 	public Elemento getElemento() {
 		return elemento;
+	}
+	
+	private void setImagen(Image imagen) {
+		this.imagen = imagen;
 	}
 
 	/*

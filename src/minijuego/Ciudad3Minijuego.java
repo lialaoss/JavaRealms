@@ -5,6 +5,7 @@ import java.awt.Font;
 import java.awt.FontMetrics;
 import java.awt.Graphics2D;
 import java.awt.Image;
+import java.net.URL;
 import java.util.List;
 
 import ciudades.Ciudad;
@@ -52,6 +53,7 @@ public class Ciudad3Minijuego implements Minijuego {
 		this.ciudad = ciudad;
 		this.jugador = jugador;
 		this.recursos = recursos;
+		this.pantallaFinal.setFondoVictoria(recursos.getFondoVictoria());
 		crearBotones();
 	}
 	
@@ -60,7 +62,7 @@ public class Ciudad3Minijuego implements Minijuego {
 	@Override
 	public void iniciar() {
 		try {
-			java.net.URL url = getClass().getResource("/laberintos/lab2.txt");
+			URL url = getClass().getResource("/laberintos/lab2.txt");
 			String ruta = new java.io.File(url.toURI()).getAbsolutePath();
 			this.lab = new Laberinto(ruta);
 		} catch (Exception e) {
@@ -86,8 +88,8 @@ public class Ciudad3Minijuego implements Minijuego {
 		int x = (ConfiguracionPantalla.SCREEN_WIDTH - anchoBoton) / 2;
 		int y = (ConfiguracionPantalla.SCREEN_HEIGHT - altoBoton) / 2 - 50;
 		
-		bfsBoton = new Boton(recursos.getBotonMenu1(), x, y, anchoBoton, altoBoton);
-		dfsBoton = new Boton(recursos.getBotonMenu1(), x, y + 150, anchoBoton, altoBoton);
+		bfsBoton = new Boton(recursos.getBotonBFS(), x, y, anchoBoton, altoBoton);
+		dfsBoton = new Boton(recursos.getBotonDFS(), x, y + 150, anchoBoton, altoBoton);
 	}
 	
 	private void mostrarOpciones(Graphics2D g2) {
@@ -135,7 +137,6 @@ public class Ciudad3Minijuego implements Minijuego {
 		}
 		actualizarAnimacion();
 		dibujarLaberinto(g2);
-		renderHUD(g2);
 		if(ganado) {
 			pantallaFinal.mostrarResultados(g2, ciudad);
 		}

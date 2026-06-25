@@ -61,6 +61,7 @@ public class Ciudad5Minijuego implements Minijuego{
         this.jugador = jugador;
         this.recursos = recursos;
         crearBotones();
+        this.pantallaFinal.setFondoVictoria(recursos.getFondoVictoria());
 	}
 	
 	// ========================= LOGICA JUEGO ===============================
@@ -115,7 +116,7 @@ public class Ciudad5Minijuego implements Minijuego{
 	
     private void crearBotones() {
 	    int anchoBoton = 300;
-	    int altoBoton = 100;
+	    int altoBoton = 130;
 
 	    int centroX = (ConfiguracionPantalla.SCREEN_WIDTH - anchoBoton) / 2;
 	    int centroY = (ConfiguracionPantalla.SCREEN_HEIGHT - altoBoton) / 2 - 100;

@@ -2,7 +2,6 @@ package ui;
 
 import java.awt.Graphics2D;
 
-import ciudades.Ciudad;
 import logica.AdministradorJuego;
 import logica.EstadoJuego;
 

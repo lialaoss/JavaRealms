@@ -19,6 +19,7 @@ public class CargaDeDatos {
 	
 	// ATRIBUTOS
 	private AdministradorJuego admin;
+	private Map<Integer, Ciudad> ciudades;
 	
 	/*
 	 * Pre: El 'admin' (administrador del juego) no debe ser nulo y tiene que estar correctamente inicializado.
@@ -26,6 +27,7 @@ public class CargaDeDatos {
 	 */
 	public CargaDeDatos(AdministradorJuego admin) {
 		this.admin = admin;
+		this.ciudades = admin.getAdminCiudades().getCiudades();
 		cargarDatosJuego();
 	}
 	
@@ -41,12 +43,10 @@ public class CargaDeDatos {
 	        String line;
 	        
 	        if((line = br.readLine()) != null) {
-				System.out.println("Dato puntaje jugador: " + line);
 				admin.getJugador().setPuntosExperiencia(Integer.parseInt(line));
 	        }
 
 	        while ((line = br.readLine()) != null) {
-				System.out.println("Dato ciudad: " + line);
 				Ciudad ciudad = admin.getAdminCiudades().getCiudades().get(Integer.parseInt(line));
 				ciudad.setEstado(EstadoCiudad.COMPLETADA);
 				admin.desbloquearVecinos(ciudad);
@@ -65,13 +65,10 @@ public class CargaDeDatos {
 	 * Post: Sobrescribe el archivo de guardado guardando los puntos de experiencia actuales en la primera línea, y luego escribe el identificador (ID) de cada una de las ciudades que el jugador ya haya completado.
 	 */
 	public void actualizarArchivoDeDatos() {
-		System.out.println(new File(RUTA_DATOS).getAbsolutePath());
-		System.out.println(new File(RUTA_DATOS).exists());
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(RUTA_DATOS))) {
 
 	        bw.write(String.valueOf(admin.getJugador().getPuntosExperiencia()));
 	        bw.newLine();
-	        Map<Integer, Ciudad> ciudades = admin.getAdminCiudades().getCiudades();
 	        for (Integer id : ciudades.keySet()) {
 	        	
 	        	if(ciudades.get(id).getEstado() == EstadoCiudad.COMPLETADA) {
@@ -92,13 +89,22 @@ public class CargaDeDatos {
 	 * Post: Limpia o resetea el archivo de guardado, dejando únicamente un "0" escrito en él, ideal para comenzar una nueva partida desde cero.
 	 */
 	public void eliminarDatosDeArchivo() {
-		System.out.println(new File(RUTA_DATOS).getAbsolutePath());
-		System.out.println(new File(RUTA_DATOS).exists());
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(RUTA_DATOS))) {
 	        bw.write("0");
 	    } catch (IOException e) {
 	        e.printStackTrace();
 	    }
 	}
+
+	// ============= RESTAURAR ULTIMOS DATOS DEL JUEGO ==================
 	
+	public void restaurarUltimosDatos() {
+        for (Integer id : ciudades.keySet()) {
+        	ciudades.get(id).setEstado(EstadoCiudad.BLOQUEADA);
+        }
+        cargarDatosJuego();
+        if(this.ciudades.get(1).getEstado() != EstadoCiudad.COMPLETADA) {
+			this.ciudades.get(1).setEstado(EstadoCiudad.DESBLOQUEADA);
+		}
+	}
 }

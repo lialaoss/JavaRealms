@@ -179,7 +179,7 @@ public class VentanaCiudad6 extends JFrame {
             
  
             for (String paso : pasos) {
-                if (paso.contains("[COLISIÓN]")) {
+            	if (paso.toUpperCase().contains("COLISION")) {
                     this.colisionesLogradas++;
                 }
             }

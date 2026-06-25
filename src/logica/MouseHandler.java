@@ -10,7 +10,7 @@ public class MouseHandler extends MouseAdapter {
 	
 	private AdministradorJuego admin;
 	private RenderizarMenu menu;
-	private ui.Panel panel;
+	private Panel panel;
 	
 	/*
 	 * Pre: El administrador del juego, el menú y el panel deben estar inicializados (no ser nulos).
@@ -54,6 +54,9 @@ public class MouseHandler extends MouseAdapter {
 		    	    admin.getJuegoActual().procesarClick(mouseX, mouseY);
 		    	    break;
 		    	case 5:
+		    	    admin.getJuegoActual().procesarClick(mouseX, mouseY);
+		    	    break;
+		    	case 6: // <--- ¡AGREGAMOS ESTO PARA TU NUEVO MINIJUEGO!
 		    	    admin.getJuegoActual().procesarClick(mouseX, mouseY);
 		    	    break;
 		    	default:

@@ -12,7 +12,7 @@ import modelo.ciudad2.Reina;
 import modelo.ciudad2.SolucionadorNReinas;
 import render.FinMinijuegoPantalla;
 
-public class Ciudad2Minijuego implements Minijuego {
+public class Ciudad2Minijuego implements Minijuego, MinijuegoTexto {
 
     private Ciudad ciudad;
     private Jugador jugador;
@@ -41,6 +41,7 @@ public class Ciudad2Minijuego implements Minijuego {
     public Ciudad2Minijuego(Ciudad ciudad, Jugador jugador) {
         this.ciudad = ciudad;
         this.jugador = jugador;
+        
     }
     
     /* 

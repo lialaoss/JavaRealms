@@ -36,6 +36,11 @@ public class GrafoFlujo {
         adyacencias.get(origen).add(new AristaFlujo(origen, destino, capacidad));
         adyacencias.get(destino).add(new AristaFlujo(destino, origen, 0, true));
     }
+    
+    public int getCantidadDeNodos() {
+    	return nodos.size();
+    }
+
 
     /*
      * Pre: Ninguna.
@@ -47,6 +52,10 @@ public class GrafoFlujo {
      * Pre: El 'nodo' debe existir en el grafo.
      * Post: Devuelve la lista de todas las conexiones (aristas) que salen de ese nodo.
      */
+
+    public List<String> getNodos() { 
+    	return nodos; 
+    }
     public List<AristaFlujo> getAdyacentes(String nodo) { return adyacencias.get(nodo); }
 
     /*

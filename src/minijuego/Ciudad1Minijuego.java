@@ -52,6 +52,7 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
         this.jugador = jugador;
         this.recursos = recursos;
         this.renderJugador = new RenderJugador(recursos,  this.jugador);
+        this.pantallaFinal.setFondoVictoria(recursos.getFondoVictoria());
     }
     
 
@@ -72,15 +73,15 @@ public class Ciudad1Minijuego implements Minijuego, ObservadorRecoleccion {
         
         Elemento antorcha = new Antorcha();
         this.partida.getMapa().colocarElemento(10, 5, 0, antorcha);
-        elementosRender.add(new RenderElementos(10, 5, 0, antorcha));
+        elementosRender.add(new RenderElementos(10, 5, 0, antorcha, recursos.getAntorcha()));
 
         Elemento radar = new Radar();
         this.partida.getMapa().colocarElemento(8, 9, 1, radar);
-        elementosRender.add(new RenderElementos(8, 9, 1, radar));
+        elementosRender.add(new RenderElementos(8, 9, 1, radar, recursos.getRadar()));
 
         Elemento bengala = new Bengala();
         this.partida.getMapa().colocarElemento(19, 1, 2, bengala);
-        elementosRender.add(new RenderElementos(19, 1, 2, bengala));
+        elementosRender.add(new RenderElementos(19, 1, 2, bengala, recursos.getBengala()));
     }
     
     /*
