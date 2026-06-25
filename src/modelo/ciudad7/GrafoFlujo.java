@@ -41,18 +41,10 @@ public class GrafoFlujo {
     	return nodos.size();
     }
 
-
-    /*
-     * Pre: Ninguna.
-     * Post: Devuelve la lista con todos los nombres de los nodos que se registraron en el grafo.
-     */
-    public List<String> getNodos() { return nodos; }
-    
     /*
      * Pre: El 'nodo' debe existir en el grafo.
      * Post: Devuelve la lista de todas las conexiones (aristas) que salen de ese nodo.
      */
-
     public List<String> getNodos() { 
     	return nodos; 
     }

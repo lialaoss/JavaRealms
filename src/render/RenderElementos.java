@@ -19,8 +19,6 @@ public class RenderElementos {
      * Pre: Las coordenadas 'x', 'y', 'z' deben ser posiciones válidas en el mapa. El 'elemento' lógico no debe ser nulo.
      * Post: Crea el objeto visual en las coordenadas indicadas, lo vincula con su elemento lógico correspondiente y lo marca inicialmente como no recolectado.
      */
-    public RenderElementos(int x, int y, int z, Elemento elemento) {
-
     public RenderElementos(int x, int y, int z, Elemento elemento, Image imagen) {
 
     	this.x = x;

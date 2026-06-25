@@ -49,18 +49,13 @@ public class GestorRecursos {
 		cargarInstrucciones();
 		cargarLibrosOrdenamiento();
 		cargarGemasNodos();
+		cargarSpritesCiudad9();
 	}
 	
 	/*
 	 * Pre: Ninguna.
 	 * Post: Carga desde el disco las imágenes para los botones del menú principal y el botón de regresar. Si ocurre un error al leer los archivos, imprime el rastro del error.
 	 */
-	public void cargarSpritesMenu() {
-
-		cargarSpritesCiudad9();
-	}
-	
-	
 	private void cargarSpritesMenu() {
 
 		try {
@@ -81,9 +76,6 @@ public class GestorRecursos {
 	 * Pre: Ninguna.
 	 * Post: Inicializa los vectores de animación para el jugador en las cuatro direcciones básicas y carga los dos cuadros (sprites) de movimiento correspondientes a cada una.
 	 */
-
-	public void cargarSpritesJugador() {
-
 	private void cargarSpritesJugador() {
 
 		
@@ -125,9 +117,6 @@ public class GestorRecursos {
 	 * Pre: Ninguna.
 	 * Post: Carga la imagen de fondo para el mapa global del juego, las ilustraciones de los íconos (nodos) de las 10 ciudades y el fondo del menú inicial.
 	 */
-
-	public void cargarFondoMapa() {
-
 	private void cargarFondoMapa() {
 
 	    try {
