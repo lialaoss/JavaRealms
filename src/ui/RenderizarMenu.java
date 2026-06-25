@@ -206,8 +206,13 @@ public class RenderizarMenu {
 	        }
 	    }
 		if(botonGuardado.contiene(mouseX, mouseY)) {
-			admin.actualizarDatos();
-	        mostrarMensajeTemporal("¡Guardado con éxito!", 2000);
+			if(!admin.testerActivo()) {
+				admin.actualizarDatos();
+		        mostrarMensajeTemporal("¡Guardado con éxito!", 2000);
+		        return;
+			}
+	        mostrarMensajeTemporal("¡No es posible guardar!", 2000);
+	        return;
 		}
 
 		if(botonBorrar.contiene(mouseX, mouseY)) {
@@ -216,6 +221,7 @@ public class RenderizarMenu {
 		}
 		if(botonTester.contiene(mouseX, mouseY)) {
 			admin.habilitarModoTester();
+	        return;
 		}
 	}
 	
