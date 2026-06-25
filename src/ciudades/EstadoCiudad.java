@@ -1,7 +1,7 @@
 package ciudades;
 
 /*
- *  Pre: Ninguna.
+ * Pre: Ninguna.
  * Post: Define los cuatro estados posibles que puede tener una ciudad en el mapa durante la partida.
  */
 public enum EstadoCiudad {

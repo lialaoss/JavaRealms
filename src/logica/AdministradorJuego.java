@@ -46,7 +46,8 @@ public class AdministradorJuego {
 	
 	/*
 	 * Pre: El juego debe tener al menos la ciudad inicial (ID 1) cargada en la memoria.
-	 * Post: Desbloquea la primera ciudad (si es que no estaba completada de antes) y arranca la ventana principal para empezar a jugar.
+	 * Post: Desbloquea la primera ciudad (si es que no estaba completada de antes) y
+	 * arranca la ventana principal para empezar a jugar.
 	 */
 	public void iniciarJuego() {
 		if(this.ciudades.get(1).getEstado() != EstadoCiudad.COMPLETADA) {
@@ -57,7 +58,9 @@ public class AdministradorJuego {
 	
 	/*
 	 * Pre: Ninguna.
-	 * Post: Chequea si ganaste el juego. Si el jugador intenta entrar a una ciudad, verifica si cumple los requisitos; si no, lo devuelve al mapa. Si todo está bien, crea y arranca el minijuego de esa ciudad.
+	 * Post: Chequea si ganaste el juego. Si el jugador intenta entrar a una ciudad,
+	 * verifica si cumple los requisitos; si no, lo devuelve al mapa. Si todo está bien,
+	 * crea y arranca el minijuego de esa ciudad.
 	 */
 	public void update() {
 		if(juegoCompletado()) {
@@ -79,9 +82,11 @@ public class AdministradorJuego {
 	    }
 	}
 
-	/* 
+	/**
 	 * Pre: Tiene que haber una ciudad seleccionada (ciudadActual no puede ser nula).
-	 * Post: Devuelve true si la ciudad está disponible (no está bloqueada ni ya la pasaste) y si te alcanzan los puntos de experiencia para llegar hasta ahí. Si no, devuelve false.
+	 * Post: Devuelve true si la ciudad está disponible (no está bloqueada ni ya la pasaste)
+	 * y si te alcanzan los puntos de experiencia para llegar hasta ahí. Si no, devuelve false.
+	 * @return
 	 */
 	private boolean puedeEntrar() {
 	    if(ciudadActual.getEstado() == EstadoCiudad.COMPLETADA) {
@@ -94,8 +99,10 @@ public class AdministradorJuego {
 	}
 	
 	/*
-	 *  Pre: El ID ingresado tiene que ser mayor a cero y la ciudad debe existir en nuestro mapa de ciudades.
-	 * Post: Actualiza la variable ciudadActual para que apunte a la ciudad que el jugador acaba de elegir en el mapa.
+	 * Pre: El ID ingresado tiene que ser mayor a cero y la ciudad debe existir en
+	 * nuestro mapa de ciudades.
+	 * Post: Actualiza la variable ciudadActual para que apunte a la ciudad que el
+	 * jugador acaba de elegir en el mapa.
 	 */
 	public void cambiarDeCiudad(int idCiudad) {
 		Validaciones.validarMayorACero(idCiudad, "idCiudad");
@@ -103,24 +110,27 @@ public class AdministradorJuego {
 	}
 	
 	/*
-	 *  Pre: La ciudad que le pasamos no puede ser nula y debe estar en el grafo.
-	 * Post: Le avisa al administrador del mapa que cambie a DESBLOQUEADA todas las ciudades que estén conectadas directamente a la que acabamos de pasar.
+	 * Pre: La ciudad que le pasamos no puede ser nula y debe estar en el grafo.
+	 * Post: Le avisa al administrador del mapa que cambie a DESBLOQUEADA todas
+	 * las ciudades que estén conectadas directamente a la que acabamos de pasar.
 	 */
 	public void desbloquearVecinos(Ciudad ciudad) {
 		adminCiudades.getGrafo().desbloquearVecinos(ciudad);
 	}
 	
 	/*
-	 *  Pre: Ninguna.
-	 * Post: Borra el minijuego que se estaba jugando (lo deja en null) para limpiar la memoria y estar listos para la siguiente ciudad.
+	 * Pre: Ninguna.
+	 * Post: Borra el minijuego que se estaba jugando (lo deja en null) para limpiar
+	 * la memoria y estar listos para la siguiente ciudad.
 	 */
 	public void limpiarJuegoActual() {
 	    this.juegoActual = null;
 	}
 	
 	/*
-	 *  Pre: El mapa de ciudades tiene que estar inicializado.
-	 * Post: Recorre todas las ciudades del juego. Si absolutamente todas están en estado COMPLETADA, devuelve true (ganaste la partida). Si falta alguna, devuelve false.
+	 * Pre: El mapa de ciudades tiene que estar inicializado.
+	 * Post: Recorre todas las ciudades del juego. Si absolutamente todas
+	 * están en estado COMPLETADA, devuelve true (ganaste la partida). Si falta alguna, devuelve false.
 	 */
 	public boolean juegoCompletado() {
 	    for(Ciudad ciudad : ciudades.values()) {
@@ -131,6 +141,11 @@ public class AdministradorJuego {
 	    return true;
 	}
 	
+	/**
+	 * Pre: El mapa de ciudades fue inicializado (no es nulo).
+	 * Post: Devuelve la cantidad total de ciudades cuyo estado actual es COMPLETADA.
+	 * @return
+	 */
 	public int cantidadCiudadesCompletadas() {
 		int total = 0;
 		for(Ciudad ciudad : ciudades.values()) {
@@ -144,8 +159,9 @@ public class AdministradorJuego {
 	// ================== MANEJO DE DATOS DEL JUEGO ====================
 
 	/*
-	 *  Pre: El sistema de guardado (CargaDeDatos) tiene que estar funcionando.
-	 * Post: Agarra todo el progreso actual del jugador y lo guarda en el archivo de texto para no perder la partida si cerramos el programa.
+	 * Pre: El sistema de guardado (CargaDeDatos) tiene que estar funcionando.
+	 * Post: Agarra todo el progreso actual del jugador y lo guarda en el archivo
+	 * de texto para no perder la partida si cerramos el programa.
 	 */
 	public void actualizarDatos() {
 		this.guardado.actualizarArchivoDeDatos();
@@ -153,7 +169,8 @@ public class AdministradorJuego {
 	
 	/*
 	 * Pre: Ninguna.
-	 * Post: Borra el archivo de guardado o lo sobreescribe para reiniciar el progreso de la partida (ideal para cuando el usuario toca "Nueva Partida").
+	 * Post: Borra el archivo de guardado o lo sobreescribe para reiniciar el
+	 * progreso de la partida.
 	 */
 	public void eliminarDatos() {
 		this.guardado.eliminarDatosDeArchivo();
@@ -161,6 +178,11 @@ public class AdministradorJuego {
 	
 	// ================== TESTER MODE ====================
 	
+	/**
+	 * Pre: Los objetos 'tester' y 'guardado' están inicializados (no son nulos).
+	 * Post: Si el modo tester estaba inactivo, lo habilita y cambia su estado a activo. 
+	 * Si ya estaba activo, restaura los últimos datos guardados y cambia su estado a inactivo.
+	 */
 	public void habilitarModoTester() {
 		if(!modoTesterActivo) {
 			this.tester.habilitarModo();
@@ -171,6 +193,11 @@ public class AdministradorJuego {
 		}
 	}
 	
+	/**
+	 * Pre: Ninguno.
+	 * Post: Devuelve true si el modo tester se encuentra activo.
+	 * @return
+	 */
 	public boolean testerActivo() {
 		return modoTesterActivo;
 	}
@@ -211,6 +238,7 @@ public class AdministradorJuego {
 	}
 
 	private void setCiudadActual(Ciudad ciudadActual) {
+		Validaciones.esDistintoDeNull(ciudadActual, "ciudad actual");
 		this.ciudadActual = ciudadActual;
 	}
 

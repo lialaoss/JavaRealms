@@ -3,8 +3,6 @@ package logica;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import ui.RenderizarMenu;
-
 public class KeyHandler implements KeyListener {
 
 	public boolean upPressed, downPressed, leftPressed, rightPressed;
@@ -18,13 +16,14 @@ public class KeyHandler implements KeyListener {
 	 */
 	@Override
 	public void keyTyped(KeyEvent e) {
-		ultimoCaracter = e.getKeyChar();
+		this.ultimoCaracter = e.getKeyChar();
 		
 	}
 
 	/*
 	 * Pre: El usuario presiona una tecla del teclado.
-	 * Post: Identifica si la tecla apretada es W, A, S, D, Q o Enter, y pone su respectiva variable en true para que el juego sepa que la acción está activa.
+	 * Post: Identifica si la tecla apretada es W, A, S, D, Q o Enter,
+	 * y pone su respectiva variable en true para que el juego sepa que la acción está activa.
 	 */
 	@Override
 	public void keyPressed(KeyEvent e) {
@@ -51,7 +50,8 @@ public class KeyHandler implements KeyListener {
 
 	/* 
 	 * Pre: El usuario suelta una tecla que estaba apretando.
-	 * Post: Identifica qué tecla se soltó y vuelve a poner su variable en false, avisando al juego que se detenga el movimiento o la acción.
+	 * Post: Identifica qué tecla se soltó y vuelve a poner su
+	 * variable en false, avisando al juego que se detenga el movimiento o la acción.
 	 */
 	@Override
 	public void keyReleased(KeyEvent e) {

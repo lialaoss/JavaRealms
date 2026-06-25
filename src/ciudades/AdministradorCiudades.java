@@ -15,7 +15,7 @@ public class AdministradorCiudades {
 	private final String RUTA_CIUDADES = "/datosJuego/Ciudades.txt";
 	private final String RUTA_VECINOS = "/datosJuego/Vecinos.txt";
 	private final String SEPARADOR = ";";
-	private final int ID_CIUDAD_INICIAL = 1; // ...
+	private final int ID_CIUDAD_INICIAL = 1;
 	
 	// ATRIBUTOS
 	private Map<Integer, Ciudad> ciudades = new HashMap<>();
@@ -24,8 +24,10 @@ public class AdministradorCiudades {
 	// CONSTRUCTOR
 	
 	/*
-	 *  Pre: Los archivos de texto de ciudades y vecinos deben existir en la carpeta correcta del proyecto.
-	 * Post: Crea el administrador, lee los archivos de texto, guarda las ciudades en la memoria y arma el grafo con todos los caminos conectados.
+	 * Pre: Los archivos de texto de ciudades y vecinos deben existir
+	 * en la carpeta correcta del proyecto.
+	 * Post: Crea el administrador, lee los archivos de texto, guarda
+	 * las ciudades en la memoria y arma el grafo con todos los caminos conectados.
 	 */
 	public AdministradorCiudades() {
 		cargarDatosCiudades();
@@ -36,8 +38,10 @@ public class AdministradorCiudades {
 	// ========================= CARGA DE CIUDADES =========================
 	
 	/*
-	 *  Pre: El archivo de ciudades debe existir y cada renglón debe respetar el formato (NombreCiudad;Puntos;ID).
-	 * Post: Lee el archivo línea por línea y guarda todas las ciudades encontradas en la colección del juego.
+	 * Pre: El archivo de ciudades debe existir y cada renglón debe respetar
+	 * el formato (NombreCiudad;Puntos;ID).
+	 * Post: Lee el archivo línea por línea y guarda todas las ciudades
+	 * encontradas en la colección del juego.
 	 */
 	private void cargarDatosCiudades() {
 		
@@ -57,8 +61,10 @@ public class AdministradorCiudades {
 	}
 	
 	/*
-	 *  Pre: El arreglo "datos" no puede ser nulo y debe tener justo el nombre, los puntos y el ID de la ciudad.
-	 * Post: Construye el objeto Ciudad con esa información y lo guarda en el mapa de ciudades usando su ID como clave.
+	 * Pre: El arreglo "datos" no puede ser nulo y debe tener justo el nombre,
+	 * los puntos y el ID de la ciudad.
+	 * Post: Construye el objeto Ciudad con esa información y lo guarda en el
+	 * mapa de ciudades usando su ID como clave.
 	 */
 	private void agregarCiudad(String[] datos) {
 		Validaciones.esDistintoDeNull(datos, "datos");
@@ -73,7 +79,8 @@ public class AdministradorCiudades {
 	// ========================= CARGA DE VECINOS =========================
 	
 	/*
-	 *  Pre: El archivo de vecinos debe existir y cada renglón debe respetar el formato (ID_Ciudad;PesoArista;ID_Vecino).
+	 * Pre: El archivo de vecinos debe existir y cada renglón debe respetar
+	 * el formato (ID_Ciudad;PesoArista;ID_Vecino).
 	 * Post: Lee el archivo y va creando en el grafo los caminos que unen a las ciudades.
 	 */
 	private void cargarDatosVecinos() {
@@ -92,8 +99,10 @@ public class AdministradorCiudades {
 	}
 	
 	/*
-	 *  Pre: El arreglo "datos" no puede ser nulo, y las dos ciudades indicadas en los datos ya deben existir en el juego.
-	 * Post: Busca las dos ciudades y crea un camino entre ellas en el grafo, indicando cuántos puntos cuesta cruzarlo (el peso).
+	 * Pre: El arreglo "datos" no puede ser nulo, y las dos ciudades indicadas
+	 * en los datos ya deben existir en el juego.
+	 * Post: Busca las dos ciudades y crea un camino entre ellas en el grafo,
+	 * indicando cuántos puntos cuesta cruzarlo (el peso).
 	 */
 	private void agregarVecino(String[] datos) {
 		Validaciones.esDistintoDeNull(datos, "datos");
@@ -116,8 +125,10 @@ public class AdministradorCiudades {
     // ========================= UTIL =========================
 
 	/* 
-	 * Pre: La ruta ingresada no puede ser nula y el archivo tiene que estar en ese lugar.
-	 * Post: Abre el archivo y devuelve una herramienta (BufferedReader) lista para que el programa pueda leer sus textos.
+	 * Pre: La ruta ingresada no puede ser nula y el archivo tiene
+	 * que estar en ese lugar.
+	 * Post: Abre el archivo y devuelve una herramienta (BufferedReader)
+	 * lista para que el programa pueda leer sus textos.
 	 */
     private BufferedReader abrirArchivo(String ruta) {
     	Validaciones.esDistintoDeNull(ruta, "ruta");

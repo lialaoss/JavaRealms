@@ -9,6 +9,7 @@ import java.util.List;
 
 import logica.AdministradorJuego;
 import logica.EstadoJuego;
+import utiles.Validaciones;
 
 public class RenderizarMenu {
 	
@@ -29,6 +30,14 @@ public class RenderizarMenu {
 	private long tiempoFinMensaje = 0;
 	
 	// CONSTRUCTOR
+	
+	/**
+	 * Pre: 'recursos' y 'admin' no deben ser nulos.
+	 * Post: Inicializa el renderizador, configura las referencias y
+	 * crea los elementos visuales (botones y ciudades).
+	 * @param recursos
+	 * @param admin
+	 */
 	public RenderizarMenu(GestorRecursos recursos, AdministradorJuego admin) {
 		setRecursos(recursos);
 		setAdmin(admin);
@@ -41,6 +50,10 @@ public class RenderizarMenu {
 	
 	// ============================== MENU =======================================
 	
+	/**
+	 * Pre: 'recursos' está correctamente inicializado.
+	 * Post: Crea e inicializa el 'botonGuardado' con su ícono y coordenadas correspondientes.
+	 */
 	private void crearBotonGuardado() {
 		int anchoBoton = tileSize;
 		int altoBoton = tileSize;
@@ -52,6 +65,10 @@ public class RenderizarMenu {
 				x, y, anchoBoton, altoBoton);
 	}
 	
+	/**
+	 * Pre: 'recursos' está correctamente inicializado.
+	 * Post: Crea e inicializa el 'botonBorrar' con su ícono y coordenadas correspondientes.
+	 */
 	private void crearBotonBorrarDatos() {
 		int anchoBoton = tileSize;
 		int altoBoton = tileSize;
@@ -63,6 +80,10 @@ public class RenderizarMenu {
 				x, y, anchoBoton, altoBoton);
 	}
 	
+	/**
+	 * Pre: 'recursos' está correctamente inicializado.
+	 * Post: Crea e inicializa el 'botonTester' con su ícono y coordenadas correspondientes.
+	 */
 	private void crearBotonTester() {
 		int anchoBoton = tileSize;
 		int altoBoton = tileSize;
@@ -74,6 +95,11 @@ public class RenderizarMenu {
 				x, y, anchoBoton, altoBoton);
 	}
 	
+	/**
+	 * Pre: 'recursos' está correctamente inicializado.
+	 * Post: Crea e inicializa los botones principales del menú
+	 * ('botonJugar', 'botonInstrucciones' y 'botonSalir').
+	 */
 	private void crearBotones() {
 		int anchoBoton = 300;
 		int altoBoton = 70;
@@ -91,6 +117,11 @@ public class RenderizarMenu {
 				x, y + 200, anchoBoton, altoBoton);
 	}
 	
+	/**
+	 * Pre: 'g2' no es nulo y los recursos del menú están cargados.
+	 * Post: Dibuja el fondo, el título y los botones del menú principal en pantalla.
+	 * @param g2
+	 */
 	public void renderizarMenuPrincipal(Graphics2D g2) {
 	    g2.drawImage(recursos.getFondoMenu(), 0, 0, screenWidth, screenHeight, null);
 	    int ancho = 400;
@@ -117,6 +148,14 @@ public class RenderizarMenu {
 	    }
 	}	
 	
+	/**
+	 * Pre: 'panel' no es nulo.
+	 * Post: Si se clickea Jugar, inicia la transición visual.
+	 * Para Instrucciones o Salir, actúa de manera directa.
+	 * @param mouseX
+	 * @param mouseY
+	 * @param panel
+	 */
 	public void procesarClickMenuConTransicion(int mouseX, int mouseY, ui.Panel panel) {
 	    if(botonJugar.contiene(mouseX, mouseY)) {
 	        panel.iniciarTransicion(EstadoJuego.MAPA_GENERAL);
@@ -129,6 +168,11 @@ public class RenderizarMenu {
 
 	// =========================== INSTRUCCIONES =================================
 	
+	/**
+	 * Pre: 'g2' no es nulo y la imagen de instrucciones está cargada.
+	 * Post: Dibuja el fondo y la superposición con el texto/imagen de las instrucciones.
+	 * @param g2
+	 */
 	public void renderizarMenuInstrucciones(Graphics2D g2) {
 	    g2.drawImage(recursos.getFondoMenu(), 0, 0, screenWidth, screenHeight, null);
 	    
@@ -159,6 +203,12 @@ public class RenderizarMenu {
 		ciudades.add(new NodoCiudad(962, 80, recursos.getNodoCiudad10(), admin.getCiudades().get(10)));
 	}
 	
+	/**
+	 * Pre: 'g2' no es nulo.
+	 * Post: Dibuja el fondo del mapa, los botones de control, los nodos de
+	 * las ciudades, el HUD y los mensajes activos.
+	 * @param g2
+	 */
 	public void renderizarMapaGeneral(Graphics2D g2) {
 	    g2.drawImage(recursos.getFondoMapa(), 0, 0, screenWidth, screenHeight, null);
 	    botonGuardado.dibujar(g2);
@@ -186,13 +236,23 @@ public class RenderizarMenu {
 	    g2.drawString(mensajeTemporal, 80, 70);
 	}
 	
+	/**
+	 * Pre: 'duracionMs' es mayor a 0.
+	 * Post: Define el texto del 'mensajeTemporal' y calcula
+	 * el 'tiempoFinMensaje' basándose en el tiempo actual del sistema.
+	 * @param mensaje
+	 * @param duracionMs
+	 */
 	private void mostrarMensajeTemporal(String mensaje, int duracionMs) {
 	    mensajeTemporal = mensaje;
 	    tiempoFinMensaje = System.currentTimeMillis() + duracionMs;
 	}
 	
 	/**
-	 * Detecta el click sobre una ciudad.
+	 * Pre: mouseX y mouseY deben ser mayor o igual a 0.
+	 * Post: Evalúa la posición del clic. Puede cambiar el estado del juego
+	 * a una ciudad, guardar partida (si no es modo tester), borrar datos
+	 * (cierra juego) o alternar el modo tester.
 	 * @param mouseX
 	 * @param mouseY
 	 * @param admin
@@ -225,6 +285,12 @@ public class RenderizarMenu {
 		}
 	}
 	
+	/**
+	 * Pre: 'g2' no es nulo y 'admin' tiene las referencias a jugador y ciudades.
+	 * Post: Dibuja la barra superior negra con la información actualizada de
+	 * puntos, ciudades completadas y estado del tester.
+	 * @param g2
+	 */
 	private void mostrarHudMapa(Graphics2D g2) {
 		g2.setColor(new Color(0, 0, 0, 180));
 		g2.fillRect(0, 0, ConfiguracionPantalla.SCREEN_WIDTH, 40);
@@ -252,6 +318,12 @@ public class RenderizarMenu {
 	                         
 	// ================================= FIN DEL JUEGO =========================================
 	
+	/**
+	 * Pre: 'g2' no es nulo.
+	 * Post: Dibuja la pantalla negra de victoria, los textos de felicitaciones
+	 * y el botón para borrar datos.
+	 * @param g2
+	 */
 	public void renderizarFin(Graphics2D g2) {
 	    g2.setColor(Color.BLACK);
 	    g2.fillRect(0, 0, screenWidth, screenHeight);
@@ -276,6 +348,13 @@ public class RenderizarMenu {
 		botonBorrar.dibujar(g2);
 	}
 	
+	/**
+	 * Pre: mouseX y mouseY deben ser mayor o igual a 0.
+	 * Post: Si se hace clic en el botón de borrar, elimina el progreso
+	 * guardado y cierra el juego.
+	 * @param mouseX
+	 * @param mouseY
+	 */
 	public void procesarClickFinal(int mouseX, int mouseY) {
 		if(botonBorrar.contiene(mouseX, mouseY)) {
             admin.eliminarDatos();
@@ -283,13 +362,14 @@ public class RenderizarMenu {
 		}
 	}
 	
-	
 	// SETTERS
 	private void setRecursos(GestorRecursos recursos) {
+		Validaciones.esDistintoDeNull(recursos, "recursos");
 		this.recursos = recursos;
 	}
 
 	private void setAdmin(AdministradorJuego admin) {
+		Validaciones.esDistintoDeNull(admin, "admin");
 		this.admin = admin;
 	}
 	

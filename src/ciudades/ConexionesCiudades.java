@@ -18,8 +18,10 @@ public class ConexionesCiudades {
 	// CONSTRUCTOR
     
 	/*
-	 *  Pre: El mapa de ciudades no puede ser nulo y el id de la ciudad inicial debe ser mayor a cero.
-	 * Post: Crea el manejador de conexiones, guarda las ciudades, establece la ciudad de inicio y mete todas las ciudades al grafo como vértices.
+	 * Pre: El mapa de ciudades no puede ser nulo y el id de la ciudad
+	 * inicial debe ser mayor a cero.
+	 * Post: Crea el manejador de conexiones, guarda las ciudades,
+	 * establece la ciudad de inicio y mete todas las ciudades al grafo como vértices.
 	 */
 	public ConexionesCiudades(Map<Integer, Ciudad> ciudades, int ciudadInicial) {
 		grafoCiudades  = new Grafo<>();
@@ -41,8 +43,9 @@ public class ConexionesCiudades {
 	}
 	
 	/*
-	 *  Pre: Las dos ciudades deben existir en el grafo.
-	 * Post: Une dos ciudades creando un camino (arista) entre ellas y le asigna el costo en puntos para cruzarlo.
+	 * Pre: Las dos ciudades deben existir en el grafo.
+	 * Post: Une dos ciudades creando un camino (arista) entre ellas y
+	 * le asigna el costo en puntos para cruzarlo.
 	 */
 	public void crearConexion(Ciudad ciudad, Ciudad vecino, int puntos) {
 		this.grafoCiudades.agregarArista(ciudad, vecino, puntos);
@@ -52,7 +55,9 @@ public class ConexionesCiudades {
 	
 	/*
 	 *  Pre: La ciudad destino debe existir y los puntos del jugador no pueden ser negativos.
-	 * Post: Devuelve true si existe un camino de ciudades desbloqueadas hacia el destino y además el jugador tiene los puntos suficientes para pagar el "peaje" de cada salto. Si no, devuelve false.
+	 * Post: Devuelve true si existe un camino de ciudades desbloqueadas hacia
+	 * el destino y además el jugador tiene los puntos suficientes para pagar el
+	 * "peaje" de cada salto. Si no, devuelve false.
 	 */
 	public boolean verificarCamino(Ciudad ciudadFinal, int puntosJugador) {
 		List<Ciudad> camino = buscarCamino(ciudadFinal);
@@ -75,8 +80,10 @@ public class ConexionesCiudades {
 	}
 	
 	/*
-	 *  Pre: La ciudad final debe existir en el juego.
-	 * Post: Devuelve una lista con el recorrido más corto (usando BFS) para llegar al destino, pasando solo por ciudades DESBLOQUEADAS. Si no hay camino posible, devuelve la lista vacía.
+	 * Pre: La ciudad final debe existir en el juego.
+	 * Post: Devuelve una lista con el recorrido más corto(usando BFS)
+	 * para llegar al destino, pasando solo por ciudades DESBLOQUEADAS.
+	 * Si no hay camino posible, devuelve la lista vacía.
 	 */
 	public List<Ciudad> buscarCamino(Ciudad valorFin) {
 	    Ciudad valorInicio = ciudades.get(this.ciudadInicial);
@@ -98,7 +105,8 @@ public class ConexionesCiudades {
 	
 	/*
 	 * Pre: La ciudad actual debe existir dentro del grafo.
-	 * Post: Revisa todas las ciudades conectadas directamente a la actual y cambia su estado a DESBLOQUEADA para que el jugador pueda visitarlas.
+	 * Post: Revisa todas las ciudades conectadas directamente a la actual y
+	 * cambia su estado a DESBLOQUEADA para que el jugador pueda visitarlas.
 	 */
 	public void desbloquearVecinos(Ciudad ciudadActual) {
 
@@ -114,7 +122,7 @@ public class ConexionesCiudades {
 	// GETTERS
 
 	/*
-	 *  Pre: El grafo debe estar inicializado.
+	 * Pre: El grafo debe estar inicializado.
 	 * Post: Devuelve el grafo completo con todas las ciudades y sus caminos.
 	 */
 	public Grafo<Ciudad, Integer> getGrafoCiudades() {
@@ -124,16 +132,17 @@ public class ConexionesCiudades {
 	// SETTERS
 
 	/*
-	 *  Pre: El mapa ingresado no puede ser null (lo comprueba con Validaciones).
+	 * Pre: El mapa ingresado no puede ser null (lo comprueba con Validaciones).
 	 * Post: Guarda la colección de ciudades en la clase.
 	 */
 	private void setCiudades(Map<Integer, Ciudad> ciudades) {
 		Validaciones.esDistintoDeNull(ciudades, "ciudades");
+		Validaciones.validarVerdadero(ciudades.keySet().size() == 10, "Deben existir 10 ciudades");
 		this.ciudades = ciudades;
 	}
 	
 	/*
-	 *  Pre: El número de ciudad debe ser mayor a cero (lo comprueba con Validaciones).
+	 * Pre: El número de ciudad debe ser mayor a cero (lo comprueba con Validaciones).
 	 * Post: Guarda el ID de la ciudad desde donde el jugador arranca a jugar.
 	 */
 	private void setCiudadInicial(int ciudadInicial) {
