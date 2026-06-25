@@ -1,104 +1,205 @@
 package minijuego;
 
-import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.image.BufferedImage;
 import ciudades.Ciudad;
 import ciudades.EstadoCiudad;
 import entidad.Jugador;
 import modelo.ciudad9.Accion;
 import modelo.ciudad9.ControladorCombate;
 import modelo.ciudad9.Pregunta;
-import modelo.ciudad9.VistaCombate;
+import modelo.ciudad9.Personaje;
 import render.FinMinijuegoPantalla;
+import render.RenderCiudad9; 
+import ui.GestorRecursos;
 import utiles.ObservadorVictoria;
 
 public class Ciudad9Minijuego implements Minijuego, ObservadorVictoria {
 
     private Ciudad ciudad;
     private Jugador jugador;
-    private VistaCombate vista;
     private ControladorCombate combate;
+    private GestorRecursos recursosGlobales; 
+    private RenderCiudad9 renderizador; 
     
     private boolean ganado = false;
-
     private FinMinijuegoPantalla pantallaFinal = new FinMinijuegoPantalla();
 
-    public Ciudad9Minijuego(Ciudad ciudad, Jugador jugador) {
+    private BufferedImage spriteJugadorActual;
+    private BufferedImage efectoAtaque; 
+    private int objetivoImpacto = -1; 
+    private String mensajeActual = "¡Comienza el desafío!"; 
+
+    private String faseActual = "ESPERA"; 
+    private volatile boolean esperandoInput = false;
+    private volatile String accionSeleccionada = "";
+    private volatile int objetivoSeleccionado = -1;
+    private volatile int respuestaSeleccionada = -1;
+    private Pregunta preguntaActual = null;
+
+    public Ciudad9Minijuego(Ciudad ciudad, Jugador jugador, GestorRecursos recursosGlobales) {
         this.ciudad = ciudad;
         this.jugador = jugador;
+        this.recursosGlobales = recursosGlobales;
+        this.renderizador = new RenderCiudad9(recursosGlobales); 
     }
 
     @Override
     public void iniciar() {
         Pregunta.cargarDesdeArchivo("preguntas.txt");
-
         combate = new ControladorCombate();
-        vista = new VistaCombate();
-        vista.mostrarEstado(combate);
-
+        
+        if (recursosGlobales.getJugadorLeft() != null && recursosGlobales.getJugadorLeft().length > 0) {
+            spriteJugadorActual = recursosGlobales.getJugadorLeft()[0];
+        }
+        
         new Thread(() -> correrCombate()).start();
     }
 
     private void correrCombate() {
         while (!combate.victoria() && !combate.derrota()) {
-            if (combate.esTurnoJugador()) {
+            
+        	if (combate.esTurnoJugador()) {
                 int accionesRequeridas = combate.isComboDisponible() ? 2 : 1;
-                boolean requiereObjetivo = false;
+                boolean requiereObjetivo = false; 
+                
                 for (int i = 0; i < accionesRequeridas; i++) {
-                    int opcion = vista.solicitarAccion(i + 1, accionesRequeridas);
-                    String tipo;
-                    switch (opcion) {
-                        case 1: tipo = Accion.ATAQUE; requiereObjetivo = true; break;
-                        case 3: tipo = Accion.HABILIDAD; break;
-                        default: tipo = Accion.DEFENSA; break;
+                    mensajeActual = "Turno del Héroe [" + (i+1) + "/" + accionesRequeridas + "]. ¡Elige sabiamente!";
+                    faseActual = "ACCION";
+                    pausarHastaClic();
+                    combate.agregarAccionJugador(accionSeleccionada);
+                    
+                    if (accionSeleccionada.equals(Accion.ATAQUE)) {
+                        requiereObjetivo = true;
                     }
-                    combate.agregarAccionJugador(tipo);
                 }
-                int objetivo = 0;
-                if (requiereObjetivo && combate.getListaEnemigos().quedanEnemigos()) {
-                    objetivo = vista.solicitarObjetivo(combate.getListaEnemigos());
+                
+                java.util.List<Personaje> enemigosVivos = combate.getListaEnemigos().obtenerEnemigos();
+                if (requiereObjetivo && enemigosVivos.size() > 1) {
+                    mensajeActual = "Selecciona tu objetivo de ataque:";
+                    faseActual = "OBJETIVO";
+                    pausarHastaClic();
+                } else {
+                    objetivoSeleccionado = 0; 
                 }
-
-                Pregunta preguntaAleatoria = Pregunta.obtenerAleatoria();
-                boolean respondioBien = vista.hacerPreguntaEstructuras(preguntaAleatoria);
-                combate.ejecutarTurno(objetivo, respondioBien);
+                
+                preguntaActual = Pregunta.obtenerAleatoria();
+                mensajeActual = "¡Desafío mental para ejecutar tu movimiento!";
+                faseActual = "PREGUNTA";
+                pausarHastaClic();
+                
+                faseActual = "ESPERA"; 
+                boolean respondioBien = (respuestaSeleccionada == preguntaActual.getIndiceCorrecto());
+                combate.ejecutarTurno(objetivoSeleccionado, respondioBien);
+                
+                mensajeActual = respondioBien ? "¡Golpe certero!" : "¡Respuesta incorrecta, fallaste!";
+                
+                if (respondioBien && recursosGlobales.getAtaque() != null) {
+                    efectoAtaque = recursosGlobales.getAtaque();
+                    objetivoImpacto = objetivoSeleccionado; 
+                    try { Thread.sleep(600); } catch (InterruptedException e) {}
+                    efectoAtaque = null;
+                    objetivoImpacto = -1;
+                } else {
+                    try { Thread.sleep(1000); } catch (InterruptedException e) {}
+                }
+                
             } else {
-            	combate.ejecutarTurno(0, true);
-                try { Thread.sleep(800); } catch (InterruptedException e) { break; }
+                java.util.List<Personaje> enemigosVivos = combate.getListaEnemigos().obtenerEnemigos();
+                if (!enemigosVivos.isEmpty()) {
+                    faseActual = "ESPERA";
+                    mensajeActual = "¡Los enemigos atacan!";
+                    
+                    if (recursosGlobales.getAtaque() != null) {
+                        efectoAtaque = recursosGlobales.getAtaque();
+                        objetivoImpacto = 3; 
+                        try { Thread.sleep(600); } catch (InterruptedException e) { break; }
+                        efectoAtaque = null; 
+                        objetivoImpacto = -1;
+                    }
+                    combate.ejecutarTurno(0, true);
+                }
             }
-            vista.mostrarEstado(combate);
         }
-        vista.mostrarMensajeFin(combate.victoria());
+        
+        faseActual = "ESPERA"; 
+        mensajeActual = combate.victoria() ? "¡VICTORIA!" : "DERROTA...";
+        
         if (combate.victoria()) {
             notificarVictoria();
         }
     }
 
+    private void pausarHastaClic() {
+        esperandoInput = true;
+        while (esperandoInput) {
+            try { Thread.sleep(50); } catch (InterruptedException e) {}
+        }
+    }
+
     @Override
     public void render(Graphics2D g2) {
-        g2.setColor(Color.WHITE);
-        g2.drawString("Ciudad 9 - Batalla", 50, 50);
-        g2.drawString("Completá el desafío en la ventana del juego.", 50, 80);
-        g2.drawString("Q para volver al mapa", 50, 110);
-        
-        if(ganado) {
-			pantallaFinal.mostrarResultados(g2, ciudad);
-		}
+        renderizador.dibujar(g2, ciudad, pantallaFinal, ganado, combate, spriteJugadorActual, 
+                             efectoAtaque, objetivoImpacto, mensajeActual, faseActual, preguntaActual);
+    }
+
+    @Override
+    public void procesarClick(int mouseX, int mouseY) {
+        if (!esperandoInput) return;
+
+        // Rango de altura de los botones del menú inferior
+        if (mouseY >= 430 && mouseY <= 490) { 
+            
+            // Columna 1 (Botón 1)
+            if (mouseX >= 20 && mouseX <= 205) {
+                registrarSeleccion(0);
+            } 
+            // Columna 2 (Botón 2)
+            else if (mouseX >= 210 && mouseX <= 395) {
+                registrarSeleccion(1);
+            } 
+            // Columna 3 (Botón 3)
+            else if (mouseX >= 400 && mouseX <= 585) {
+                registrarSeleccion(2);
+            }
+            // Columna 4 (Botón 4 - ¡NUEVA AGREGADA!)
+            else if (mouseX >= 590 && mouseX <= 790) {
+                registrarSeleccion(3);
+            }
+        }
+    }
+    
+    private void registrarSeleccion(int indice) {
+        if (faseActual.equals("ACCION")) {
+            if(indice == 0) accionSeleccionada = Accion.ATAQUE;
+            else if(indice == 1) accionSeleccionada = Accion.DEFENSA;
+            else accionSeleccionada = Accion.HABILIDAD;
+            esperandoInput = false; 
+        } 
+        else if (faseActual.equals("OBJETIVO")) {
+            java.util.List<Personaje> vivos = combate.getListaEnemigos().obtenerEnemigos();
+            if (indice < vivos.size()) {
+                objetivoSeleccionado = indice;
+                esperandoInput = false;
+            }
+        }
+        else if (faseActual.equals("PREGUNTA")) {
+            Object[] opciones = preguntaActual.getOpciones().toArray();
+            if(indice < opciones.length) {
+                respuestaSeleccionada = indice;
+                esperandoInput = false;
+            }
+        }
     }
 
     @Override
     public void resultadoPartida() {
-    	if(ganado) {
+        if(ganado) {
             ciudad.setEstado(EstadoCiudad.COMPLETADA);
-			jugador.sumarPuntos(ciudad.getPuntosDeExperiencia());
-    	}
+            jugador.sumarPuntos(ciudad.getPuntosDeExperiencia());
+        }
     }
 
     @Override
-    public void notificarVictoria() {
-        this.ganado = true;
-    }
-
-    @Override
-    public void procesarClick(int mouseX, int mouseY) {}
+    public void notificarVictoria() { this.ganado = true; }
 }

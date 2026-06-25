@@ -12,7 +12,7 @@ public class Boton {
 
     private BufferedImage imagen;
 
-    /**
+    /*
      * 
      * @param imagen
      * @param x

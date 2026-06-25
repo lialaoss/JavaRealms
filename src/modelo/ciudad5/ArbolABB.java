@@ -1,5 +1,9 @@
 package modelo.ciudad5;
 
+/*
+ * Pre: Ninguna.
+ * Post: Crea un árbol binario de búsqueda vacío (con su raíz apuntando a null).
+ */
 public class ArbolABB {
     private NodoArbol raiz;
     private int operacionesUltimaBusqueda;
@@ -8,6 +12,10 @@ public class ArbolABB {
         this.raiz = null;
     }
 
+    /*
+     * Pre: La 'palabra' no debe ser nula ni vacía. 'linea' y 'posicion' deben ser números válidos mayores o iguales a cero.
+     * Post: Limpia la palabra pasándola a minúsculas, busca la posición que le corresponde alfabéticamente en el árbol e inserta el nuevo nodo (si la palabra ya existía, no hace nada).
+     */
     public void insertar(String palabra, int linea, int posicion) {
         String palabraLimpia = palabra.toLowerCase().trim();
         NodoArbol nuevoNodo = new NodoArbol(palabraLimpia, linea, posicion);
@@ -42,6 +50,10 @@ public class ArbolABB {
         }
     }
 
+    /*
+     * Pre: La 'palabraBuscada' no debe ser nula.
+     * Post: Recorre el árbol comparando los textos. Devuelve el nodo completo si encuentra la palabra, o null si no existe. Además, deja registrado cuántas comparaciones (operaciones) hizo en el intento.
+     */
     public NodoArbol buscar(String palabraBuscada) {
         operacionesUltimaBusqueda = 0;
 
@@ -69,6 +81,10 @@ public class ArbolABB {
         return nodoEncontrado;
     }
 
+    /*
+     * Pre: Ninguna.
+     * Post: Devuelve la cantidad de nodos visitados durante la última búsqueda que se ejecutó en el árbol.
+     */
     public int getOperacionesUltimaBusqueda() {
         int resultado = operacionesUltimaBusqueda;
         return resultado;

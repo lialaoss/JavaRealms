@@ -12,7 +12,7 @@ import java.util.Queue;
 import java.util.Set;
 import java.util.function.Predicate;
 
-/**
+/*
  * TDA Grafo (Dirigido y Ponderado)
  * Implementado con una "lista de vértices" (un Map para eficiencia)
  * donde cada vértice tiene su "sublista de aristas".
@@ -30,7 +30,7 @@ public class Grafo<T, U> {
         this.vertices = new ArrayList<>();
     }
 
-    /**
+    /*
      * Agrega un nuevo vértice al grafo.
      * @param valor El valor del vértice (su "ID" o "payload").
      */
@@ -41,7 +41,7 @@ public class Grafo<T, U> {
         }
     }
 
-    /**
+    /*
      * Agrega una arista dirigida desde un vértice origen a uno destino.
      * @param origenValor El valor del vértice de origen.
      * @param destinoValor El valor del vértice de destino.
@@ -55,7 +55,7 @@ public class Grafo<T, U> {
         origen.agregarArista(destino, peso);
     }
 
-    /**
+    /*
      * Devuelve la colección de todos los vértices del grafo.
      * (Esta es tu "lista de vértices").
      */
@@ -63,7 +63,7 @@ public class Grafo<T, U> {
         return vertices;
     }
 
-    /**
+    /*
      * Obtiene el objeto Vértice basado en su valor.
      */
     public Vertice<T, U> getVertice(T valor) {
@@ -84,7 +84,7 @@ public class Grafo<T, U> {
         return false;
     }
 
-    /**
+    /*
      * Obtiene la "sublista de aristas" (adyacencias) para un vértice dado.
      */
     public List<Arista<T, U>> getAdyacentes(T valor) {
@@ -100,7 +100,7 @@ public class Grafo<T, U> {
         throw new NoSuchElementException("No existe arista");
     }
 
-    /**
+    /*
      * Encuentra el camino más corto (en número de aristas) entre dos vértices.
      * Usa BFS.
      * 

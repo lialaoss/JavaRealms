@@ -7,10 +7,18 @@ import java.io.IOException;
 public class TransformadorTXT {
 	private String textoOriginal;
 	
+	/*
+     * Pre: Ninguna.
+     * Post: Devuelve un texto largo que contiene todo el contenido original del archivo que se leyó.
+     */
 	public String getTextoOriginal() {
 	    return textoOriginal;
 	}
 	
+	/*
+     * Pre: La 'rutaArchivo' debe ser válida. El 'arbol' y la 'lista' pasados por parámetro no deben ser nulos.
+     * Post: Intenta abrir y leer el archivo línea por línea. Limpia cada palabra (quitando signos de puntuación y pasándola a minúsculas) y la guarda tanto en el árbol como en la lista con su ubicación exacta. Devuelve true si pudo leer todo con éxito o false si hubo algún error con el archivo.
+     */
     public boolean cargarDatos(String rutaArchivo, ArbolABB arbol, ListaDinamica lista) {
     	StringBuilder textoCompleto = new StringBuilder();
     	

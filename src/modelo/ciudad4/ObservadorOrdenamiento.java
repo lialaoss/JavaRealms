@@ -2,7 +2,7 @@ package modelo.ciudad4;
 
 public interface ObservadorOrdenamiento {
 	
-	/**
+	/*
 	 * Pre: el vector no es nulo.
 	 * Post: actualiza el estado visual del vector y genera una pausa para permitir la animacion.
 	 * @param vector El arreglo que se esta ordenando.

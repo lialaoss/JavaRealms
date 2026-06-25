@@ -3,7 +3,7 @@ package modelo.ciudad6;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
+/*
  * Lógica de la Tabla Hash optimizada para jugabilidad.
  * Utiliza una función hash basada en la posición de los caracteres y suma ASCII,
  * facilitando el cálculo mental para el jugador.
@@ -18,7 +18,7 @@ public class TablaHash {
         this.cantidadElementos = 0;
     }
 
-    /**
+    /*
      * Función Hash diseñada para el juego: Sumatoria de (ASCII * Posición).
      * @pre pasos No debe ser nulo. La clave no debe ser nula ni vacía.
      * @post Devuelve el índice base entre 0 y 10.
@@ -49,7 +49,7 @@ public class TablaHash {
         return indiceBase;
     }
 
-    /**
+    /*
      * Inserta un elemento en la tabla resolviendo colisiones por Linear Probing.
      */
     public List<String> insertar(String clave, int valor) {
@@ -85,7 +85,7 @@ public class TablaHash {
         return pasos;
     }
 
-    /**
+    /*
      * Busca una clave detallando el recorrido realizado.
      */
     public ResultadoBusqueda buscar(String clave) {

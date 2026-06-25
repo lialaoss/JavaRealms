@@ -8,7 +8,7 @@ import modelo.ciudad10.ExpansorEcuacion;
 import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
-/**
+/*
  * Clase de testeo unitario para verificar la correcta expansión paso a paso de las ecuaciones.
  */
 public class ExpansorEcuacionTest {

@@ -21,7 +21,10 @@ public class CargaDeDatos {
 	private AdministradorJuego admin;
 	private Map<Integer, Ciudad> ciudades;
 	
-	// CONSTRUCTOR
+	/*
+	 * Pre: El 'admin' (administrador del juego) no debe ser nulo y tiene que estar correctamente inicializado.
+	 * Post: Crea el cargador de datos vinculándolo al administrador e intenta leer el archivo guardado para restaurar el progreso del jugador inmediatamente.
+	 */
 	public CargaDeDatos(AdministradorJuego admin) {
 		this.admin = admin;
 		this.ciudades = admin.getAdminCiudades().getCiudades();
@@ -30,7 +33,10 @@ public class CargaDeDatos {
 	
 	// ================ CARGA DE DATOS DEL JUEGO ================
 	
-	
+	/*
+	 * Pre: Debe existir el archivo "DatosGuardados.txt" con el formato correcto (primera línea con el puntaje y las siguientes con las IDs de las ciudades completadas).
+	 * Post: Lee el archivo línea por línea, le asigna los puntos de experiencia guardados al jugador, marca como completadas las ciudades que correspondan y desbloquea sus ciudades vecinas en el mapa del juego.
+	 */
 	private void cargarDatosJuego() {
 		try (BufferedReader br = new BufferedReader(new FileReader(RUTA_DATOS))) {
 		    
@@ -54,6 +60,10 @@ public class CargaDeDatos {
 	
 	// ========== ACTUALIZACION DE DATOS DEL JUEGO ==============
 	
+	/*
+	 * Pre: El administrador debe tener acceso válido a los datos del jugador y a la lista de ciudades.
+	 * Post: Sobrescribe el archivo de guardado guardando los puntos de experiencia actuales en la primera línea, y luego escribe el identificador (ID) de cada una de las ciudades que el jugador ya haya completado.
+	 */
 	public void actualizarArchivoDeDatos() {
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(RUTA_DATOS))) {
 
@@ -74,6 +84,10 @@ public class CargaDeDatos {
 
 	// =============== ELIMINACION DE DATOS DEL JUEGO ===================
 	
+	/*
+	 * Pre: Ninguna.
+	 * Post: Limpia o resetea el archivo de guardado, dejando únicamente un "0" escrito en él, ideal para comenzar una nueva partida desde cero.
+	 */
 	public void eliminarDatosDeArchivo() {
 		try (BufferedWriter bw = new BufferedWriter(new FileWriter(RUTA_DATOS))) {
 	        bw.write("0");

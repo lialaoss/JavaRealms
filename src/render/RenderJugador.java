@@ -15,11 +15,19 @@ public class RenderJugador {
 	private GestorRecursos recursos;
 	private Jugador jugador;
 
+	/*
+	 * Pre: El 'gestorRecursos' y el 'jugador' no deben ser nulos y estar bien inicializados.
+	 * Post: Crea el componente encargado de dibujar al jugador en pantalla vinculando sus recursos de imágenes y sus datos lógicos.
+	 */
 	public RenderJugador(GestorRecursos recursos, Jugador jugador) {
 		this.recursos = recursos;
 		this.jugador = jugador;
 	}
 	
+	/*
+	 * Pre: El motor gráfico 'g2' y el 'estadoActual' de la partida no deben ser nulos. 'offsetX' y 'offsetY' deben ser los desplazamientos de la cámara.
+	 * Post: Calcula las coordenadas en píxeles dentro de la pantalla y dibuja la imagen del jugador con el tamaño correcto (TILE_SIZE) según su dirección actual.
+	 */
 	public void render(Graphics2D g2, PartidaLectura estadoActual,
             int offsetX, int offsetY) {
 
@@ -40,6 +48,10 @@ public class RenderJugador {
 			}
 }
 	
+	/*
+	 * Pre: El jugador debe tener una dirección asignada (UP, DOWN, LEFT, RIGHT) y un número de sprite válido (1 o 2).
+	 * Post: Devuelve la imagen (sprite) correspondiente a la dirección hacia la que está mirando el jugador y al paso de la animación en el que se encuentra.
+	 */
 	public Image direccion() {
 		switch(jugador.getDireccion()) {
 			case DOWN:

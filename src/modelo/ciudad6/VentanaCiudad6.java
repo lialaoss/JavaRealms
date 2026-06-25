@@ -9,7 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.List;
 
-/**
+/*
  * Interfaz Gráfica de la Ciudad 6 transformada en un Desafío de Juego (Al-Quest).
  * El jugador debe cumplir ciertos objetivos algorítmicos para ganar la ciudad.
  */
@@ -33,6 +33,10 @@ public class VentanaCiudad6 extends JFrame {
     private JButton botonInsertar;
     private JButton botonBuscar;
 
+    /*
+     * Pre: El 'minijuego' pasado por parámetro debe ser una instancia válida (no nula).
+     * Post: Inicializa el juego creando la tabla hash interna, las etiquetas visuales para las celdas y arma toda la interfaz gráfica en pantalla.
+     */
     public VentanaCiudad6(Ciudad6Minijuego minijuego) {
         this.minijuego = minijuego;
         this.tablaHash = new TablaHash();
@@ -41,6 +45,10 @@ public class VentanaCiudad6 extends JFrame {
         inicializarComponentes();
     }
 
+    /*
+     * Pre: Ninguna.
+     * Post: Define las propiedades básicas de la ventana (título, tamaño, posición centrada, cierre de ventana y distribución de paneles).
+     */
     private void configurarVentana() {
         setTitle("JavaRealms - ¡Desafío de la Ciudad 6: El Oráculo Hash!");
         setSize(950, 650);
@@ -49,6 +57,10 @@ public class VentanaCiudad6 extends JFrame {
         setLayout(new BorderLayout(10, 10));
     }
 
+    /*
+     * Pre: Ninguna.
+     * Post: Crea, decora y acomoda todos los botones, textos, campos de entrada y paneles dentro de la ventana. También conecta los botones a sus respectivas acciones.
+     */
     private void inicializarComponentes() {
         // --- PANEL DE CONSIGNAS (SUPERIOR) ---
         JPanel panelMision = new JPanel(new BorderLayout());
@@ -137,6 +149,10 @@ public class VentanaCiudad6 extends JFrame {
         });
     }
     
+    /*
+     * Pre: Ninguna.
+     * Post: Actualiza el texto de la pantalla mostrando cuántas colisiones lleva el jugador y si ya encontró con éxito un elemento desplazado.
+     */
     private void actualizarTextoEstado() {
         String estadoMision = "<html><font color='#E67E22'><b>ESTADO DE LA MISIÓN ACTUAL:</b></font><br>"
                 + "<font color='white'>• Colisiones provocadas: <b>" + this.colisionesLogradas + "/" + COLISIONES_REQUERIDAS + "</b><br>"
@@ -144,7 +160,10 @@ public class VentanaCiudad6 extends JFrame {
         this.etiquetaMision.setText(estadoMision);
     }
 
-    
+    /*
+     * Pre: Los campos de texto para clave y valor no deben estar vacíos y el valor debe ser un número entero.
+     * Post: Inserta el elemento en la tabla hash, cuenta si hubo colisiones en el proceso, muestra el resultado de forma visual en la ventana y comprueba si con esto el jugador ganó la partida.
+     */
     private void ejecutarInsercion() {
         String clave = this.campoClave.getText().trim();
         String valorStr = this.campoValor.getText().trim();
@@ -158,7 +177,7 @@ public class VentanaCiudad6 extends JFrame {
             int valor = Integer.parseInt(valorStr);
             List<String> pasos = this.tablaHash.insertar(clave, valor);
             
-            // CONTAR COLISIONES: Revisamos los pasos impresos buscando la palabra "[COLISIÓN]"
+ 
             for (String paso : pasos) {
             	if (paso.toUpperCase().contains("COLISION")) {
                     this.colisionesLogradas++;
@@ -178,6 +197,10 @@ public class VentanaCiudad6 extends JFrame {
         }
     }
 
+    /*
+     * Pre: El campo de texto de la clave no debe estar vacío.
+     * Post: Busca la clave en la tabla hash y muestra los pasos del recorrido en la bitácora. Si el elemento fue hallado tras realizar un Linear Probing, marca esa condición del juego como completada.
+     */
     private void ejecutarBusqueda() {
         String clave = this.campoClave.getText().trim();
 
@@ -190,7 +213,7 @@ public class VentanaCiudad6 extends JFrame {
         actualizarConsolaPasos(resultado.getPasosExplicativos());
         
         if (resultado.getValorEncontrado() != -1) {
-            // VERIFICAR VICTORIA DE BÚSQUEDA: Si se encontró y en los pasos hubo un Linear Probing
+
             boolean sufrioColision = false;
             for (String paso : resultado.getPasosExplicativos()) {
                 if (paso.contains("Aplicando Linear Probing")) {
@@ -212,21 +235,22 @@ public class VentanaCiudad6 extends JFrame {
         limpiarCampos();
     }
 
-    /**
-     * Evalúa si el usuario cumplió los requisitos lógicos para ganar la ciudad.
+    /*
+     * Pre: Ninguna.
+     * Post: Revisa si se alcanzaron las 3 colisiones y la búsqueda exitosa. Si se cumple, da por ganada la ciudad, deshabilita todos los controles para evitar seguir jugando y avisa al usuario mediante un cartel.
      */
     private void verificarCondicionVictoria() {
         if (this.ciudadGanada) {
             return;
         }
 
-        // Actualizamos dinámicamente la barra de la misión para dar feedback
+    
         String estadoMision = "<html><font color='white'><b>ESTADO DE LA MISIÓN:</b><br>"
                 + "• Colisiones provocadas: <b>" + this.colisionesLogradas + "/" + COLISIONES_REQUERIDAS + "</b><br>"
                 + "• ¿Encontraste un elemento colisionado?: <b>" + (this.busquedaColisionadaExitosa ? "SÍ" : "NO") + "</b></font></html>";
         this.etiquetaMision.setText(estadoMision);
 
-        // Si se cumplen ambas condiciones: ¡Victoria!
+
         if (this.colisionesLogradas >= COLISIONES_REQUERIDAS && this.busquedaColisionadaExitosa) {
             this.ciudadGanada = true;
             if (this.minijuego != null) {
@@ -235,7 +259,7 @@ public class VentanaCiudad6 extends JFrame {
             this.etiquetaMision.setText("<html><font color='#2ECC71'><b>¡CIUDAD 6 GANADA! +100 PUNTOS</b><br>"
                     + "Has dominado el algoritmo de Hashing y Linear Probing de forma perfecta. El camino está libre.</font></html>");
             
-            // Deshabilitamos los controles para cerrar el juego limpiamente
+        
             this.botonInsertar.setEnabled(false);
             this.botonBuscar.setEnabled(false);
             this.campoClave.setEnabled(false);
@@ -245,6 +269,10 @@ public class VentanaCiudad6 extends JFrame {
         }
     }
 
+    /*
+     * Pre: Ninguna.
+     * Post: Recorre los casilleros de la tabla hash real y actualiza los textos y colores de las etiquetas de la interfaz para reflejar de forma exacta el contenido actual de la memoria.
+     */
     private void actualizarGraficoTabla() {
         CeldaHash[] celdas = this.tablaHash.getTabla();
         for (int i = 0; i < celdas.length; i++) {
@@ -263,7 +291,7 @@ public class VentanaCiudad6 extends JFrame {
         for (String paso : pasos) {
             this.areaPasos.append(paso + "\n");
         }
-        // Desplaza el scroll automáticamente hacia arriba de todo para empezar a leer desde el inicio del cálculo
+
         this.areaPasos.setCaretPosition(0);
     }
 
@@ -272,13 +300,4 @@ public class VentanaCiudad6 extends JFrame {
         this.campoValor.setText("");
         this.campoClave.requestFocus();
     }
-
-//    public static void main(String[] args) {
-//        SwingUtilities.invokeLater(new Runnable() {
-//            @Override
-//            public void run() {
-//                new VentanaCiudad6().setVisible(true);
-//            }
-//        });
-//    }
 }

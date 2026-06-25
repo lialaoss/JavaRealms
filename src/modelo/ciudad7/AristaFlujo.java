@@ -8,7 +8,7 @@ public class AristaFlujo {
     private int capacidad;
     private int flujo;
 
-    /**
+    /*
      * Pre: origen y destino no son nulos ni vacíos. capacidad > 0.
      * Post: se crea una arista con flujo inicial 0.
      */
@@ -29,7 +29,7 @@ public class AristaFlujo {
         this.flujo = 0;
     }
 
-    /**
+    /*
      * Pre: ninguna.
      * Post: devuelve la capacidad residual (capacidad - flujo).
      */
@@ -37,7 +37,7 @@ public class AristaFlujo {
         return capacidad - flujo;
     }
 
-    /**
+    /*
      * Pre: cantidad no es negativa. flujo + cantidad <= capacidad.
      * Post: el flujo se incrementa en cantidad.
      */

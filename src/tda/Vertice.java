@@ -4,7 +4,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 
-/**
+/*
  * Representa un Vértice (nodo) en el grafo.
  * @param <T> El tipo del valor almacenado en el vértice.
  * @param <U> El tipo del peso almacenado en las aristas.
@@ -27,7 +27,7 @@ public class Vertice<T, U> {
         return adyacencias;
     }
 
-    /**
+    /*
      * Método de conveniencia para agregar una arista saliente desde ESTE vértice.
      */
     public void agregarArista(Vertice<T, U> destino, U peso) {

@@ -8,9 +8,9 @@ import java.awt.image.BufferedImage;
 
 import ciudades.Ciudad;
 import ui.ConfiguracionPantalla;
-import ui.GestorRecursos;
 
 public class FinMinijuegoPantalla {
+	
     private BufferedImage fondoVictoria;
     private float[] particulasX;
     private float[] particulasY;

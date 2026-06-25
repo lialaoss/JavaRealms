@@ -4,7 +4,7 @@ import utiles.ValidacionesUtiles;
 
 public class BubbleSort implements AlgoritmoOrdenamiento {
 	
-	/**
+	/*
 	 * Pre: el vector no es nulo.
 	 * Post: ordena el vector de menor a mayor y notifica cada intercambio al observador.
 	 */
@@ -29,7 +29,7 @@ public class BubbleSort implements AlgoritmoOrdenamiento {
 		}
 	}
 	
-	/**
+	/*
 	 * Pre: el vector no es nulo y los índices i y j están dentro del rango.
 	 * Post: intercambia los valores de las posiciones i y j en el vector v.
 	 */

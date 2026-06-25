@@ -56,7 +56,10 @@ public class MouseHandler extends MouseAdapter {
 		    	case 5:
 		    	    admin.getJuegoActual().procesarClick(mouseX, mouseY);
 		    	    break;
-		    	case 6: // <--- ¡AGREGAMOS ESTO PARA TU NUEVO MINIJUEGO!
+		    	case 6:
+		    		admin.getJuegoActual().procesarClick(mouseX, mouseY);
+		    		break;
+		    	case 9:
 		    	    admin.getJuegoActual().procesarClick(mouseX, mouseY);
 		    	    break;
 		    	default:

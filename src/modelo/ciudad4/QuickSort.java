@@ -4,7 +4,7 @@ import utiles.ValidacionesUtiles;
 
 public class QuickSort implements AlgoritmoOrdenamiento {
 	
-	/**
+	/*
 	 * pre: el vector no es nulo.
 	 * post: ordena el vector usando la estrategia de dividir y vencerás.
 	 */
@@ -14,7 +14,7 @@ public class QuickSort implements AlgoritmoOrdenamiento {
 		quicksort(vector, 0, vector.length - 1, observador);
 	}
 	
-	/**
+	/*
 	 * pre: v no es nulo, izq y der son índices válidos.
 	 * post: aplica recursivamente el algoritmo de ordenamiento rápido en los subvectores.
 	 */
@@ -28,7 +28,7 @@ public class QuickSort implements AlgoritmoOrdenamiento {
 	}
 	
 	
-	/**
+	/*
 	 * post: selecciona un pivote y ubica los menores a la izquierda y los mayores a la derecha.
 	 */
 	private int particionar(int[] v, int izq, int der, ObservadorOrdenamiento obs) {
@@ -47,7 +47,7 @@ public class QuickSort implements AlgoritmoOrdenamiento {
 		return i + 1;
 	}
 	
-	/**
+	/*
 	 * Pre: v no es nulo y los índices i y j están dentro del rango.
 	 * Post: intercambia los valores de las posiciones i y j en el vector v.
 	 */

@@ -8,7 +8,7 @@ import modelo.ciudad4.BubbleSort;
 import modelo.ciudad4.ObservadorOrdenamiento;
 import modelo.ciudad4.QuickSort;
 
-/**
+/*
  * Suite de pruebas unitarias para los algoritmos de ordenamiento de Ciudad 4.
  */
 public class OrdenamientoTest {
@@ -21,7 +21,7 @@ public class OrdenamientoTest {
 	// Observador vacío para testear solo la lógica sin interfaz gráfica
 	private ObservadorOrdenamiento obs = (v, a, b, p) -> {};
 
-	/**
+	/*
 	 * Post: inicializa las instancias de los algoritmos y los vectores de prueba.
 	 */
 	@BeforeEach
@@ -32,7 +32,7 @@ public class OrdenamientoTest {
 		esperado = new int[]{10, 20, 30, 50};
 	}
 	
-	/**
+	/*
 	 * Post: valida que BubbleSort ordene correctamente un vector desordenado.
 	 */
 	@Test
@@ -41,7 +41,7 @@ public class OrdenamientoTest {
 	    assertArrayEquals(esperado, datos, "BubbleSort debería ordenar de menor a mayor");
 	}
 	
-	/**
+	/*
 	 * Post: valida que QuickSort ordene correctamente un vector desordenado.
 	 */
 	@Test
@@ -50,7 +50,7 @@ public class OrdenamientoTest {
 	    assertArrayEquals(esperado, datos, "QuickSort debería ordenar correctamente el vector");
 	}
 	
-	/**
+	/*
 	 * Post: verifica que el algoritmo maneje correctamente elementos repetidos.
 	 */
 	@Test
@@ -61,7 +61,7 @@ public class OrdenamientoTest {
 	    assertArrayEquals(expDuplicados, duplicados);
 	}
 
-	/**
+	/*
 	 * Post: valida la robustez lanzando RuntimeException ante un vector nulo.
 	 */
 	@Test
