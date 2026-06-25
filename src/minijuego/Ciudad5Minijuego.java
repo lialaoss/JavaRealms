@@ -61,6 +61,7 @@ public class Ciudad5Minijuego implements Minijuego{
         this.jugador = jugador;
         this.recursos = recursos;
         crearBotones();
+        this.pantallaFinal.setFondoVictoria(recursos.getFondoVictoria());
 	}
 	
 	// ========================= LOGICA JUEGO ===============================
