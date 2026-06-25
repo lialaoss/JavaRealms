@@ -28,6 +28,8 @@ public class GestorRecursos {
 	private BufferedImage radar, antorcha, bengala;
 	private BufferedImage instrucciones;
 	
+	private BufferedImage demon, dragon, jinn, fondoBatalla, ataque;
+	
 	public GestorRecursos() {
 		cargarSpritesMenu();
 		cargarSpritesJugador();
@@ -37,10 +39,11 @@ public class GestorRecursos {
 		cargarBotonesAdicionales();
 		cargarItemsMatrices();
 		cargarInstrucciones();
+		cargarSpritesCiudad9();
 	}
 	
 	
-	public void cargarSpritesMenu() {
+	private void cargarSpritesMenu() {
 		try {
 			botonMenu1 = ImageIO.read(getClass().getResourceAsStream("/sprites/menu/boton1.png"));
 			botonMenu2 = ImageIO.read(getClass().getResourceAsStream("/sprites/menu/boton2.png"));
@@ -52,7 +55,7 @@ public class GestorRecursos {
 		}
 	}
 	
-	public void cargarSpritesJugador() {
+	private void cargarSpritesJugador() {
 		
 		jugadorUp = new BufferedImage[2];
 		jugadorDown = new BufferedImage[2];
@@ -78,7 +81,7 @@ public class GestorRecursos {
 		}
 	}
 	
-	public void cargarFondoMapa() {
+	private void cargarFondoMapa() {
 	    try {
 	        fondoMapa = ImageIO.read(getClass().getResourceAsStream("/sprites/mapa/fondo.png"));
 	        
@@ -159,12 +162,51 @@ public class GestorRecursos {
 		}
 	}
 	
+	private void cargarSpritesCiudad9() {
+		try {
+			demon = ImageIO.read(getClass().getResourceAsStream("/sprites/ciudad9/demon.png"));
+			dragon = ImageIO.read(getClass().getResourceAsStream("/sprites/ciudad9/dragon.png"));
+			jinn = ImageIO.read(getClass().getResourceAsStream("/sprites/ciudad9/jinn.png"));
+			fondoBatalla = ImageIO.read(getClass().getResourceAsStream("/sprites/ciudad9/fondoBatalla.png"));
+			
+			ataque = ImageIO.read(getClass().getResourceAsStream("/sprites/ciudad9/ataque.png"));
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	// ========================================= GETTERS ==============================================
+	
+	
 	
 	public BufferedImage getTitulo() {
 		return titulo;
 	}
 	
+	public BufferedImage getDemon() {
+		return demon;
+	}
+
+
+	public BufferedImage getDragon() {
+		return dragon;
+	}
+
+
+	public BufferedImage getJinn() {
+		return jinn;
+	}
+
+
+	public BufferedImage getFondoBatalla() {
+		return fondoBatalla;
+	}
+
+
+	public BufferedImage getAtaque() {
+		return ataque;
+	}
+
 	public BufferedImage getInstrucciones() {
 		return instrucciones;
 	}
