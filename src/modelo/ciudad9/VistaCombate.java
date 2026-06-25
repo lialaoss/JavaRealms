@@ -1,4 +1,4 @@
-package modelo.ciudad9;
+/*package modelo.ciudad9;
 
 import javax.swing.JFrame;
 import javax.swing.JTextArea;
@@ -28,7 +28,7 @@ public class VistaCombate extends JFrame {
 
         // --- PANEL DE SPRITES (Dividido en 2 columnas: Héroe | Enemigo) ---
         JPanel panelSprites = new JPanel(new GridLayout(1, 2, 20, 0));
-        panelSprites.setBackground(Color.DARK_GRAY); // Color de fondo base para que no sea gris aburrido
+        panelSprites.setBackground(Color.DARK_GRAY);
         panelSprites.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         labelJugador = new JLabel();
@@ -129,4 +129,4 @@ public class VistaCombate extends JFrame {
             JOptionPane.showMessageDialog(this, "GAME OVER", "Fin", JOptionPane.ERROR_MESSAGE);
         }
     }
-}
+} */

@@ -30,7 +30,6 @@ public class Ciudad9Minijuego implements Minijuego, ObservadorVictoria {
     private int objetivoImpacto = -1; 
     private String mensajeActual = "¡Comienza el desafío!"; 
 
-    // --- VARIABLES DE FASE (CON VOLATILE AGREGADO) ---
     private String faseActual = "ESPERA"; 
     private volatile boolean esperandoInput = false;
     private volatile String accionSeleccionada = "";
@@ -62,7 +61,7 @@ public class Ciudad9Minijuego implements Minijuego, ObservadorVictoria {
             
         	if (combate.esTurnoJugador()) {
                 int accionesRequeridas = combate.isComboDisponible() ? 2 : 1;
-                boolean requiereObjetivo = false; // Bandera para saber si se eligió atacar
+                boolean requiereObjetivo = false; 
                 
                 for (int i = 0; i < accionesRequeridas; i++) {
                     mensajeActual = "Turno del Héroe [" + (i+1) + "/" + accionesRequeridas + "]. ¡Elige sabiamente!";

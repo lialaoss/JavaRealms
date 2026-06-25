@@ -24,7 +24,7 @@ public class RenderCiudad9 {
                         BufferedImage efectoAtaque, int objetivoImpacto, String mensaje,
                         String faseActual, Pregunta preguntaActual) {
         
-        // 1. DIBUJAR FONDO 
+
         BufferedImage fondoBatalla = recursosGlobales.getFondoBatalla();
         if (fondoBatalla != null) {
             g2.drawImage(fondoBatalla, 0, 0, ConfiguracionPantalla.SCREEN_WIDTH, ConfiguracionPantalla.SCREEN_HEIGHT, null);
@@ -37,12 +37,11 @@ public class RenderCiudad9 {
         int playerX = ConfiguracionPantalla.SCREEN_WIDTH - 180; 
         int playerY = 220; 
 
-        // 2. DIBUJAR AL JUGADOR
+
         if (spriteJugador != null) {
             g2.drawImage(spriteJugador, playerX, playerY, playerSize, playerSize, null);
         }
         
-        // --- DIBUJAR LOS ENEMIGOS MÁS GRANDES ---
         int[][] datosEnemigos = new int[4][4]; 
 
         if (combate != null) {
@@ -83,7 +82,6 @@ public class RenderCiudad9 {
             }
         }
 
-        // --- 💥 DIBUJAR EFECTO DE ATAQUE CORREGIDO POR CÓDIGO FIJO 💥 ---
         if (efectoAtaque != null) {
             if (objetivoImpacto == 3) { // Impacto al jugador
                 g2.drawImage(efectoAtaque, playerX - 10, playerY - 10, playerSize + 20, playerSize + 20, null);
@@ -108,7 +106,6 @@ public class RenderCiudad9 {
             }
         }
 
-        // 3. DIBUJAR LA INTERFAZ DE VIDA (HUD SUPERIOR IZQUIERDO)
         g2.setColor(new Color(0, 0, 0, 180)); 
         g2.fillRect(20, 20, 250, 180); 
         g2.setColor(Color.WHITE);
@@ -128,7 +125,6 @@ public class RenderCiudad9 {
             }
         }
 
-        // 4. MENÚ INTERACTIVO INFERIOR 
         if (faseActual != null && !faseActual.equals("ESPERA") && !ganado) {
             g2.setColor(new Color(0, 0, 0, 220)); 
             g2.fillRect(0, 400, ConfiguracionPantalla.SCREEN_WIDTH, 110);
@@ -164,14 +160,12 @@ public class RenderCiudad9 {
             }
         }
 
-        // 5. BARRA DE MENSAJES INFERIOR
         g2.setColor(new Color(0, 0, 0, 180));
         g2.fillRect(0, ConfiguracionPantalla.SCREEN_HEIGHT - 60, ConfiguracionPantalla.SCREEN_WIDTH, 60);
         g2.setColor(Color.YELLOW);
         g2.setFont(new Font("Arial", Font.BOLD, 18));
         g2.drawString(mensaje != null ? mensaje : "", 50, ConfiguracionPantalla.SCREEN_HEIGHT - 25);
         
-        // 6. CARTEL FIN DEL JUEGO
         if (ganado) {
             pantallaFinal.mostrarResultados(g2, ciudad);
         }
