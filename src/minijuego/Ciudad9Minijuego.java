@@ -85,43 +85,37 @@ public class Ciudad9Minijuego implements Minijuego, ObservadorVictoria {
                 pausarHastaClic();
                 
                 faseActual = "ESPERA"; 
-                
-                // --- 1. CAPTURAMOS EL OBJETIVO ANTES DE QUE EL MODELO CAMBIE ---
-                String nombreTarget = "";
-                java.util.List<Personaje> enemigosAntes = combate.getListaEnemigos().obtenerEnemigos();
-                if (objetivoSeleccionado >= 0 && objetivoSeleccionado < enemigosAntes.size()) {
-                    nombreTarget = enemigosAntes.get(objetivoSeleccionado).getNombre().toLowerCase();
-                }
-
                 boolean respondioBien = (respuestaSeleccionada == preguntaActual.getIndiceCorrecto());
+                combate.ejecutarTurno(objetivoSeleccionado, respondioBien);
                 
-                // --- 2. PRIMERO SE ACTIVA Y SE MUESTRA LA ANIMACIÓN EN PANTALLA ---
+                mensajeActual = respondioBien ? "¡Golpe certero!" : "¡Respuesta incorrecta, fallaste!";
+                
                 if (respondioBien && recursosGlobales.getAtaque() != null) {
-                    mensajeActual = "¡Golpe certero!";
                     efectoAtaque = recursosGlobales.getAtaque();
-                    
-                    // Asignación de IDs fijos para el renderizador según el enemigo
-                    if (nombreTarget.contains("dragon") || nombreTarget.contains("dragón")) {
-                        objetivoImpacto = 10; 
-                    } else if (nombreTarget.contains("demon") || nombreTarget.contains("demonio")) {
-                        objetivoImpacto = 11; 
-                    } else if (nombreTarget.contains("jinn") || nombreTarget.contains("genio")) {
-                        objetivoImpacto = 12; 
-                    } else {
-                        objetivoImpacto = objetivoSeleccionado; 
-                    }
-                    
+                    objetivoImpacto = objetivoSeleccionado; 
                     try { Thread.sleep(600); } catch (InterruptedException e) {}
                     efectoAtaque = null;
                     objetivoImpacto = -1;
                 } else {
-                    mensajeActual = "¡Respuesta incorrecta, fallaste!";
                     try { Thread.sleep(1000); } catch (InterruptedException e) {}
                 }
                 
-                // --- 3. DESPUÉS APLICAMOS EL DAÑO REAL EN EL CONTROLADOR ---
-                combate.ejecutarTurno(objetivoSeleccionado, respondioBien);
+            } else {
+                java.util.List<Personaje> enemigosVivos = combate.getListaEnemigos().obtenerEnemigos();
+                if (!enemigosVivos.isEmpty()) {
+                    faseActual = "ESPERA";
+                    mensajeActual = "¡Los enemigos atacan!";
+                    
+                    if (recursosGlobales.getAtaque() != null) {
+                        efectoAtaque = recursosGlobales.getAtaque();
+                        objetivoImpacto = 3; 
+                        try { Thread.sleep(600); } catch (InterruptedException e) { break; }
+                        efectoAtaque = null; 
+                        objetivoImpacto = -1;
+                    }
+                    combate.ejecutarTurno(0, true);
                 }
+            }
         }
         
         faseActual = "ESPERA"; 
