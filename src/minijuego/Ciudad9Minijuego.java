@@ -41,7 +41,8 @@ public class Ciudad9Minijuego implements Minijuego, ObservadorVictoria {
         this.ciudad = ciudad;
         this.jugador = jugador;
         this.recursosGlobales = recursosGlobales;
-        this.renderizador = new RenderCiudad9(recursosGlobales); 
+        this.renderizador = new RenderCiudad9(recursosGlobales);
+        this.pantallaFinal.setFondoVictoria(recursosGlobales.getFondoVictoria());
     }
 
     @Override
